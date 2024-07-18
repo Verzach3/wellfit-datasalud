@@ -1,10 +1,14 @@
 import "@mantine/core/styles.css";
-import { MantineProvider } from "@mantine/core";
+import { createTheme, MantineProvider } from "@mantine/core";
+
+const theme = createTheme({
+	fontFamily: "Inter"
+})
 
 export default function LayoutDefault({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-	return <MantineProvider>{children}</MantineProvider>;
+  return <MantineProvider theme={theme}>{children}</MantineProvider>;
 }

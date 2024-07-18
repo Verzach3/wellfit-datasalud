@@ -1,21 +1,25 @@
+import "dotenv/config";
+import { type CookieMethodsServer, createServerClient } from "@supabase/ssr";
 import { vikeHandler } from "./server/vike-handler";
 import { telefuncHandler } from "./server/telefunc-handler";
-import { Hono } from "hono";
+import { Hono, type Context } from "hono";
 import { createMiddleware } from "hono/factory";
+import { getCookie, setCookie } from "hono/cookie";
 
-type Middleware<
-  Context extends Record<string | number | symbol, unknown>,
-> = (
-    request: Request,
-    context: Context,) => Response | void | Promise<Response> | Promise<void>
+type Middleware = (
+  request: Request,
+  // biome-ignore lint/complexity/noBannedTypes: the type is defined like that in the lib
+  context: Context<{}, "*", {}>,
+) => Response | void | Promise<Response> | Promise<void>;
 
-export function handlerAdapter<
-  Context extends Record<string | number | symbol, unknown>,
->(handler: Middleware<Context>) {
+export function handlerAdapter(handler: Middleware) {
   return createMiddleware(async (context, next) => {
     let ctx = context.get("context");
     if (!ctx) {
-      ctx = {};
+      ctx = {
+        supabase: context.get("supabase"),
+        token: context.get("token"),
+      };
       context.set("context", ctx);
     }
 
@@ -31,6 +35,34 @@ export function handlerAdapter<
 }
 
 const app = new Hono();
+app.all("*", async (context, next) => {
+  context.set("token", getCookie(context, "token"));
+  const serverClient = createServerClient(
+    process.env.PUBLIC_SUPABASE_URL ?? "",
+    process.env.SUPABASE_ANON_KEY ?? "",
+    {
+      cookies: {
+        getAll: () => {
+          const cookies: Record<string, string> = getCookie(context);
+          const cookiesArr = [];
+          for (const key in cookies) {
+            if (cookies[key] === "") {
+              cookiesArr.push({ name: key, value: cookies[key] ?? "" });
+            }
+          }
+          return cookiesArr;
+        },
+        setAll: (cookies) => {
+          for (const cookie of cookies) {
+            setCookie(context, cookie.name, cookie.value);
+          }
+        },
+      } satisfies CookieMethodsServer,
+    },
+  );
+  context.set("supabase", serverClient);
+  await next();
+});
 
 app.post("/_telefunc", handlerAdapter(telefuncHandler));
 

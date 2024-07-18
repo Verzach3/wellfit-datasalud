@@ -1,7 +1,12 @@
+import type { ContextVariableMap } from "hono"
 export async function createTodoHandler<
-  Context extends Record<string | number | symbol, unknown>,
->(request: Request, _context?: Context): Promise<Response> {
+  Hono,
+>(request: Request, context?: ContextVariableMap): Promise<Response> {
   // In a real case, user-provided data should ALWAYS be validated with tools like zod
+  if (!context) {
+    return new Response("Context is not provided", { status: 500 });
+  }
+  
   const newTodo = (await request.json()) as { text: string };
 
   console.log("Received new todo", newTodo);
