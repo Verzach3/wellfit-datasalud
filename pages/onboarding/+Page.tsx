@@ -50,7 +50,7 @@ function ProfileForm() {
     },
   });
 
-  async function completeProfile(profile: typeof ProfileValidatorType) {
+  async function completeProfile(profile: ProfileValidatorType) {
     setLoading(true);
 
     setLoading(false);
@@ -64,8 +64,8 @@ function ProfileForm() {
             <Image src={"/assets/wellfit-bottom-text.svg"} h={230} w={"auto"} />
           </Center>
           <form
-            onSubmit={form.onSubmit((values: typeof ProfileValidatorType) =>
-              completeProfile(values),
+            onSubmit={form.onSubmit((values) =>
+              completeProfile(values as ProfileValidatorType),
             )}
           >
             <Title ta={"center"}>Terminemos tu perfil</Title>
