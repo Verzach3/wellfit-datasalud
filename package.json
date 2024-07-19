@@ -26,6 +26,7 @@
     "typescript": "^5.5.3"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
     "@hono/node-server": "^1.12.0",
     "@mantine/carousel": "^7.11.2",
     "@mantine/charts": "^7.11.2",
@@ -53,9 +54,12 @@
     "dayjs": "^1.11.11",
     "dotenv": "^16.4.5",
     "embla-carousel-react": "^8.1.6",
+    "framer-motion": "^11.3.7",
     "hono": "^4.5.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-icons": "^5.2.1",
+    "react-intersection-observer": "^9.13.0",
     "recharts": "^2.12.7",
     "telefunc": "^0.1.76",
     "tsx": "^4.16.2",

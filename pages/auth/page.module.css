@@ -1,20 +1,118 @@
+.pageWrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0077be, #00a86b);
+  position: relative;
+  overflow: hidden;
+}
+
+.backgroundAnimation {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200%;
+  background: transparent url('http://assets.iceable.com/img/noise-transparent.png') repeat 0 0;
+  background-repeat: repeat;
+  animation: bg-animation .2s infinite;
+  opacity: .9;
+  visibility: visible;
+}
+
+@keyframes bg-animation {
+    0% { transform: translate(0,0) }
+    10% { transform: translate(-5%,-5%) }
+    20% { transform: translate(-10%,5%) }
+    30% { transform: translate(5%,-10%) }
+    40% { transform: translate(-5%,15%) }
+    50% { transform: translate(-10%,5%) }
+    60% { transform: translate(15%,0) }
+    70% { transform: translate(0,10%) }
+    80% { transform: translate(-15%,0) }
+    90% { transform: translate(10%,5%) }
+    100% { transform: translate(5%,0) }
+}
+
+.containerWrapper {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 500px; /* Increased from 400px to 480px */
+}
+
+.cardWrapper {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  padding: 2.5rem; /* Added padding for better spacing */
+}
+
 .title {
-  font-size: rem(26px);
+  font-size: 2.5rem; /* Increased from 2rem */
   font-weight: 900;
-  font-family:
-    Greycliff CF,
-    var(--mantine-font-family);
+  color: #0077be;
+  margin-bottom: 0.5rem;
+  font-family: 'Greycliff CF', var(--mantine-font-family);
+  text-align: center;
 }
 
-.controls {
-  @media (max-width: $mantine-breakpoint-xs) {
-    flex-direction: column-reverse;
+.innerCard {
+  background: white;
+  transition: all 0.3s ease;
+  width: 100%;
+  padding: 1.5rem; /* Added padding */
+}
+
+.input {
+  transition: all 0.3s ease;
+}
+
+.input:focus {
+  border-color: #00a86b;
+  box-shadow: 0 0 0 2px rgba(0, 168, 107, 0.2);
+}
+
+.inputLabel {
+  color: #0077be;
+}
+
+.submitButton {
+  background: linear-gradient(135deg, #0077be, #00a86b);
+  transition: all 0.3s ease;
+  margin-top: 1.5rem; /* Added margin-top */
+}
+
+.submitButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 119, 190, 0.3);
+}
+
+/* Center the "by" text and logo */
+.cardWrapper > div > div:nth-child(2) {
+  justify-content: center;
+  text-align: center;
+}
+
+@media (max-width: 48em) {
+  .containerWrapper {
+    max-width: 90%; /* Responsive width for smaller screens */
   }
-}
 
-.control {
-  @media (max-width: $mantine-breakpoint-xs) {
-    width: 100%;
-    text-align: center;
+  .cardWrapper {
+    padding: 2rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .innerCard {
+    padding: 1rem;
   }
 }

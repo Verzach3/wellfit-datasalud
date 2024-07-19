@@ -1,0 +1,356 @@
+:root {
+    --primary-color: #0077be;
+    --secondary-color: #00a86b;
+    --text-color: #333333;
+    --background-color: #f8f9fa;
+    --card-background: #ffffff;
+    --transition: all 0.3s ease;
+  }
+  
+  .pageWrapper {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  /* Hero Section */
+  .heroSection {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    padding: 2rem;
+  }
+  
+  .heroContent {
+    text-align: center;
+    color: white;
+    max-width: 800px;
+  }
+  
+  .mainTitle {
+    font-size: 4.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  }
+  
+  .subtitle {
+    font-size: 1.8rem;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+  
+  .heroButton {
+    background-color: white;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    padding: 1rem 3rem;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+  
+  .heroButton:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(255, 255, 255, 0.3);
+    background-color: #0077be;
+  }
+  
+  /* Benefits Section */
+  .benefitsSection {
+    padding: 8rem 0;
+    background-color: var(--background-color);
+  }
+  
+  .sectionTitle {
+    font-size: 3.5rem;
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 4rem;
+    font-weight: 700;
+    position: relative;
+  }
+  
+  .sectionTitle::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    margin: 1rem auto 0;
+    border-radius: 2px;
+  }
+  
+  .benefitCard {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 2rem;
+    background-color: var(--card-background);
+    transition: var(--transition);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .benefitCard:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(0, 119, 190, 0.2);
+  }
+  
+  .benefitIcon {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    transition: var(--transition);
+  }
+  
+  .benefitCard:hover .benefitIcon {
+    transform: scale(1.2) rotate(10deg);
+    color: var(--secondary-color);
+  }
+  
+  .benefitImage {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    transition: var(--transition);
+  }
+  
+  .benefitCard:hover .benefitImage {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .cardTitle {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  .cardText {
+    color: var(--text-color);
+    text-align: center;
+    line-height: 1.6;
+  }
+  
+  /* Process Section */
+  .processSection {
+    padding: 8rem 0;
+    background: linear-gradient(135deg, #f6f9fc, #edf7ff);
+  }
+  
+  .stepImageContainer {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .stepImage {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    transition: var(--transition);
+  }
+  
+  .stepImageContainer:hover .stepImage {
+    transform: scale(1.1);
+  }
+  
+  .stepIconOverlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    padding: 1.5rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transition: var(--transition);
+  }
+  
+  .stepImageContainer:hover .stepIconOverlay {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  
+  .stepInfo {
+    padding: 2rem;
+  }
+  
+  .stepTitle {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+  }
+  
+  .stepDescription {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+  
+  .stepNavigation {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+  
+  .stepButton {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: var(--transition);
+  }
+  
+  .stepButton:hover, .stepButton[data-active="true"] {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 119, 190, 0.3);
+  }
+  
+  /* CTA Section */
+  .ctaSection {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 8rem 0;
+    text-align: center;
+  }
+  
+  .ctaTitle {
+    font-size: 3.5rem;
+    margin-bottom: 2rem;
+    font-weight: 800;
+  }
+  
+  .ctaText {
+    font-size: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+  }
+  
+  .ctaButton {
+    background-color: white;
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    padding: 1rem 3rem;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+  
+  .ctaButton:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(255, 255, 255, 0.3);
+    background-color: #0077be;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 1200px) {
+    .mainTitle {
+      font-size: 4rem;
+    }
+    .sectionTitle {
+      font-size: 3rem;
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .heroSection {
+      height: auto;
+      min-height: 100vh;
+    }
+    .mainTitle {
+      font-size: 3.5rem;
+    }
+    .subtitle {
+      font-size: 1.6rem;
+    }
+    .benefitsSection, .processSection {
+      padding: 6rem 0;
+    }
+    .stepImage {
+      height: 300px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .mainTitle {
+      font-size: 3rem;
+    }
+    .subtitle {
+      font-size: 1.4rem;
+    }
+    .sectionTitle {
+      font-size: 2.5rem;
+    }
+    .stepTitle {
+      font-size: 2rem;
+    }
+    .ctaTitle {
+      font-size: 2.5rem;
+    }
+    .ctaText {
+      font-size: 1.3rem;
+    }
+    .heroButton, .ctaButton {
+      font-size: 1rem;
+      padding: 0.8rem 2rem;
+    }
+    .benefitCard {
+      padding: 2rem 1.5rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .mainTitle {
+      font-size: 2.5rem;
+    }
+    .subtitle {
+      font-size: 1.2rem;
+    }
+    .sectionTitle {
+      font-size: 2rem;
+    }
+    .benefitsSection, .processSection {
+      padding: 4rem 0;
+    }
+    .stepImage {
+      height: 250px;
+    }
+    .stepTitle {
+      font-size: 1.8rem;
+    }
+    .stepDescription {
+      font-size: 1rem;
+    }
+    .ctaTitle {
+      font-size: 2rem;
+    }
+    .ctaText {
+      font-size: 1.1rem;
+    }
+  }
