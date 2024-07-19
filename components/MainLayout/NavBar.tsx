@@ -1,112 +1,71 @@
+import React from 'react';
 import {
   TextInput,
   Code,
   UnstyledButton,
-  Badge,
   Text,
   Group,
-  ActionIcon,
-  Tooltip,
+  Image,
   rem,
 } from "@mantine/core";
 import {
-  IconBulb,
   IconUser,
-  IconCheckbox,
+  IconFolder,
+  IconHeadset,
   IconSearch,
-  IconPlus,
+  IconLogout,
 } from "@tabler/icons-react";
 import { UserButton } from "./UserButton";
 import classes from "./NavBar.module.css";
 
 const links = [
-  { icon: IconBulb, label: "Activity", notifications: 3 },
-  { icon: IconCheckbox, label: "Tasks", notifications: 4 },
-  { icon: IconUser, label: "Contacts" },
-];
-
-const collections = [
-  { emoji: "👍", label: "Sales" },
-  { emoji: "🚚", label: "Deliveries" },
-  { emoji: "💸", label: "Discounts" },
-  { emoji: "💰", label: "Profits" },
-  { emoji: "✨", label: "Reports" },
-  { emoji: "🛒", label: "Orders" },
-  { emoji: "📅", label: "Events" },
-  { emoji: "🙈", label: "Debts" },
-  { emoji: "💁‍♀️", label: "Customers" },
+  { icon: IconUser, label: "Mi cuenta" },
+  { icon: "https://xulaswsegmeymlufkcid.supabase.co/storage/v1/object/public/resources/datasaludlogo.avif", label: "Data-Salud", isImage: true },
+  { icon: IconFolder, label: "Archivos" },
+  { icon: IconHeadset, label: "Soporte en línea" },
 ];
 
 export function NavBar() {
   const mainLinks = links.map((link) => (
     <UnstyledButton key={link.label} className={classes.mainLink}>
       <div className={classes.mainLinkInner}>
-        <link.icon size={20} className={classes.mainLinkIcon} stroke={1.5} />
+        {link.isImage ? (
+          <Image src={link.icon} width={24} height={24} className={classes.mainLinkIcon} />
+        ) : (
+          <link.icon size={24} className={classes.mainLinkIcon} stroke={1.5} />
+        )}
         <span>{link.label}</span>
       </div>
-      {link.notifications && (
-        <Badge size="sm" variant="filled" className={classes.mainLinkBadge}>
-          {link.notifications}
-        </Badge>
-      )}
     </UnstyledButton>
-  ));
-
-  const collectionLinks = collections.map((collection) => (
-    <a
-      href="#"
-      onClick={(event) => event.preventDefault()}
-      key={collection.label}
-      className={classes.collectionLink}
-    >
-      <span style={{ marginRight: rem(9), fontSize: rem(16) }}>
-        {collection.emoji}
-      </span>{" "}
-      {collection.label}
-    </a>
   ));
 
   return (
     <nav className={classes.navbar}>
-      <div className={classes.section}>
-        <UserButton />
+      <div className={classes.header}>
+        <Image src="https://xulaswsegmeymlufkcid.supabase.co/storage/v1/object/public/resources/wellfitclinic01%20(1).svg?t=2024-07-19T16%3A05%3A06.832Z" height={40} fit="contain" />
+        <Text className={classes.headerTitle}>Data-Salud AI</Text>
       </div>
 
       <TextInput
-        placeholder="Search"
-        size="xs"
-        leftSection={
-          <IconSearch
-            style={{ width: rem(12), height: rem(12) }}
-            stroke={1.5}
-          />
-        }
+        placeholder="Buscar"
+        size="md"
+        leftSection={<IconSearch style={{ width: rem(18), height: rem(18) }} stroke={1.5} />}
         rightSectionWidth={70}
         rightSection={<Code className={classes.searchCode}>Ctrl + K</Code>}
         styles={{ section: { pointerEvents: "none" } }}
-        mb="sm"
+        mb="md"
+        className={classes.search}
       />
 
-      <div className={classes.section}>
-        <div className={classes.mainLinks}>{mainLinks}</div>
-      </div>
+      <div className={classes.mainLinks}>{mainLinks}</div>
 
-      <div className={classes.section}>
-        <Group className={classes.collectionsHeader} justify="space-between">
-          <Text size="xs" fw={500} c="dimmed">
-            Collections
-          </Text>
-          <Tooltip label="Create collection" withArrow position="right">
-            <ActionIcon variant="default" size={18}>
-              <IconPlus
-                style={{ width: rem(12), height: rem(12) }}
-                stroke={1.5}
-              />
-            </ActionIcon>
-          </Tooltip>
-        </Group>
-        <div className={classes.collections}>{collectionLinks}</div>
-      </div>
+      <Group className={classes.footer}>
+        <UserButton />
+        <UnstyledButton className={classes.logoutButton}>
+          <IconLogout size={20} className={classes.logoutIcon} stroke={1.5} />
+          <span>Cerrar sesión</span>
+        </UnstyledButton>
+      </Group>
     </nav>
   );
 }

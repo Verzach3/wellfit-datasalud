@@ -98,9 +98,11 @@ const MasteryDataSalud: React.FC = () => {
           <Title order={1} className={styles.mainTitle}>
             Revoluciona tu Salud con Data-Salud
           </Title>
-          <Text className={styles.subtitle}>
-            Simplifica tu historial médico y obtén insights personalizados para una vida más saludable
-          </Text>
+        
+               <Text className={styles.subtitle}>
+                Simplifica tu historial médico y obtén insights personalizados para una vida más saludable
+                </Text> 
+      
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button size="xl" className={styles.heroButton}>Descubre Data-Salud</Button>
           </motion.div>

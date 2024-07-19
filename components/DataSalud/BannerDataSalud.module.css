@@ -18,14 +18,31 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background-image: url('https://xulaswsegmeymlufkcid.supabase.co/storage/v1/object/public/resources/DataSaludFondo.avif');
+    background-size: cover;
+    background-position: center;
+    position: relative;
     padding: 2rem;
   }
+  
+  .heroSection::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Overlay semitransparente */
+    z-index: 1;
+  }
+  
   
   .heroContent {
     text-align: center;
     color: white;
     max-width: 800px;
+    position: relative;
+    z-index: 2;
   }
   
   .mainTitle {
@@ -41,6 +58,8 @@
     margin-bottom: 3rem;
     line-height: 1.6;
     font-weight: 300;
+    color: #f5f1f1;
+    font: bold;
   }
   
   .heroButton {

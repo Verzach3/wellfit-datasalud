@@ -1,37 +1,36 @@
-import { type Static, Type } from "@sinclair/typebox";
+import React, { useState } from "react";
 import {
   Button,
-  Center,
   Container,
   Image,
   Select,
-  Stack,
   Text,
   TextInput,
   Title,
+  Paper,
+  Transition,
+  Stack,
 } from "@mantine/core";
-import React, { useState } from "react";
 import { DateInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
-import { navigate } from "vike/client/router";
+import { motion } from "framer-motion";
+import { IconUser, IconPhone, IconCalendar, IconGenderBigender } from '@tabler/icons-react';
+import styles from "./page.module.css";
 
-const ProfileValidator = Type.Object({
-  name: Type.String({ minLength: 2 }),
-  second_name: Type.Optional(Type.String()),
-  lastname: Type.String({ minLength: 2 }),
-  second_lastname: Type.Optional(Type.String()),
-  birth_date: Type.Date(),
-  gender: Type.Union([Type.Literal("M"), Type.Literal("F")]),
-  phone: Type.String(),
-});
-
-type ProfileValidatorType = Static<typeof ProfileValidator>;
+type ProfileType = {
+  name: string;
+  second_name?: string;
+  lastname: string;
+  second_lastname?: string;
+  birth_date: Date;
+  gender: "M" | "F";
+  phone: string;
+};
 
 function ProfileForm() {
   const [loading, setLoading] = useState(false);
-  const form = useForm({
-    mode: "uncontrolled",
+  const form = useForm<ProfileType>({
     initialValues: {
       name: "",
       second_name: "",
@@ -41,81 +40,126 @@ function ProfileForm() {
       gender: "M",
       phone: "",
     },
-
     validate: {
-      name: (value) => (value.length > 2 ? null : "Nombre invalido"),
-      lastname: (value) => (value.length > 2 ? null : "Apellido invalido"),
-      gender: (value) =>
-        value === "M" || value === "F" ? null : "Opcion invalida",
+      name: (value) => (value.length > 2 ? null : "Nombre inválido"),
+      lastname: (value) => (value.length > 2 ? null : "Apellido inválido"),
+      gender: (value) => (value === "M" || value === "F" ? null : "Opción inválida"),
+      phone: (value) => (/^\+?[0-9]{10,14}$/.test(value) ? null : "Número de teléfono inválido"),
     },
   });
 
-  async function completeProfile(profile: ProfileValidatorType) {
+  async function completeProfile(profile: ProfileType) {
     setLoading(true);
-
-    setLoading(false);
+    try {
+      // Simular una petición a la API
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      notifications.show({
+        title: "Perfil actualizado",
+        message: "Tu perfil ha sido actualizado exitosamente",
+        color: "green",
+      });
+      // Aquí iría la lógica para guardar el perfil
+    } catch (error) {
+      notifications.show({
+        title: "Error",
+        message: "Hubo un problema al actualizar tu perfil",
+        color: "red",
+      });
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
-    <Container fluid mt={"1.5rem"} pb={"5rem"}>
-      <Center>
-        <Stack>
-          <Center>
-            <Image src={"/assets/wellfit-bottom-text.svg"} h={230} w={"auto"} />
-          </Center>
-          <form
-            onSubmit={form.onSubmit((values) =>
-              completeProfile(values as ProfileValidatorType),
-            )}
-          >
-            <Title ta={"center"}>Terminemos tu perfil</Title>
-            <Text ta={"center"} fw={600} c={"gray"}>
-              Para poder brindarte un mejor servicio, necesitamos conocer mas de
-              ti.
+    <Container className={styles.formContainer} size="sm">
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Paper shadow="md" p="xl" radius="lg" className={styles.formWrapper}>
+          <Stack align="center" gap="lg">
+            <Image 
+              src="/assets/wellfit-bottom-text.svg" 
+              height={100} 
+              width="auto" 
+              className={styles.logo}
+            />
+            <Title order={2} className={styles.title}>Completa tu Perfil</Title>
+            <Text size="sm" color="dimmed" className={styles.subtitle}>
+              Ayúdanos a conocerte mejor para brindarte una experiencia personalizada
             </Text>
-            <TextInput
-              label={"Nombre"}
-              required
-              mt={"2rem"}
-              {...form.getInputProps("name")}
-            />
-            <TextInput
-              label={"Segundo Nombre (Opcional)"}
-              {...form.getInputProps("second_name")}
-            />
-            <TextInput
-              label={"Apellido"}
-              required
-              {...form.getInputProps("lastname")}
-            />
-            <TextInput
-              label={"Segundo Apellido (Opcional)"}
-              {...form.getInputProps("second_lastname")}
-            />
-            <DateInput
-              label={"Fecha de nacimiento"}
-              required
-              {...form.getInputProps("birth_date")}
-            />
-            <Select
-              label={"Genero asignado al nacer"}
-              data={[
-                { label: "Masculino", value: "M" },
-                { label: "Femenino", value: "F" },
-              ]}
-              required
-              {...form.getInputProps("gender")}
-            />
-            <TextInput
-              label={"Numero de telefono"}
-              {...form.getInputProps("phone")}
-            />
-            <Button mt={"2rem"} type={"submit"} w={"100%"} loading={loading}>
-              Continuar
-            </Button>
-          </form>
-        </Stack>
-      </Center>
+            <form onSubmit={form.onSubmit((values) => completeProfile(values))}>
+              <Stack gap="md">
+                <TextInput
+                  required
+                  label="Nombre"
+                  placeholder="Tu nombre"
+                  leftSection={<IconUser size="1rem" />}
+                  {...form.getInputProps('name')}
+                  className={styles.input}
+                />
+                <TextInput
+                  label="Segundo Nombre"
+                  placeholder="Opcional"
+                  {...form.getInputProps('second_name')}
+                  className={styles.input}
+                />
+                <TextInput
+                  required
+                  label="Apellido"
+                  placeholder="Tu apellido"
+                  {...form.getInputProps('lastname')}
+                  className={styles.input}
+                />
+                <TextInput
+                  label="Segundo Apellido"
+                  placeholder="Opcional"
+                  {...form.getInputProps('second_lastname')}
+                  className={styles.input}
+                />
+                <DateInput
+                  required
+                  label="Fecha de Nacimiento"
+                  placeholder="Selecciona tu fecha de nacimiento"
+                  leftSection={<IconCalendar size="1rem" />}
+                  {...form.getInputProps('birth_date')}
+                  className={styles.input}
+                />
+                <Select
+                  required
+                  label="Género"
+                  placeholder="Selecciona tu género"
+                  data={[
+                    { value: 'M', label: 'Masculino' },
+                    { value: 'F', label: 'Femenino' },
+                  ]}
+                  leftSection={<IconGenderBigender size="1rem" />}
+                  {...form.getInputProps('gender')}
+                  className={styles.input}
+                />
+                <TextInput
+                  required
+                  label="Teléfono"
+                  placeholder="Tu número de teléfono"
+                  leftSection={<IconPhone size="1rem" />}
+                  {...form.getInputProps('phone')}
+                  className={styles.input}
+                />
+                <Button
+                  type="submit"
+                  loading={loading}
+                  fullWidth
+                  size="lg"
+                  className={styles.submitButton}
+                >
+                  {loading ? "Actualizando..." : "Completar Perfil"}
+                </Button>
+              </Stack>
+            </form>
+          </Stack>
+        </Paper>
+      </motion.div>
     </Container>
   );
 }
