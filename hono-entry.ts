@@ -5,6 +5,8 @@ import { telefuncHandler } from "./server/telefunc-handler";
 import { Hono, type Context } from "hono";
 import { createMiddleware } from "hono/factory";
 import { getCookie, setCookie } from "hono/cookie";
+import { createOpenAI } from '@ai-sdk/openai';
+import { StreamingTextResponse, streamText } from 'ai';
 
 type Middleware = (
   request: Request,
@@ -35,6 +37,11 @@ export function handlerAdapter(handler: Middleware) {
 }
 
 const app = new Hono();
+
+const openai = createOpenAI({
+  apiKey: process.env.OPENAI_KEY ?? '',
+});
+
 app.all("*", async (context, next) => {
   context.set("token", getCookie(context, "token"));
   const serverClient = createServerClient(
@@ -63,6 +70,15 @@ app.all("*", async (context, next) => {
   context.set("supabase", serverClient);
   await next();
 });
+
+app.post("/api/chat", async (context) => {
+  const { messages } = await context.req.json();
+  const result = await streamText({
+    model: openai("gpt-4o-mini"),
+    messages,
+  })
+  return result.toAIStreamResponse();
+})
 
 app.post("/_telefunc", handlerAdapter(telefuncHandler));
 

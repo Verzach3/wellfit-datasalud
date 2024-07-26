@@ -10,7 +10,7 @@ declare module "hono" {
 // extend globalThis with supabase
 import { createClient } from "@supabase/supabase-js";
 declare global {
-  var supabase: SupabaseClient;
+  var supabase: SupabaseClient<Database>;
   namespace Vike {
 		interface PageContext {
       supabase: SupabaseClient<Database>;

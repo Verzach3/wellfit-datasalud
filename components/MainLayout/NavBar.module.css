@@ -1,7 +1,6 @@
 .navbar {
     background: linear-gradient(180deg, #0396f8 0%, #00a86b 100%);
     height: 100vh;
-    width: rem(280px);
     padding: var(--mantine-spacing-md);
     display: flex;
     flex-direction: column;
@@ -9,52 +8,52 @@
     box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
     color: white;
     transition: width 0.3s ease;
-  }
-  
-  .header {
+}
+
+.header {
     padding: var(--mantine-spacing-md);
     margin-bottom: var(--mantine-spacing-xl);
     border-bottom: rem(1px) solid rgba(255, 255, 255, 0.1);
     text-align: center;
-  }
-  
-  .headerTitle {
+}
+
+.headerTitle {
     font-size: rem(24px);
     font-weight: 700;
     color: white;
     margin-top: var(--mantine-spacing-md);
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .search {
+}
+
+.search {
     margin-bottom: var(--mantine-spacing-xl);
     transition: all 0.3s ease;
-  }
-  
-  .search input {
+}
+
+.search input {
     background-color: rgba(255, 255, 255, 0.1);
     color: white;
     border: none;
-  }
-  
-  .search input::placeholder {
+}
+
+.search input::placeholder {
     color: rgba(255, 255, 255, 0.7);
-  }
-  
-  .searchCode {
+}
+
+.searchCode {
     font-weight: 700;
     font-size: rem(10px);
     background-color: rgba(255, 255, 255, 0.1);
     color: white;
     padding: rem(3px) rem(5px);
     border-radius: var(--mantine-radius-sm);
-  }
-  
-  .mainLinks {
+}
+
+.mainLinks {
     flex-grow: 1;
-  }
-  
-  .mainLink {
+}
+
+.mainLink {
     display: flex;
     align-items: center;
     width: 100%;
@@ -65,36 +64,36 @@
     color: white;
     transition: all 0.3s ease;
     margin-bottom: var(--mantine-spacing-sm);
-  }
-  
-  .mainLink:hover {
+}
+
+.mainLink:hover {
     background-color: rgba(255, 255, 255, 0.1);
     transform: translateX(5px);
-  }
-  
-  .mainLinkInner {
+}
+
+.mainLinkInner {
     display: flex;
     align-items: center;
     flex: 1;
-  }
-  
-  .mainLinkIcon {
+}
+
+.mainLinkIcon {
     margin-right: var(--mantine-spacing-sm);
     color: white;
     transition: transform 0.3s ease;
-  }
-  
-  .mainLink:hover .mainLinkIcon {
+}
+
+.mainLink:hover .mainLinkIcon {
     transform: scale(1.2);
-  }
-  
-  .footer {
+}
+
+.footer {
     margin-top: auto;
     padding-top: var(--mantine-spacing-md);
     border-top: rem(1px) solid rgba(255, 255, 255, 0.1);
-  }
-  
-  .logoutButton {
+}
+
+.logoutButton {
     display: flex;
     align-items: center;
     width: 100%;
@@ -105,36 +104,40 @@
     color: white;
     transition: all 0.3s ease;
     margin-top: var(--mantine-spacing-sm);
-  }
-  
-  .logoutButton:hover {
+}
+
+.logoutButton:hover {
     background-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  .logoutIcon {
+}
+
+.logoutIcon {
     margin-right: var(--mantine-spacing-sm);
-  }
-  
-  @media (max-width: 768px) {
+}
+
+@media (max-width: 768px) {
     .navbar {
-      width: rem(60px);
-      padding: var(--mantine-spacing-xs);
+        width: rem(60px);
+        padding: var(--mantine-spacing-xs);
     }
-  
-    .header, .headerTitle, .search, .mainLink span, .logoutButton span {
-      display: none;
+
+    .header,
+    .headerTitle,
+    .search,
+    .mainLink span,
+    .logoutButton span {
+        display: none;
     }
-  
+
     .mainLink {
-      justify-content: center;
+        justify-content: center;
     }
-  
+
     .mainLinkIcon {
-      margin-right: 0;
+        margin-right: 0;
     }
-  
+
     .footer {
-      flex-direction: column;
-      align-items: center;
+        flex-direction: column;
+        align-items: center;
     }
-  }
+}

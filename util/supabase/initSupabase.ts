@@ -12,7 +12,7 @@ export async function initSupabase() {
     creds.SUPABASE_ANON_KEY,
   );
 
-  console.log("Session", await supabase.auth.getSession());
+  console.log("InitSupabase:Session", await supabase.auth.getSession());
 
   // set cookies of the session
   document.cookie = `token=${(await supabase.auth.getSession()).data.session?.access_token ?? ""}; path=/`;

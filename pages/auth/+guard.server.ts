@@ -1,5 +1,5 @@
 import { PageContext } from "vike/types";
-import { safeGetUser } from "../../util/supabase/safeGetSession.server";
+import { safeGetUser } from "../../util/supabase/safeGetUser.server";
 import { redirect } from "vike/abort";
 
 export async function guard(pageContext: PageContext) {
