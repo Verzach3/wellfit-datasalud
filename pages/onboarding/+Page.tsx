@@ -50,6 +50,15 @@ function ProfileForm() {
 
   async function completeProfile(profile: ProfileType) {
     setLoading(true);
+    await supabase.from("profiles").upsert({
+      birth_date: profile.birth_date.toISOString().split("T")[0],
+      gender: profile.gender,
+      name: profile.name,
+      first_lastname: profile.first_lastname,
+      
+      phone: profile.phone,
+      lastname: profile.lastname,
+    });
     try {
       // Simular una petición a la API
       await new Promise(resolve => setTimeout(resolve, 2000));

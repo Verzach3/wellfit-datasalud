@@ -7,6 +7,7 @@ import { createMiddleware } from "hono/factory";
 import { getCookie, setCookie } from "hono/cookie";
 import { createOpenAI } from '@ai-sdk/openai';
 import { StreamingTextResponse, streamText } from 'ai';
+import { serveStatic } from "hono/bun";
 
 type Middleware = (
   request: Request,
@@ -81,6 +82,13 @@ app.post("/api/chat", async (context) => {
 })
 
 app.post("/_telefunc", handlerAdapter(telefuncHandler));
+
+app.use(
+  "/*",
+  serveStatic({
+    root: "./dist/client/",
+  }),
+);
 
 /**
  * Vike route

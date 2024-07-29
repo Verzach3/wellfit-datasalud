@@ -20,7 +20,7 @@ import classes from "./NavBar.module.css";
 import { navigate } from 'vike/client/router';
 
 const links = [
-  { icon: IconUser, label: "Mi cuenta", path: "/account" },
+  { icon: IconUser, label: "Mi cuenta", path: "/onboarding" },
   { icon: "https://xulaswsegmeymlufkcid.supabase.co/storage/v1/object/public/resources/datasaludlogo.avif", label: "Data-Salud", isImage: true, path: "/chat" },
   { icon: IconFolder, label: "Archivos", path: "/files" },
   { icon: IconHeadset, label: "Soporte en línea" },

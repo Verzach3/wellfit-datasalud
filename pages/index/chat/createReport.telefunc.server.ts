@@ -6,7 +6,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_KEY,
 });
 
-export async function createReport(filePath: string) {
+export async function createReport(filePaths: string[]) {
   const { supabase, token } = getContext<ContextVariableMap>()
   const chatCompletion = await openai.chat.completions.create({
     messages: [{ role: "system", content: prompt}],
