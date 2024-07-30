@@ -7,7 +7,16 @@ import { createMiddleware } from "hono/factory";
 import { getCookie, setCookie } from "hono/cookie";
 import { createOpenAI } from '@ai-sdk/openai';
 import { StreamingTextResponse, streamText } from 'ai';
-import { serveStatic } from "hono/bun";
+
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+let serveStatic: any;
+// detect if is node or Bun
+// @ts-expect-error
+if (global.Bun !== undefined) {
+  serveStatic = (await import ("hono/bun")).serveStatic;
+} else {
+  serveStatic = (await import ("@hono/node-server/serve-static")).serveStatic;
+}
 
 type Middleware = (
   request: Request,
