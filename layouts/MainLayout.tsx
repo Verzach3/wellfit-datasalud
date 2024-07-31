@@ -1,24 +1,24 @@
+import React from 'react';
+import { AppShell } from "@mantine/core";
+import { useDisclosure } from '@mantine/hooks';
 import { NavBar } from "../components/MainLayout/NavBar";
-import LayoutDefault from "./LayoutDefault";
-import { AppShell, Container, Title } from "@mantine/core";
+import classes from './MainLayout.module.css';
 
 function MainLayout({ children }: { children: React.ReactNode }) {
+  const [opened, { toggle }] = useDisclosure();
+
   return (
     <AppShell
+      header={{ height: 60 }}
       navbar={{
         width: 300,
         breakpoint: "sm",
+        collapsed: { mobile: !opened }
       }}
-      styles={{
-        main: {
-          overflow: "auto",
-        },
-      }}
+      padding={0}
     >
-      <AppShell.Navbar>
-        <NavBar />
-      </AppShell.Navbar>
-      <AppShell.Main>{children}</AppShell.Main>
+      <NavBar opened={opened} toggle={toggle} />
+      <AppShell.Main className={classes.main}>{children}</AppShell.Main>
     </AppShell>
   );
 }

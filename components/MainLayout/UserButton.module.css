@@ -1,13 +1,30 @@
+/* UserButton.module.css */
 .user {
     display: block;
     width: 100%;
     padding: var(--mantine-spacing-md);
-    color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
-
-    @mixin hover {
-        background-color: light-dark(
-            var(--mantine-color-gray-0),
-            var(--mantine-color-dark-8)
-        );
-    }
-}
+    background-color: white; /* Fondo blanco */
+    color: #0396f8; /* Color del texto */
+    border-radius: var(--mantine-radius-sm);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .user:hover {
+    background-color: #f0f0f0; /* Cambio de color en hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada en hover */
+  }
+  
+  .user .mantine-Avatar-root {
+    background-color: #0396f8; /* Color de fondo del avatar */
+    color: white; /* Color del texto del avatar */
+  }
+  
+  .user .mantine-Text-root {
+    color: #0396f8; /* Color del texto */
+  }
+  
+  .user .mantine-Text-root.dimmed {
+    color: #666; /* Color del correo */
+  }
+  
