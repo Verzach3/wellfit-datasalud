@@ -1,99 +1,51 @@
-.navbar {
-    background: linear-gradient(180deg, #0396f8 0%, #00a86b 100%);
-    height: 100vh;
-    padding: var(--mantine-spacing-md);
-    display: flex;
-    flex-direction: column;
-    border-right: rem(1px) solid rgba(255, 255, 255, 0.1);
-    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
-    color: white;
-    transition: width 0.3s ease;
-}
-
+/* NavBar.module.css */
 .header {
-    padding: var(--mantine-spacing-md);
-    margin-bottom: var(--mantine-spacing-xl);
+    background: linear-gradient(90deg, #0396f8 0%, #00a86b 100%);
     border-bottom: rem(1px) solid rgba(255, 255, 255, 0.1);
-    text-align: center;
-}
-
-.headerTitle {
-    font-size: rem(24px);
+  }
+  
+  .headerTitle {
+    font-size: rem(20px);
     font-weight: 700;
     color: white;
-    margin-top: var(--mantine-spacing-md);
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.search {
-    margin-bottom: var(--mantine-spacing-xl);
-    transition: all 0.3s ease;
-}
-
-.search input {
+  }
+  
+  .navbar {
+    background: linear-gradient(180deg, #0396f8 0%, #00a86b 100%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .search {
+    margin-bottom: var(--mantine-spacing-md);
+  }
+  
+  .search input {
     background-color: rgba(255, 255, 255, 0.1);
     color: white;
     border: none;
-}
-
-.search input::placeholder {
+  }
+  
+  .search input::placeholder {
     color: rgba(255, 255, 255, 0.7);
-}
-
-.searchCode {
+  }
+  
+  .searchCode {
     font-weight: 700;
     font-size: rem(10px);
     background-color: rgba(255, 255, 255, 0.1);
     color: white;
     padding: rem(3px) rem(5px);
     border-radius: var(--mantine-radius-sm);
-}
-
-.mainLinks {
+  }
+  
+  .mainLinks {
     flex-grow: 1;
-}
-
-.mainLink {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    font-size: var(--mantine-font-size-sm);
-    padding: rem(12px) var(--mantine-spacing-sm);
-    border-radius: var(--mantine-radius-sm);
-    font-weight: 500;
-    color: white;
-    transition: all 0.3s ease;
-    margin-bottom: var(--mantine-spacing-sm);
-}
-
-.mainLink:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: translateX(5px);
-}
-
-.mainLinkInner {
-    display: flex;
-    align-items: center;
-    flex: 1;
-}
-
-.mainLinkIcon {
-    margin-right: var(--mantine-spacing-sm);
-    color: white;
-    transition: transform 0.3s ease;
-}
-
-.mainLink:hover .mainLinkIcon {
-    transform: scale(1.2);
-}
-
-.footer {
-    margin-top: auto;
-    padding-top: var(--mantine-spacing-md);
-    border-top: rem(1px) solid rgba(255, 255, 255, 0.1);
-}
-
-.logoutButton {
+  }
+  
+  .mainLink {
     display: flex;
     align-items: center;
     width: 100%;
@@ -103,41 +55,58 @@
     font-weight: 500;
     color: white;
     transition: all 0.3s ease;
-    margin-top: var(--mantine-spacing-sm);
-}
-
-.logoutButton:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.logoutIcon {
+  }
+  
+  .mainLink:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateX(3px);
+  }
+  
+  .mainLinkInner {
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+  
+  .mainLinkIcon {
     margin-right: var(--mantine-spacing-sm);
-}
-
-@media (max-width: 768px) {
+    color: white;
+    transition: transform 0.3s ease;
+  }
+  
+  .mainLink:hover .mainLinkIcon {
+    transform: scale(1.1);
+  }
+  
+  .footer {
+    margin-top: auto;
+    padding-top: var(--mantine-spacing-md);
+    border-top: rem(1px) solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .logoutButton {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-size: var(--mantine-font-size-sm);
+    padding: rem(8px) var(--mantine-spacing-xs);
+    border-radius: var(--mantine-radius-sm);
+    font-weight: 500;
+    color: white;
+    transition: all 0.3s ease;
+  }
+  
+  .logoutButton:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .logoutIcon {
+    margin-right: var(--mantine-spacing-sm);
+  }
+  
+  @media (max-width: 768px) {
     .navbar {
-        width: rem(60px);
-        padding: var(--mantine-spacing-xs);
+      padding-top: 60px; /* Ajuste para el header fijo en móviles */
     }
-
-    .header,
-    .headerTitle,
-    .search,
-    .mainLink span,
-    .logoutButton span {
-        display: none;
-    }
-
-    .mainLink {
-        justify-content: center;
-    }
-
-    .mainLinkIcon {
-        margin-right: 0;
-    }
-
-    .footer {
-        flex-direction: column;
-        align-items: center;
-    }
-}
+  }
+  

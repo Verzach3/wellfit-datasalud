@@ -99,7 +99,7 @@ function ProfileForm() {
               Ayúdanos a conocerte mejor para brindarte una experiencia personalizada
             </Text>
             <form onSubmit={form.onSubmit((values) => completeProfile(values))}>
-              <Stack gap="md">
+              <Stack gap="xl">
                 <TextInput
                   required
                   label="Nombre"
