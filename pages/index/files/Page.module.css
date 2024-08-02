@@ -1,0 +1,114 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.mainTitle {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.description {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.mainCard {
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.mainCard:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cardHeader {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.sectionTitle {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #495057;
+}
+
+.uploadButton {
+  background-color: #228be6;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.uploadButton:hover {
+  background-color: #1c7ed6;
+}
+
+.dropzone {
+  border: 2px dashed #ced4da;
+  background-color: #f8f9fa;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  padding: 2rem;
+}
+
+.dropzone:hover {
+  border-color: #228be6;
+  background-color: #e7f5ff;
+}
+
+.folderIcon {
+  color: #868e96;
+}
+
+.noFilesTitle {
+  font-size: 1.5rem;
+  color: #495057;
+}
+
+.noFilesText {
+  color: #868e96;
+}
+
+.fileGrid {
+  margin-top: 2rem;
+}
+
+.fileCard {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.fileCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.fileIcon {
+  color: #228be6;
+}
+
+.fileName {
+  font-size: 0.9rem;
+  color: #495057;
+  word-break: break-word;
+}
+
+.termsText {
+  margin-top: 1.5rem;
+  color: #2c3e50;
+  cursor: pointer;
+  text-decoration: underline;
+  text-align: center;
+}
+
+.checkbox {
+  margin-top: 1.5rem;
+  color: #2c3e50;
+  text-align: center;
+}

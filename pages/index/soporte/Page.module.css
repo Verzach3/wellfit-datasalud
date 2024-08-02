@@ -1,0 +1,150 @@
+.wrapper {
+  background: linear-gradient(135deg, #6dd5ed, #2193b0);
+  min-height: 100vh;
+  padding: 50px 0;
+}
+
+.container {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.mainTitle {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #1a2a6c;
+  text-align: center;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.subtitle {
+  font-size: 1.4rem;
+  color: #4a4a4a;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section {
+  margin-bottom: 4rem;
+  padding: 30px;
+  border-radius: 15px;
+  background: linear-gradient(45deg, #f6f9fc, #ffffff);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  color: #1a2a6c;
+  margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.sectionTitle::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 4px;
+  background: #2193b0;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+.faqCard {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.faqCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.contactCard,
+.chatCard {
+  background: linear-gradient(135deg, #f5f7fa, #e8ecf1);
+  transition: all 0.3s ease;
+}
+
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.submitButton {
+  background: linear-gradient(45deg, #2193b0, #6dd5ed);
+  color: white;
+  font-size: 1.1rem;
+  padding: 12px 24px;
+  transition: all 0.3s ease;
+  border: none;
+  border-radius: 30px;
+  box-shadow: 0 5px 15px rgba(33, 147, 176, 0.4);
+}
+
+.submitButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(33, 147, 176, 0.6);
+}
+
+.chatCard {
+  background: linear-gradient(135deg, #f0fff4, #dbffe8);
+}
+
+.resourceCard {
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.resourceCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.resourceIconSection {
+  background: linear-gradient(45deg, #2193b0, #6dd5ed);
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.resourceIconSection svg {
+  color: white;
+  font-size: 48px;
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 30px 0;
+  }
+
+  .container {
+    padding: 20px;
+  }
+
+  .mainTitle {
+    font-size: 2.5rem;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+  }
+
+  .sectionTitle {
+    font-size: 2rem;
+  }
+
+  .section {
+    padding: 20px;
+  }
+}
