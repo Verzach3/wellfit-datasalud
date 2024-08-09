@@ -24,7 +24,7 @@ import { navigate } from 'vike/client/router';
 
 const links = [
   { icon: IconHome, label: "Inicio", path: "/" },
-  { icon: IconUser, label: "Mi cuenta", path: "/onboarding" },
+  { icon: IconUser, label: "Mi cuenta", path: "/account" },
   { icon: "https://xulaswsegmeymlufkcid.supabase.co/storage/v1/object/public/resources/datasaludlogo.avif", label: "Data-Salud", isImage: true, path: "/chat" },
   { icon: IconFolder, label: "Archivos", path: "/files" },
   { icon: IconHeadset, label: "Soporte en línea", path: "/soporte" },

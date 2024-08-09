@@ -1,4 +1,3 @@
-import React from 'react';
 import { AppShell } from "@mantine/core";
 import { useDisclosure } from '@mantine/hooks';
 import { NavBar } from "../components/MainLayout/NavBar";

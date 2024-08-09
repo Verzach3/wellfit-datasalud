@@ -16,13 +16,16 @@ import {
   rem,
   ThemeIcon,
   Center,
+  LoadingOverlay,
 } from "@mantine/core";
 import {
+  IconCheck,
   IconClipboardText,
   IconFileFilled,
   IconPlus,
   IconSend2,
 } from "@tabler/icons-react";
+import { generateId } from "ai";
 import { useChat } from "ai/react";
 import { useEffect, useState } from "react";
 function Chat() {
@@ -35,6 +38,7 @@ function Chat() {
   const [files, setFiles] = useState<File[]>([]);
   const [openedCreateReport, setOpenedCreateReport] = useState(false);
   const [selectedReport, setSelectedReport] = useState<string | null>(null);
+  const [loadingReport, setLoadingReport] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -51,12 +55,41 @@ function Chat() {
       setFiles(files.data as unknown as File[]);
     })();
   }, []);
+
+  async function selectReport(reportId: string) {
+    if (selectedReport === reportId) return;
+    setLoadingReport(true);
+    const report = await supabase
+      .from("reports")
+      .select("*")
+      .eq("id", reportId)
+      .single();
+    setMessages([
+      {
+        id: generateId(),
+        role: "system",
+        content: `${basePrompt}\n${
+          // biome-ignore lint/style/noNonNullAssertion: <explanation>
+          report.data!.report
+        }`,
+      },
+      {
+        id: generateId(),
+        role: "assistant",
+        content: "Hola, soy DataSalud IA, una IA que ayuda a pacientes con sus consultas sobre su salud",
+      }
+    ]);
+    setSelectedReport(reportId);
+    setLoadingReport(false);
+  }
+
   return (
     <div
       style={{
         width: "100%",
       }}
     >
+      <LoadingOverlay visible={loadingReport} />
       <Affix position={{ bottom: 600, right: -55 }}>
         <Transition transition="slide-up" mounted={!open}>
           {(transitionStyles) => (
@@ -83,7 +116,7 @@ function Chat() {
       </Affix>
       <Stack
         style={{
-          height: "100dvh",
+          height: "90dvh",
         }}
         mx={"xl"}
       >
@@ -100,10 +133,31 @@ function Chat() {
               </Text>
             ) : (
               reports.map((report) => (
-                <Card key={report.id} w={"100%"} withBorder>
+                <Card
+                  key={report.id}
+                  w={"100%"}
+                  withBorder
+                  style={{
+                    borderColor:
+                      selectedReport === report.id.toString()
+                        ? "blue"
+                        : undefined,
+                  }}
+                  onClick={() => selectReport(report.id.toString())}
+                >
                   <Group>
-                    <ThemeIcon color="gray">
-                      <IconClipboardText />
+                    <ThemeIcon
+                      color={
+                        selectedReport === report.id.toString()
+                          ? "blue"
+                          : "gray"
+                      }
+                    >
+                      {selectedReport === report.id.toString() ? (
+                        <IconCheck />
+                      ) : (
+                        <IconClipboardText />
+                      )}
                     </ThemeIcon>
                     <Text>{`${report.created_at.split("T")[0]} a las ${
                       report.created_at.split("T")[1].split(".")[0]
@@ -173,7 +227,9 @@ function Chat() {
                         <Card withBorder w={"fit-content"} radius={"lg"}>
                           <Group>
                             <Avatar />
-                            <Text>{messages.content}</Text>
+                            <Text style={{ whiteSpace: "pre-wrap" }}>
+                              {messages.content}
+                            </Text>
                           </Group>
                         </Card>
                       </Group>
@@ -191,7 +247,9 @@ function Chat() {
                           radius={"lg"}
                         >
                           <Group justify="space-between">
-                            <Text>{messages.content}</Text>
+                            <Text style={{ whiteSpace: "pre-wrap" }}>
+                              {messages.content}
+                            </Text>
                             <div
                               style={{
                                 flexGrow: 1,
@@ -248,3 +306,14 @@ function Chat() {
 }
 
 export default Chat;
+
+const basePrompt = `
+Eres DataSalud IA, una IA que pertenece a WellFit Clinics
+y que ayuda a sus pacientes con recomendaciones y consejos sobre sus historias clinicas
+tu tarea es dirigirte al usuario lo mejor posible y ayudarlo con sus consultas sobre su salud
+y sus diagnosticos medicos, no respondas cosas que no tengan que ver con medicina o su salud
+
+la historia de la consulta es la siguiente:
+
+
+`;

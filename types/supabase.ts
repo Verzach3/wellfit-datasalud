@@ -9,6 +9,42 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      asigned_roles: {
+        Row: {
+          asigned_role: number
+          created_at: string
+          id: number
+          user_id: string
+        }
+        Insert: {
+          asigned_role: number
+          created_at?: string
+          id?: number
+          user_id: string
+        }
+        Update: {
+          asigned_role?: number
+          created_at?: string
+          id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "asigned_roles_asigned_role_fkey"
+            columns: ["asigned_role"]
+            isOneToOne: false
+            referencedRelation: "roles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "asigned_roles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           birth_date: string
@@ -87,6 +123,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      roles: {
+        Row: {
+          created_at: string
+          id: number
+          role_name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          role_name: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          role_name?: string
+        }
+        Relationships: []
       }
     }
     Views: {

@@ -24,6 +24,12 @@ function AuthPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        console.log("User logged in:", session.user);
+        navigate("/");
+      }
+    });
     const checkUser = async () => {
       try {
         console.log("Checking user...");
@@ -74,7 +80,6 @@ function AuthPage() {
     );
   }
 
-  console.log("Rendering main component");
   return (
     <div className={classes.pageWrapper}>
       <div className={classes.backgroundAnimation}></div>

@@ -9,11 +9,13 @@ import {
 } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import { User } from "@supabase/supabase-js";
+import type { User } from "@supabase/supabase-js";
 import classes from "./UserButton.module.css";
+import type { Database } from "@/types/supabase";
 
 export function UserButton() {
   const [userData, setUserData] = useState<User | null>(null);
+  const [profile, setProfile] = useState<Database["public"]["Tables"]["profiles"]["Row"] | null>(null);
   const [error, setError] = useState<boolean>(false);
   useEffect(() => {
     (async () => {
@@ -21,11 +23,17 @@ export function UserButton() {
         data: { user },
         error,
       } = await supabase.auth.getUser();
-      if (error) {
+      if (error || !user) {
         setError(true);
         return;
       }
       setUserData(user);
+      const { data } = await supabase.from("profiles").select("*").eq("user_id", user.id);
+      if (data && data.length === 0 || !data) {
+        setProfile(null);
+        return;
+      }
+      setProfile(data[0]);
     })();
   }, []);
   if (!userData) {
@@ -45,7 +53,7 @@ export function UserButton() {
 
         <div style={{ flex: 1 }}>
           <Text size="sm" fw={500}>
-            Usuario
+            {profile?.first_name}
           </Text>
 
           <Text c="dimmed" size="xs" truncate="end" w={"11rem"}>
@@ -53,10 +61,6 @@ export function UserButton() {
           </Text>
         </div>
 
-        <IconChevronRight
-          style={{ width: rem(14), height: rem(14), color: '#0396f8' }}
-          stroke={1.5}
-        />
       </Group>
     </UnstyledButton>
   );

@@ -15,8 +15,16 @@ import { DateInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { motion } from "framer-motion";
-import { IconUser, IconPhone, IconCalendar, IconGenderBigender } from '@tabler/icons-react';
+import {
+  IconUser,
+  IconPhone,
+  IconCalendar,
+  IconGenderBigender,
+  IconBadge,
+  IconIdBadge2,
+} from "@tabler/icons-react";
 import styles from "./page.module.css";
+import { navigate } from "vike/client/router";
 
 type ProfileType = {
   name: string;
@@ -26,6 +34,7 @@ type ProfileType = {
   birth_date: Date;
   gender: "M" | "F";
   phone: string;
+  cedula: string;
 };
 
 function ProfileForm() {
@@ -39,35 +48,50 @@ function ProfileForm() {
       birth_date: new Date(),
       gender: "M",
       phone: "",
+      cedula: "",
     },
     validate: {
       name: (value) => (value.length > 2 ? null : "Nombre inválido"),
       lastname: (value) => (value.length > 2 ? null : "Apellido inválido"),
-      gender: (value) => (value === "M" || value === "F" ? null : "Opción inválida"),
-      phone: (value) => (/^\+?[0-9]{10,14}$/.test(value) ? null : "Número de teléfono inválido"),
+      gender: (value) =>
+        value === "M" || value === "F" ? null : "Opción inválida",
+      phone: (value) =>
+        /^\+?[0-9]{10,14}$/.test(value) ? null : "Número de teléfono inválido",
+      cedula: (value) =>
+        value.length > 2 ? null : "Número de cedula inválido",
     },
   });
 
   async function completeProfile(profile: ProfileType) {
     setLoading(true);
-    await supabase.from("profiles").upsert({
-      birth_date: profile.birth_date.toISOString().split("T")[0],
-      gender: profile.gender,
-      name: profile.name,
-      first_lastname: profile.first_lastname,
-      
-      phone: profile.phone,
-      lastname: profile.lastname,
-    });
+    const { data } = await supabase.auth.getUser();
+    if (!data || !data.user) {
+      notifications.show({
+        title: "Error",
+        message: "No has iniciado sesión",
+        color: "red",
+      });
+      return;
+    }
     try {
-      // Simular una petición a la API
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await supabase.from("profiles").upsert({
+        birth_date: profile.birth_date.toISOString().split("T")[0],
+        gender: profile.gender,
+        first_name: profile.name,
+        second_name: profile.second_name,
+        first_lastname: profile.lastname,
+        second_lastname: profile.second_lastname,
+        phone: profile.phone,
+        cedula: profile.cedula,
+        user_id: data.user.id,
+      }).then(() => {
+        navigate("/");
+      });
       notifications.show({
         title: "Perfil actualizado",
         message: "Tu perfil ha sido actualizado exitosamente",
         color: "green",
       });
-      // Aquí iría la lógica para guardar el perfil
     } catch (error) {
       notifications.show({
         title: "Error",
@@ -88,15 +112,18 @@ function ProfileForm() {
       >
         <Paper shadow="md" p="xl" radius="lg" className={styles.formWrapper}>
           <Stack align="center" gap="lg">
-            <Image 
-              src="/assets/wellfit-bottom-text.svg" 
-              height={100} 
-              width="auto" 
+            <Image
+              src="/assets/wellfit-bottom-text.svg"
+              height={100}
+              width="auto"
               className={styles.logo}
             />
-            <Title order={2} className={styles.title}>Completa tu Perfil</Title>
+            <Title order={2} className={styles.title}>
+              Completa tu Perfil
+            </Title>
             <Text size="sm" color="dimmed" className={styles.subtitle}>
-              Ayúdanos a conocerte mejor para brindarte una experiencia personalizada
+              Ayúdanos a conocerte mejor para brindarte una experiencia
+              personalizada
             </Text>
             <form onSubmit={form.onSubmit((values) => completeProfile(values))}>
               <Stack gap="xl">
@@ -105,26 +132,26 @@ function ProfileForm() {
                   label="Nombre"
                   placeholder="Tu nombre"
                   leftSection={<IconUser size="1rem" />}
-                  {...form.getInputProps('name')}
+                  {...form.getInputProps("name")}
                   className={styles.input}
                 />
                 <TextInput
                   label="Segundo Nombre"
                   placeholder="Opcional"
-                  {...form.getInputProps('second_name')}
+                  {...form.getInputProps("second_name")}
                   className={styles.input}
                 />
                 <TextInput
                   required
                   label="Apellido"
                   placeholder="Tu apellido"
-                  {...form.getInputProps('lastname')}
+                  {...form.getInputProps("lastname")}
                   className={styles.input}
                 />
                 <TextInput
                   label="Segundo Apellido"
                   placeholder="Opcional"
-                  {...form.getInputProps('second_lastname')}
+                  {...form.getInputProps("second_lastname")}
                   className={styles.input}
                 />
                 <DateInput
@@ -132,7 +159,7 @@ function ProfileForm() {
                   label="Fecha de Nacimiento"
                   placeholder="Selecciona tu fecha de nacimiento"
                   leftSection={<IconCalendar size="1rem" />}
-                  {...form.getInputProps('birth_date')}
+                  {...form.getInputProps("birth_date")}
                   className={styles.input}
                 />
                 <Select
@@ -140,11 +167,11 @@ function ProfileForm() {
                   label="Género"
                   placeholder="Selecciona tu género"
                   data={[
-                    { value: 'M', label: 'Masculino' },
-                    { value: 'F', label: 'Femenino' },
+                    { value: "M", label: "Masculino" },
+                    { value: "F", label: "Femenino" },
                   ]}
                   leftSection={<IconGenderBigender size="1rem" />}
-                  {...form.getInputProps('gender')}
+                  {...form.getInputProps("gender")}
                   className={styles.input}
                 />
                 <TextInput
@@ -152,7 +179,15 @@ function ProfileForm() {
                   label="Teléfono"
                   placeholder="Tu número de teléfono"
                   leftSection={<IconPhone size="1rem" />}
-                  {...form.getInputProps('phone')}
+                  {...form.getInputProps("phone")}
+                  className={styles.input}
+                />
+                <TextInput
+                  required
+                  label="Cedula"
+                  placeholder="Tu número de cedula"
+                  leftSection={<IconIdBadge2 size="1rem" />}
+                  {...form.getInputProps("cedula")}
                   className={styles.input}
                 />
                 <Button
