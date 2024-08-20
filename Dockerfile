@@ -7,7 +7,7 @@ FROM base AS deps
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* bun.lockb* ./
 # RUN \
 #   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
 #   elif [ -f package-lock.json ]; then npm ci; \
@@ -18,7 +18,7 @@ COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN bun install
 
 # Rebuild the source code only when needed
-FROM oven/bun:1 AS builder
+FROM node:22-bookworm AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -27,8 +27,8 @@ COPY . .
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
-
-RUN bun --bun run build
+RUN curl -fsSL https://bun.sh/install | bash
+RUN ~/.bun/bin/bun run build
 
 # If using npm comment out above and use below instead
 # RUN npm run build
@@ -53,4 +53,4 @@ ENV NODE_ENV production
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
-CMD ["bun", "./hono-entry.ts"]
+CMD ["npx", "tsx", "./hono-entry.node.ts"]

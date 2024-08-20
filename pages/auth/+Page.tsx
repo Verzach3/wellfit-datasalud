@@ -25,7 +25,7 @@ function AuthPage() {
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((event, session) => {
-      if (session?.user) {
+      if (session?.user && window.location.pathname === "/auth") {
         console.log("User logged in:", session.user);
         navigate("/");
       }
@@ -48,6 +48,9 @@ function AuthPage() {
     };
 
     checkUser();
+
+    return () => {
+    }
   }, []);
 
   async function handleLogin(email: string) {

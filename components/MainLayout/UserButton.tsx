@@ -3,11 +3,9 @@ import {
   Group,
   Avatar,
   Text,
-  rem,
   Loader,
   Container,
 } from "@mantine/core";
-import { IconChevronRight } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import classes from "./UserButton.module.css";
@@ -53,7 +51,7 @@ export function UserButton() {
 
         <div style={{ flex: 1 }}>
           <Text size="sm" fw={500}>
-            {profile?.first_name}
+            {profile?.first_name} {" "} {profile?.first_lastname}
           </Text>
 
           <Text c="dimmed" size="xs" truncate="end" w={"11rem"}>
