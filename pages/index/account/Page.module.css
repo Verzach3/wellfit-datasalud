@@ -1,0 +1,48 @@
+.container {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.card {
+  background-color: #ffffff;
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.avatarDropzone {
+  position: relative;
+  cursor: pointer;
+}
+
+.avatar {
+  border: 3px solid var(--mantine-color-blue-6);
+  transition: transform 0.3s ease;
+}
+
+.avatarOverlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.avatarDropzone:hover .avatar {
+  transform: scale(1.05);
+}
+
+.avatarDropzone:hover .avatarOverlay {
+  opacity: 1;
+}
+
+.input {
+  transition: all 0.3s ease;
+}
+
+.input:focus-within {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}

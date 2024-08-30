@@ -1,0 +1,68 @@
+
+
+
+.pageContainer {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+  
+  .headerCard {
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mainTitle {
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .highlight {
+    color: #ecf0f1;
+    font-weight: 900;
+  }
+  
+  .scrollArea {
+    height: calc(100vh - 250px);
+  }
+  
+  .loaderContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .errorContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #fff3f3;
+    border-radius: 10px;
+    padding: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .pageContainer {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+  
+    .headerCard {
+      padding: 20px;
+    }
+  
+    .mainTitle {
+      font-size: 1.5rem;
+    }
+  
+    .scrollArea {
+      height: calc(100vh - 200px);
+    }
+  }

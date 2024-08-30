@@ -1,74 +1,101 @@
-import { useEffect, useState } from 'react';
-import { Group, Code, Text, UnstyledButton } from '@mantine/core';
+import React from 'react';
 import {
-  IconBellRinging,
-  IconFingerprint,
-  IconKey,
-  IconSettings,
-  Icon2fa,
-  IconDatabaseImport,
-  IconReceipt2,
-  IconSwitchHorizontal,
+  AppShell,
+  Burger,
+  Group,
+  TextInput,
+  Code,
+  UnstyledButton,
+  Text,
+  Image,
+  rem,
+} from "@mantine/core";
+import {
+  IconFolder,
+  IconSearch,
   IconLogout,
-  IconFiles,
-} from '@tabler/icons-react';
-import classes from './NavBar.module.css';
+  IconUsers,
+  IconReceipt2,
+} from "@tabler/icons-react";
+import classes from "./NavBar.module.css";
 import { navigate } from 'vike/client/router';
 
-const data = [
-  { link: '', label: 'Archivos', icon: IconFiles },
-  // { link: '', label: 'Billing', icon: IconReceipt2 },
-  // { link: '', label: 'Security', icon: IconFingerprint },
-  // { link: '', label: 'SSH Keys', icon: IconKey },
-  // { link: '', label: 'Databases', icon: IconDatabaseImport },
-  // { link: '', label: 'Authentication', icon: Icon2fa },
-  // { link: '', label: 'Other Settings', icon: IconSettings },
+const links = [
+  { icon: IconFolder, label: "Archivos", path: "/admin/patientsfiles" },
+  { icon: IconUsers, label: "Pacientes", path: "/admin/patients" },
+  { icon: IconReceipt2, label: "Transacciones", path: "/admin/transactions" },
 ];
 
-export function AdminNavbar() {
-  const [active, setActive] = useState('Billing');
+interface NavBarProps {
+  opened: boolean;
+  toggle: () => void;
+  onNavigate: () => void;
+}
 
-  useEffect(() => {
-    (async ( ) => {
+export function NavBar({ opened, toggle, onNavigate }: NavBarProps) {
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    onNavigate();
+    if (window.innerWidth <= 768) {
+      toggle();
+    }
+  };
 
-      supabase.storage.from("patient-documents").list(`${(await supabase.auth.getSession()).data.session?.user.id}/`).then((res) => {
-        console.log(res);
-      })
-    })()
-  }, [])
+  const handleLogout = () => {
+    // Implementa aquí la lógica de cierre de sesión
+    console.log("Cerrando sesión...");
+    // Por ejemplo:
+    // logout().then(() => navigate("/login"));
+  };
 
-  const links = data.map((item) => (
-    <a
-      className={classes.link}
-      data-active={item.label === active || undefined}
-      href={item.link}
-      key={item.label}
-      onClick={(event) => {
-        event.preventDefault();
-        setActive(item.label);
-      }}
+  const mainLinks = links.map((link) => (
+    <UnstyledButton
+      key={link.label}
+      className={classes.mainLink}
+      onClick={() => handleNavigation(link.path)}
     >
-      <item.icon className={classes.linkIcon} stroke={1.5} />
-      <span>{item.label}</span>
-    </a>
+      <div className={classes.mainLinkInner}>
+        <link.icon size={24} className={classes.mainLinkIcon} stroke={1.5} />
+        <span>{link.label}</span>
+      </div>
+    </UnstyledButton>
   ));
 
   return (
-    <nav className={classes.navbar}>
-      <div className={classes.navbarMain}>
-        <Group className={classes.header} justify="space-between">
-          <Text fw={700}>WellFit Admin</Text>
-          <Code fw={700}>v3.1.2</Code>
+    <>
+      <AppShell.Header className={classes.header}>
+        <Group h="100%" px="md">
+          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" color="white" />
+          <Image
+            src="https://xulaswsegmeymlufkcid.supabase.co/storage/v1/object/public/resources/wellfitclinic01%20(1).svg?t=2024-07-19T16%3A05%3A06.832Z"
+            height={40}
+            fit="contain"
+            onClick={() => handleNavigation("/admin")}
+            style={{ cursor: 'pointer' }}
+          />
+          <Text className={classes.headerTitle}>WellFit Admin Panel</Text>
         </Group>
-        {links}
-      </div>
+      </AppShell.Header>
 
-      <div className={classes.footer}>
-        <UnstyledButton className={classes.link} onClick={() => navigate("/logout")}>
-          <IconLogout className={classes.linkIcon} stroke={1.5} />
-          <span>Logout</span>
+      <AppShell.Navbar p="md" className={classes.navbar} hidden={!opened}>
+        <TextInput
+          placeholder="Buscar"
+          size="md"
+          leftSection={<IconSearch style={{ width: rem(18), height: rem(18) }} stroke={1.5} />}
+          rightSectionWidth={70}
+          rightSection={<Code className={classes.searchCode}>Ctrl + K</Code>}
+          styles={{ section: { pointerEvents: "none" } }}
+          mb="md"
+          className={classes.search}
+        />
+
+        <div className={classes.mainLinks}>{mainLinks}</div>
+
+        <UnstyledButton className={classes.logoutButton} onClick={handleLogout}>
+          <IconLogout size={20} className={classes.logoutIcon} stroke={1.5} />
+          <span>Cerrar sesión</span>
         </UnstyledButton>
-      </div>
-    </nav>
+      </AppShell.Navbar>
+    </>
   );
 }

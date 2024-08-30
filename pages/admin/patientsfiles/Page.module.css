@@ -1,0 +1,96 @@
+/* PatientFilesPage.module.css */
+.container {
+  padding: var(--mantine-spacing-xl) 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  margin-bottom: var(--mantine-spacing-xl);
+  color: var(--mantine-color-blue-7);
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.searchCard {
+  margin-bottom: var(--mantine-spacing-lg);
+  background-color: var(--mantine-color-white);
+  transition: box-shadow 0.3s ease;
+}
+
+.searchCard:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.tableCard {
+  background-color: var(--mantine-color-white);
+  border-radius: var(--mantine-radius-lg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.tableCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table th {
+  background-color: var(--mantine-color-blue-1);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: var(--mantine-font-size-sm);
+  color: var(--mantine-color-blue-7);
+  padding: var(--mantine-spacing-sm) var(--mantine-spacing-md);
+  text-align: left;
+}
+
+.table td {
+  font-size: var(--mantine-font-size-sm);
+  padding: var(--mantine-spacing-sm) var(--mantine-spacing-md);
+  border-bottom: 1px solid var(--mantine-color-gray-2);
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover {
+  background-color: var(--mantine-color-blue-0);
+}
+
+.pagination {
+  margin-top: var(--mantine-spacing-xl);
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: var(--mantine-spacing-md) var(--mantine-spacing-sm);
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .table {
+    font-size: var(--mantine-font-size-xs);
+  }
+
+  .table th, .table td {
+    padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
+  }
+}

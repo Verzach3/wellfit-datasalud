@@ -7,14 +7,17 @@
     --transition: all 0.3s ease;
   }
   
-  .pageWrapper {
+  .pageWrapper,
+  .heroSection {
+    margin: 0;
+    padding: 0;
     width: 100%;
     overflow-x: hidden;
   }
   
   /* Hero Section */
   .heroSection {
-    height: 100vh;
+    min-height: 100vh; /* Asegura que el banner ocupe al menos toda la altura de la pantalla */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -22,7 +25,7 @@
     background-size: cover;
     background-position: center;
     position: relative;
-    padding: 2rem;
+   
   }
   
   .heroSection::before {
@@ -85,7 +88,7 @@
   /* Benefits Section */
   .benefitsSection {
     padding: 8rem 0;
-    background-color: var(--background-color);
+
   }
   
   .sectionTitle {
@@ -113,7 +116,7 @@
     flex-direction: column;
     align-items: center;
     padding: 3rem 2rem;
-    background-color: var(--card-background);
+ 
     transition: var(--transition);
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -167,7 +170,7 @@
   /* Process Section */
   .processSection {
     padding: 8rem 0;
-    background: linear-gradient(135deg, #f6f9fc, #edf7ff);
+
   }
   
   .stepImageContainer {
@@ -193,7 +196,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(255, 255, 255, 0.9);
+
     border-radius: 50%;
     padding: 1.5rem;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);

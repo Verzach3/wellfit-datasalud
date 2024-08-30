@@ -1,29 +1,32 @@
+import React, { useEffect, useState } from 'react';
 import { getFolderFiles } from "@/functions/getFolderFiles.telefunc";
 import {
   ActionIcon,
   Box,
   Button,
   Card,
-  Center,
-  Collapse,
+  Checkbox,
   Group,
   Modal,
   Stack,
   Text,
   Textarea,
   TextInput,
-  ThemeIcon,
   Title,
+  Transition,
+  Loader,
+  Tooltip,
 } from "@mantine/core";
 import {
   IconChevronDown,
   IconDownload,
   IconFilePlus,
+  IconFile,
 } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
 import type { FileObject } from "@supabase/storage-js";
 import { generateDownload } from "@/functions/generateDownload.telefunc";
 import { addReport } from "@/functions/addReport.telefunc";
+import classes from './UserFiles.module.css';
 
 type UserFilesProps = {
   name: string;
@@ -41,116 +44,164 @@ function UserFiles({
   folder_name,
 }: UserFilesProps) {
   const [collapsed, setCollapsed] = useState(false);
-  const [modal, setModal] = useState(false);
   const [modalOpened, setModalOpened] = useState(false);
   const [files, setFiles] = useState<FileObject[]>([]);
   const [report, setReport] = useState("");
-  const [disabledButton, setDisabledButton] = useState(false);
+  const [fileName, setFileName] = useState("");
+  const [fileDetail, setFileDetail] = useState("");
+  const [isPaid, setIsPaid] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [addingReport, setAddingReport] = useState(false);
+
   useEffect(() => {
-    (async () => {
+    const fetchFiles = async () => {
+      setLoading(true);
       const filesRes = await getFolderFiles(folder_name);
       if (filesRes.error) {
         console.log(filesRes.error);
-        return;
+      } else {
+        setFiles(filesRes.data.filter((file) => file.name.endsWith(".pdf")));
       }
-      setFiles(filesRes.data.filter((file) => file.name.endsWith(".pdf")));
-    })();
-  });
+      setLoading(false);
+    };
+    fetchFiles();
+  }, [folder_name]);
+
+  const handleAddReport = async () => {
+    setAddingReport(true);
+    await addReport(report, folder_name);
+    setModalOpened(false);
+    setReport("");
+    setFileName("");
+    setFileDetail("");
+    setIsPaid(false);
+    setAddingReport(false);
+  };
+
+  const handleDownload = async (fileName: string) => {
+    const link = await generateDownload(`${folder_name}/${fileName}`);
+    if ("error" in link) {
+      console.log(link.error);
+      return;
+    }
+    window.open(link.signedUrl, "_blank");
+  };
 
   return (
     <>
-      <Modal opened={modalOpened} onClose={() => setModalOpened(false)}>
-        <Textarea
-          label="Reporte"
-          mb={"xl"}
-          onChange={(e) => setReport(e.target.value)}
-          value={report}
-          minRows={10}
-          maxRows={20}
-          placeholder="Escribe aquí el reporte"
+      <Modal
+        opened={modalOpened}
+        onClose={() => setModalOpened(false)}
+        title="Agregar Reporte"
+        size="lg"
+        classNames={{ title: classes.modalTitle, body: classes.modalBody }}
+      >
+        <TextInput
+          label="Nombre del archivo"
+          placeholder="Ingrese el nombre del archivo"
+          value={fileName}
+          onChange={(e) => setFileName(e.target.value)}
+          className={classes.modalInput}
           required
         />
+        <TextInput
+          label="Detalle del archivo"
+          placeholder="Ingrese detalles sobre el archivo"
+          value={fileDetail}
+          onChange={(e) => setFileDetail(e.target.value)}
+          className={classes.modalInput}
+          required
+        />
+        <Textarea
+          label="Reporte"
+          placeholder="Escribe aquí el reporte"
+          value={report}
+          onChange={(e) => setReport(e.target.value)}
+          minRows={5}
+          maxRows={10}
+          className={classes.modalInput}
+          required
+        />
+        <Checkbox
+          label="El paciente ha pagado Data Salud"
+          checked={isPaid}
+          onChange={(e) => setIsPaid(e.target.checked)}
+          className={classes.modalCheckbox}
+        />
         <Button
-          disabled={disabledButton}
-          onClick={async () => {
-            setDisabledButton(true);
-            await addReport(report, folder_name);
-            setModalOpened(false);
-            setDisabledButton(false);
-          }}
+          onClick={handleAddReport}
+          loading={addingReport}
+          className={classes.addButton}
+          fullWidth
         >
-          Agregar
+          Agregar Reporte
         </Button>
       </Modal>
-      <Box>
-        <Card withBorder radius={0}>
-          <Group justify="space-between">
-            <Group>
-              <Title>{`${name} ${lastname}`}</Title>
-            </Group>
-            <Group>
+
+      <Card className={classes.userFileCard}>
+        <Group justify="space-between" className={classes.cardHeader}>
+          <div>
+            <Title order={3} className={classes.userName}>{`${name} ${lastname}`}</Title>
+            <Text size="sm" className={classes.userInfo}>Fecha de nacimiento: {birth_date}</Text>
+            <Text size="sm" className={classes.userInfo}>Cédula: {cedula}</Text>
+          </div>
+          <Group>
+            <Tooltip label="Subir reporte del paciente" withArrow position="top">
               <ActionIcon
-                size={"lg"}
-                radius={0}
+                variant="filled"
                 onClick={() => setModalOpened(true)}
-                color="gray"
+                className={classes.actionIcon}
               >
-                <IconFilePlus />
+                <IconFilePlus size={20} />
               </ActionIcon>
+            </Tooltip>
+            <Tooltip label="Desplegar archivos" withArrow position="top">
               <ActionIcon
-                size={"lg"}
-                radius={0}
+                variant="filled"
                 onClick={() => setCollapsed(!collapsed)}
-                color="gray"
+                className={classes.actionIcon}
               >
-                <IconChevronDown />
+                <IconChevronDown size={20} className={collapsed ? classes.rotated : ''} />
               </ActionIcon>
-            </Group>
+            </Tooltip>
           </Group>
-          <Text>{birth_date}</Text>
-          <Text>{cedula}</Text>
-        </Card>
-        <Collapse in={collapsed}>
-          <Stack w={"100%"} gap={0}>
-            {files.map((file) => (
-              <Center key={file.name}>
-                <Card
-                  key={file.name}
-                  withBorder
-                  w={"96%"}
-                  radius={0}
-                  style={{
-                    borderTop: "none",
-                  }}
-                >
-                  <Group justify="space-between">
-                    <Group>
-                      <Text fw={600}>{file.name}</Text>
-                    </Group>
-                    <Button
-                      color="gray"
-                      rightSection={<IconDownload />}
-                      onClick={async () => {
-                        const link = await generateDownload(
-                          `${folder_name}/${file.name}`
-                        );
-                        // open link in new tab
-                        if ("error" in link) {
-                          console.log(link.error);
-                          return;
-                        }
-                        window.open(link.signedUrl, "_blank");
-                      }}
-                    >
-                      Descargar
-                    </Button>
-                  </Group>
-                </Card>
-              </Center>
-            ))}
-          </Stack>
-        </Collapse>
-      </Box>
+        </Group>
+
+        <Transition transition="slide-down" duration={300} mounted={collapsed}>
+          {(styles) => (
+            <Box style={styles} className={classes.fileList}>
+              {loading ? (
+                <Group justify="center" className={classes.loaderContainer}>
+                  <Loader color="blue" />
+                </Group>
+              ) : files.length > 0 ? (
+                <Stack gap="xs">
+                  {files.map((file) => (
+                    <Card key={file.name} className={classes.fileItem}>
+                      <Group justify="space-between">
+                        <Group>
+                          <IconFile size={20} className={classes.fileIcon} />
+                          <Text className={classes.fileName}>{file.name}</Text>
+                        </Group>
+                        <Button
+                          variant="light"
+                          leftSection={<IconDownload size={16} />}
+                          onClick={() => handleDownload(file.name)}
+                          className={classes.downloadButton}
+                        >
+                          Descargar
+                        </Button>
+                      </Group>
+                    </Card>
+                  ))}
+                </Stack>
+              ) : (
+                <Text ta="center" color="dimmed">No hay archivos disponibles</Text>
+              )}
+            </Box>
+          )}
+        </Transition>
+      </Card>
     </>
   );
 }
