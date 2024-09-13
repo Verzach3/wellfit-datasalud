@@ -17,6 +17,7 @@ import {
   IconSearch,
   IconLogout,
   IconHome,
+  Icon360View,
 } from "@tabler/icons-react";
 import { UserButton } from "./UserButton";
 import classes from "./NavBar.module.css";
@@ -28,6 +29,7 @@ const links = [
   { icon: "https://xulaswsegmeymlufkcid.supabase.co/storage/v1/object/public/resources/datasaludlogo.avif", label: "Data-Salud", isImage: true, path: "/chat" },
   { icon: IconFolder, label: "Archivos", path: "/files" },
   { icon: IconHeadset, label: "Soporte en línea", path: "/soporte" },
+  { icon: Icon360View, label: "Recursos y Guias", path: "/resources" },
 ];
 
 interface NavBarProps {

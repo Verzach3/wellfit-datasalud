@@ -175,36 +175,7 @@ const SoporteEnLinea: React.FC = () => {
           </Card>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className={styles.section}
-        >
-          <Title order={2} className={styles.sectionTitle}>
-            Recursos de Data-Salud
-          </Title>
-          <Grid gutter="md">
-            {resources.map((resource, index) => (
-              <Grid.Col span={6}>
-                <Card shadow="sm" radius="md" className={styles.resourceCard}>
-                  <Card.Section className={styles.resourceIconSection}>
-                    {resource.icon}
-                  </Card.Section>
-                  <Text fw={500} size="lg" mt="md">
-                    {resource.title}
-                  </Text>
-                  <Text size="sm" color="dimmed" mt="sm">
-                    {resource.description}
-                  </Text>
-                  <Button variant="light" color="blue" fullWidth mt="md" radius="md">
-                    Acceder
-                  </Button>
-                </Card>
-              </Grid.Col>
-            ))}
-          </Grid>
-        </motion.div>
+       
       </Container>
     </div>
   );
