@@ -101,7 +101,7 @@ function PatientFilesPage() {
   const filteredPatients = patients.filter(
     (patient) =>
       `${patient.first_name} ${patient.second_name || ''} ${patient.first_lastname} ${patient.second_lastname || ''}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (patient.cedula && patient.cedula.toLowerCase().includes(searchTerm.toLowerCase()))
+      (patient.cedula?.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const paginatedPatients = filteredPatients.slice(

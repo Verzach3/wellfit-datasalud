@@ -1,3 +1,4 @@
+import MdRenderer from "@/components/chat/MdRenderer";
 import type { Database } from "@/types/supabase";
 import {
   Card,
@@ -28,6 +29,9 @@ import {
 import { generateId } from "ai";
 import { useChat } from "ai/react";
 import { useEffect, useState } from "react";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+
 function Chat() {
   const { messages, input, handleInputChange, handleSubmit, setMessages } =
     useChat();
@@ -76,8 +80,9 @@ function Chat() {
       {
         id: generateId(),
         role: "assistant",
-        content: "Hola, soy DataSalud IA, una IA que ayuda a pacientes con sus consultas sobre su salud",
-      }
+        content:
+          "Hola, soy DataSalud IA, una IA que ayuda a pacientes con sus consultas sobre su salud",
+      },
     ]);
     setSelectedReport(reportId);
     setLoadingReport(false);
@@ -247,9 +252,8 @@ function Chat() {
                           radius={"lg"}
                         >
                           <Group justify="space-between">
-                            <Text style={{ whiteSpace: "pre-wrap" }}>
-                              {messages.content}
-                            </Text>
+                            <MdRenderer content={messages.content} />
+
                             <div
                               style={{
                                 flexGrow: 1,

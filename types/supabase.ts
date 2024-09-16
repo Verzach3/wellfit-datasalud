@@ -45,6 +45,56 @@ export type Database = {
           },
         ]
       }
+      files: {
+        Row: {
+          created_at: string
+          file_id: string
+          id: number
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          file_id: string
+          id?: number
+          status: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          file_id?: string
+          id?: number
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "files_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organizations: {
+        Row: {
+          created_at: string
+          id: number
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           birth_date: string
@@ -54,6 +104,7 @@ export type Database = {
           first_name: string
           gender: string
           id: number
+          organization: number
           phone: string | null
           second_lastname: string | null
           second_name: string | null
@@ -67,6 +118,7 @@ export type Database = {
           first_name: string
           gender: string
           id?: number
+          organization?: number
           phone?: string | null
           second_lastname?: string | null
           second_name?: string | null
@@ -80,12 +132,20 @@ export type Database = {
           first_name?: string
           gender?: string
           id?: number
+          organization?: number
           phone?: string | null
           second_lastname?: string | null
           second_name?: string | null
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "profiles_organization_fkey"
+            columns: ["organization"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "profiles_user_id_fkey"
             columns: ["user_id"]
@@ -100,18 +160,21 @@ export type Database = {
           created_at: string
           id: number
           report: string
+          report_name: string | null
           user_id: string
         }
         Insert: {
           created_at?: string
           id?: number
           report: string
+          report_name?: string | null
           user_id: string
         }
         Update: {
           created_at?: string
           id?: number
           report?: string
+          report_name?: string | null
           user_id?: string
         }
         Relationships: [

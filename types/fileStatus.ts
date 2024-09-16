@@ -1,0 +1,1 @@
+export type FileStatus = "Recibido" | "En proceso" | "Revisado";

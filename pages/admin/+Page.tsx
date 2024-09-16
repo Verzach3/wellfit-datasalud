@@ -1,8 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Card, Container, ScrollArea, Stack, Text, Title, Loader } from "@mantine/core";
+import { useEffect, useState } from "react";
+import {
+  ActionIcon,
+  Card,
+  Center,
+  Container,
+  Group,
+  Loader,
+  ScrollArea,
+  Stack,
+  Text,
+  TextInput,
+  ThemeIcon,
+  Title,
+} from "@mantine/core";
 import { getFiles } from "../../functions/getFiles.telefunc.js";
 import UserFiles from "@/components/admin/UserFiles.jsx";
 import classes from './Page.module.css';
+import { IconFilter, IconSearch } from "@tabler/icons-react";
 
 function AdminPage() {
   const [files, setFiles] = useState<Awaited<ReturnType<typeof getFiles>>>([]);
@@ -29,7 +43,7 @@ function AdminPage() {
   if (("error" in files && files.error) || !Array.isArray(files)) {
     return (
       <Container className={classes.errorContainer}>
-        <Text color="red" size="lg">{files.error}</Text>
+        <Text c="red" size="lg">{files.error}</Text>
       </Container>
     );
   }
@@ -38,10 +52,24 @@ function AdminPage() {
     <Container size="xl" className={classes.pageContainer}>
       <Card className={classes.headerCard}>
         <Title className={classes.mainTitle}>
-          Lista de archivos de pacientes para <span className={classes.highlight}>Data-Salud</span>
-        </Title>
+          
+        Lista de archivos de pacientes para <span className={classes.highlight}>Data-Salud</span>
+        
+      </Title>
       </Card>
-      <ScrollArea className={classes.scrollArea}>
+      <Center>
+        <Group justify="space-between" w={"96%"} mb={"md"}>
+          <Group grow>
+            <TextInput placeholder="Buscar..." radius={0} w={"60dvw"} leftSection={<ThemeIcon size={"lg"} radius={0} color="gray"><IconSearch/></ThemeIcon>} />
+          </Group>
+          <Group>
+            <ActionIcon radius={0} size={"lg"} color="gray">
+              <IconFilter />
+            </ActionIcon>
+          </Group>
+        </Group>
+      </Center>
+      <ScrollArea className={classes.scrollArea} offsetScrollbars>
         <Stack gap="lg">
           {files.map((file) => (
             <UserFiles
@@ -51,6 +79,10 @@ function AdminPage() {
               lastname={file.userProfile?.first_lastname ?? ""}
               name={file.userProfile?.first_name ?? ""}
               folder_name={file.name}
+              user_id={file.userProfile?.user_id}
+              file_status={file.status ?? "Recibido"}
+              //@ts-ignore
+              organization={file.userProfile?.organization.name ?? ""}
             />
           ))}
         </Stack>

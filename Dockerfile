@@ -1,4 +1,4 @@
-FROM oven/bun:1 AS base
+FROM oven/bun:1.1.27 AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -18,7 +18,7 @@ COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* bun.lockb* ./
 RUN bun install
 
 # Rebuild the source code only when needed
-FROM node:22-bookworm AS builder
+FROM oven/bun:1.1.27 AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -27,8 +27,8 @@ COPY . .
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
-RUN curl -fsSL https://bun.sh/install | bash
-RUN ~/.bun/bin/bun run build
+# RUN curl -fsSL https://bun.sh/install | bash
+RUN bun run build
 
 # If using npm comment out above and use below instead
 # RUN npm run build
@@ -36,13 +36,11 @@ RUN ~/.bun/bin/bun run build
 # Production image, copy all the files and run next
 # ENV NODE_ENV production
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 remix
+#RUN addgroup --system --gid 1001 nodejs
+# RUN adduser --system --uid 1001 bun
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-
-USER remix
 
 EXPOSE 3000
 
@@ -53,4 +51,4 @@ ENV NODE_ENV production
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
-CMD ["npx", "tsx", "./hono-entry.node.ts"]
+CMD ["bun", "./hono-entry.ts"]

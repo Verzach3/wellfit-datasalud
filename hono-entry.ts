@@ -6,7 +6,7 @@ import { Hono, type Context } from "hono";
 import { createMiddleware } from "hono/factory";
 import { getCookie, setCookie } from "hono/cookie";
 import { createOpenAI } from '@ai-sdk/openai';
-import { StreamingTextResponse, streamText } from 'ai';
+import { streamText } from 'ai';
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 let serveStatic: any;
@@ -69,7 +69,7 @@ app.all("*", async (context, next) => {
           }
           return cookiesArr;
         },
-        setAll: (cookies) => {
+        setAll: (cookies: { name: string; value: string }[]) => {
           for (const cookie of cookies) {
             setCookie(context, cookie.name, cookie.value);
           }
@@ -87,7 +87,7 @@ app.post("/api/chat", async (context) => {
     model: openai("gpt-4o-mini"),
     messages,
   })
-  return result.toAIStreamResponse();
+  return result.toDataStreamResponse();
 })
 
 app.post("/_telefunc", handlerAdapter(telefuncHandler));
