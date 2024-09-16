@@ -17,6 +17,7 @@ import { IconMail } from '@tabler/icons-react';
 import wellfitLogo from "../../assets/wellfit-bottom-text.svg";
 import classes from "./page.module.css";
 import { navigate } from "vike/client/router";
+import SupportButton from '../index/pqrs/+Page'; // Importar el botón de soporte
 
 function AuthPage() {
   const [email, setEmail] = useState("");
@@ -137,6 +138,7 @@ function AuthPage() {
           </motion.div>
         </Card>
       </Container>
+      <SupportButton /> {/* Aquí se muestra el botón de soporte */}
     </div>
   );
 }
