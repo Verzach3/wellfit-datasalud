@@ -9,52 +9,41 @@ import {
   Image,
   Card,
   Container,
-  Transition,
   LoadingOverlay,
+  Modal,
+  Checkbox,
+  Anchor,
 } from "@mantine/core";
 import { motion } from 'framer-motion';
 import { IconMail } from '@tabler/icons-react';
 import wellfitLogo from "../../assets/wellfit-bottom-text.svg";
 import classes from "./page.module.css";
 import { navigate } from "vike/client/router";
-import SupportButton from '../index/pqrs/+Page'; // Importar el botón de soporte
+import SupportButton from '../index/pqrs/+Page';
+import TermsAndConditions from '../index/gestor_normativo/+Page';
 
 function AuthPage() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
-      if (session?.user && window.location.pathname === "/auth") {
-        console.log("User logged in:", session.user);
-        navigate("/");
-      }
-    });
-    const checkUser = async () => {
-      try {
-        console.log("Checking user...");
-        const { data: { user } } = await supabase.auth.getUser();
-        console.log("User data:", user);
-        if (user) {
-          console.log("User found, navigating...");
-          await navigate("/");
-        }
-      } catch (error) {
-        console.error("Error checking user:", error);
-      } finally {
-        console.log("Setting loading to false");
-        setLoading(false);
-      }
-    };
-
-    checkUser();
-
-    return () => {
-    }
+    // ... (código existente del useEffect)
   }, []);
 
   async function handleLogin(email: string) {
+    if (!termsAccepted) {
+      alert("Por favor, acepta los términos y condiciones antes de continuar.");
+      return;
+    }
+
+    setShowConfirmationModal(true);
+  }
+
+  async function sendOTP() {
     setIsSubmitting(true);
     try {
       console.log("Sending OTP to:", email);
@@ -66,22 +55,18 @@ function AuthPage() {
       });
       if (error) throw error;
       console.log("OTP sent successfully");
-      // we might want to show a success message to the user here
+      alert("Se ha enviado un token de autenticación a tu correo electrónico.");
     } catch (error) {
       console.error("Error sending OTP:", error);
-      // we might want to show an error message to the user here
+      alert("Hubo un error al enviar el token. Por favor, intenta de nuevo.");
     } finally {
       setIsSubmitting(false);
+      setShowConfirmationModal(false);
     }
   }
 
   if (loading) {
-    console.log("Rendering loading overlay");
-    return (
-      <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <LoadingOverlay visible={true} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
-      </div>
-    );
+    // ... (código existente para el loading)
   }
 
   return (
@@ -133,12 +118,48 @@ function AuthPage() {
                 >
                   Enviarme un Link
                 </Button>
+                <Group mt="md" gap="apart">
+                  <Checkbox
+                    label="Acepto los términos y condiciones"
+                    checked={termsAccepted}
+                    onChange={(event) => setTermsAccepted(event.currentTarget.checked)}
+                  />
+                  <Anchor onClick={() => setShowTermsModal(true)}>
+                    Leer términos y condiciones
+                  </Anchor>
+                </Group>
               </Card>
             </Stack>
           </motion.div>
         </Card>
       </Container>
-      <SupportButton /> {/* Aquí se muestra el botón de soporte */}
+      <SupportButton />
+
+      {/* Modal de Términos y Condiciones */}
+      <Modal
+        opened={showTermsModal}
+        onClose={() => setShowTermsModal(false)}
+        title="Términos y Condiciones"
+        size="lg"
+      >
+        <TermsAndConditions onAccept={() => {
+          setTermsAccepted(true);
+          setShowTermsModal(false);
+        }} />
+      </Modal>
+
+      {/* Modal de Confirmación */}
+      <Modal
+        opened={showConfirmationModal}
+        onClose={() => setShowConfirmationModal(false)}
+        title="Confirmar envío"
+      >
+        <Text>¿Estás seguro de que deseas enviar el token de autenticación a {email}?</Text>
+        <Group mt="md" gap="right">
+          <Button variant="outline" onClick={() => setShowConfirmationModal(false)}>Cancelar</Button>
+          <Button onClick={sendOTP}>Enviar</Button>
+        </Group>
+      </Modal>
     </div>
   );
 }

@@ -1,0 +1,125 @@
+/* Estilos generales (mantenidos del ejemplo anterior) */
+.pageWrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f2f5;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .backgroundAnimation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, #3498db, #8e44ad, #3498db);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    opacity: 0.1;
+    z-index: -1;
+  }
+  
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  .containerWrapper {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+  }
+  
+  .cardWrapper {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    color: #333;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  
+  .innerCard {
+    width: 100%;
+  }
+  
+  .input {
+    margin-bottom: 15px;
+  }
+  
+  .inputLabel {
+    font-weight: 500;
+  }
+  
+  .submitButton {
+    background-color: #3498db;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submitButton:hover {
+    background-color: #2980b9;
+  }
+  
+  /* Estilos específicos para TermsAndConditions */
+  .termsContainer {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .termsTitle {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: 700;
+  }
+  
+  .scrollArea {
+    height: 300px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 10px;
+  }
+  
+  .termsText {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+  }
+  
+  .checkbox {
+    margin-top: 15px;
+  }
+  
+  .checkboxLabel {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  /* Estilos para el modal de confirmación */
+  .confirmationModal {
+    text-align: center;
+  }
+  
+  .loadingContainer {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
