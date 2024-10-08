@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Title,
   Text,
@@ -9,7 +9,6 @@ import {
   Image,
   Card,
   Container,
-  LoadingOverlay,
   Modal,
   Checkbox,
   Anchor,
@@ -18,7 +17,6 @@ import { motion } from 'framer-motion';
 import { IconMail } from '@tabler/icons-react';
 import wellfitLogo from "../../assets/wellfit-bottom-text.svg";
 import classes from "./page.module.css";
-import { navigate } from "vike/client/router";
 import SupportButton from '../index/pqrs/+Page';
 import TermsAndConditions from '../index/gestor_normativo/+Page';
 
@@ -71,7 +69,7 @@ function AuthPage() {
 
   return (
     <div className={classes.pageWrapper}>
-      <div className={classes.backgroundAnimation}></div>
+      <div className={classes.backgroundAnimation} />
       <Container size="xs" className={classes.containerWrapper}>
         <Card
           withBorder

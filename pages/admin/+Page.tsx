@@ -15,17 +15,20 @@ import {
 } from "@mantine/core";
 import { getFiles } from "../../functions/getFiles.telefunc.js";
 import UserFiles from "@/components/admin/UserFiles.jsx";
-import classes from './Page.module.css';
+import classes from "./Page.module.css";
 import { IconFilter, IconSearch } from "@tabler/icons-react";
+import { ReportCreator } from "@/components/admin/ReportCreator.jsx";
 
 function AdminPage() {
   const [files, setFiles] = useState<Awaited<ReturnType<typeof getFiles>>>([]);
   const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     const fetchFiles = async () => {
       setLoading(true);
       const fetchedFiles = await getFiles();
+      console.log(fetchedFiles);
       setFiles(fetchedFiles);
       setLoading(false);
     };
@@ -43,7 +46,9 @@ function AdminPage() {
   if (("error" in files && files.error) || !Array.isArray(files)) {
     return (
       <Container className={classes.errorContainer}>
-        <Text c="red" size="lg">{files.error}</Text>
+        <Text c="red" size="lg">
+          {files.error}
+        </Text>
       </Container>
     );
   }
@@ -52,15 +57,27 @@ function AdminPage() {
     <Container size="xl" className={classes.pageContainer}>
       <Card className={classes.headerCard}>
         <Title className={classes.mainTitle}>
-          
-        Lista de archivos de pacientes para <span className={classes.highlight}>Data-Salud</span>
-        
-      </Title>
+          Lista de archivos de pacientes para{" "}
+          <span className={classes.highlight}>Data-Salud</span>
+        </Title>
       </Card>
       <Center>
         <Group justify="space-between" w={"96%"} mb={"md"}>
           <Group grow>
-            <TextInput placeholder="Buscar..." radius={0} w={"60dvw"} leftSection={<ThemeIcon size={"lg"} radius={0} color="gray"><IconSearch/></ThemeIcon>} />
+            <TextInput
+              placeholder="Buscar..."
+              radius={0}
+              w={"60dvw"}
+              value={searchText}
+              onChange={(e) => {
+                setSearchText(e.target.value);
+              }}
+              leftSection={
+                <ThemeIcon size={"lg"} radius={0} color="gray">
+                  <IconSearch />
+                </ThemeIcon>
+              }
+            />
           </Group>
           <Group>
             <ActionIcon radius={0} size={"lg"} color="gray">

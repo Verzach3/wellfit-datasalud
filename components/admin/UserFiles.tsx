@@ -24,6 +24,7 @@ import {
   IconFilePlus,
   IconFile,
   IconFileSearch,
+  IconFileStack,
 } from "@tabler/icons-react";
 import type { FileObject } from "@supabase/storage-js";
 import { generateDownload } from "@/functions/generateDownload.telefunc";
@@ -37,6 +38,7 @@ import { getPatientReports } from "@/functions/getPatientReports.telefunc";
 import type { Report } from "@/types/report";
 import { updateReport } from "@/functions/updateReport.telefunc";
 import { useForceUpdate } from "@mantine/hooks";
+import { ReportCreator } from "./ReportCreator";
 
 type UserFilesProps = {
   name: string;
@@ -73,6 +75,7 @@ function UserFiles({
   const [currentReport, setCurrentReport] = useState<Report | null>(null);
   const [reportModalOpened, setReportModalOpened] = useState(false);
   const [updatingReport, setUpdatingReport] = useState(false);
+  const [reportCreatorOpened, setReportCreatorOpened] = useState(false);
 
   const forceUpdate = useForceUpdate();
 
@@ -81,7 +84,7 @@ function UserFiles({
       setLoading(true);
       const filesRes = await getFolderFiles(folder_name);
       if (filesRes.error) {
-        console.log(filesRes.error);
+        console.log(filesRes.error, folder_name);
       } else {
         setFiles(filesRes.data.filter((file) => file.name.endsWith(".pdf")));
       }
@@ -235,6 +238,7 @@ function UserFiles({
           Agregar Reporte
         </Button>
       </Modal>
+      <ReportCreator open={reportCreatorOpened} onClose={() => setReportCreatorOpened(false)} files={files} folderName={folder_name}/>
 
       <Card className={classes.userFileCard}>
         <Group justify="space-between" className={classes.cardHeader}>
@@ -257,6 +261,15 @@ function UserFiles({
             </Group>
           </div>
           <Group>
+            <Tooltip label="Crear reporte" withArrow position="top">
+              <ActionIcon
+                variant="filled"
+                onClick={() => setReportCreatorOpened(true)}
+                className={classes.actionIcon}
+              >
+                <IconFileStack size={20} />
+              </ActionIcon>
+            </Tooltip>
             <Tooltip label="Ver reportes del paciente" withArrow position="top">
               <ActionIcon
                 variant="filled"
