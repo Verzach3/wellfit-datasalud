@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import type React from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ScrollArea, Checkbox, Text, Button, Stack } from '@mantine/core';
 import classes from "./page.module.css";
 

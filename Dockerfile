@@ -1,4 +1,4 @@
-FROM oven/bun:1.1.27 AS base
+FROM oven/bun:1 AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -7,7 +7,7 @@ FROM base AS deps
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* bun.lockb* ./
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* bun.lockb* bunfig.toml ./
 # RUN \
 #   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
 #   elif [ -f package-lock.json ]; then npm ci; \
@@ -18,7 +18,7 @@ COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* bun.lockb* ./
 RUN bun install
 
 # Rebuild the source code only when needed
-FROM oven/bun:1.1.27 AS builder
+FROM oven/bun:canary AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .

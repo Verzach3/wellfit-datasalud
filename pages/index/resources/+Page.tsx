@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Title, Text, Grid, Card, Button, ThemeIcon } from '@mantine/core';
 import { motion } from 'framer-motion';
 import { AiOutlineFileText, AiOutlineVideoCamera, AiOutlineBook } from 'react-icons/ai';
-import styles from './Page.module.css';
+import styles from './page.module.css';
 
 const pdfUrl = "https://xulaswsegmeymlufkcid.supabase.co/storage/v1/object/public/resources/Guias/GUIA-DATASALUD.pdf?t=2024-09-13T19%3A29%3A31.466Z";
 

@@ -32,6 +32,9 @@ import { useEffect, useState } from "react";
 import NotificacionChat from "./../../../components/mensajes/NotificacionChat"; // Importamos el modal de notificación
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { useEffect, useRef, useState } from "react";
+import { useThrottledValue } from "@mantine/hooks";
+import { useReactToPrint } from "react-to-print";
 
 function Chat() {
   const { messages, input, handleInputChange, handleSubmit, setMessages } =
@@ -45,6 +48,7 @@ function Chat() {
   
   // Estado para controlar la visibilidad del modal de notificación
   const [disclaimerOpened, setDisclaimerOpened] = useState(true);
+  const slowedMessages = useThrottledValue(messages, 500);
 
   useEffect(() => {
     (async () => {
@@ -161,36 +165,43 @@ function Chat() {
                     <Text ta={"center"}>Escribele un mensaje a DataSalud IA para que te ayude</Text>
                   </Center>
                 ) : null}
-                {messages.map((messages) => {
-                  if (messages.role === "user") {
-                    return (
-                      <Group>
-                        <Card withBorder w={"fit-content"} radius={"lg"}>
-                          <Group>
-                            <Avatar />
-                            <Text style={{ whiteSpace: "pre-wrap" }}>{messages.content}</Text>
-                          </Group>
-                        </Card>
-                      </Group>
-                    );
-                  }
-                  if (messages.role === "assistant") {
-                    return (
-                      <Group grow align="flex-end">
-                        <Card withBorder w={"fit-content"} radius={"lg"}>
-                          <Group justify="space-between">
-                            <MdRenderer content={messages.content} />
-                            <div style={{ flexGrow: 1 }}>
-                              <Flex justify={"flex-end"} style={{ width: "100%" }}>
-                                <Avatar />
-                              </Flex>
-                            </div>
-                          </Group>
-                        </Card>
-                      </Group>
-                    );
-                  }
-                })}
+                  {slowedMessages.map((messages) => {
+                    if (messages.role === "user") {
+                      return (
+                        <Group key={messages.id}>
+                          <Card withBorder w={"fit-content"} radius={"lg"}>
+                            <Group>
+                              <Avatar />
+                              <Text style={{ whiteSpace: "pre-wrap" }}>
+                                {messages.content}
+                              </Text>
+                            </Group>
+                          </Card>
+                        </Group>
+                      );
+                    }
+                    if (messages.role === "assistant") {
+                      return (
+                        <Group grow align="flex-end" key={messages.id}>
+                          <Card
+                            withBorder
+                            w={"100%"}
+                            style={{
+                              maxWidthL: "50%",
+                            }}
+                            radius={"lg"}
+                          >
+                            <Group justify="space-between">
+                              <Stack gap={0}>
+                                <MdRenderer content={messages.content} />
+                              </Stack>
+
+                            </Group>
+                          </Card>
+                        </Group>
+                      );
+                    }
+                  })}
               </Stack>
             </Group>
           </Group>

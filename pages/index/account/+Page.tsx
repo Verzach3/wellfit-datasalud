@@ -17,7 +17,7 @@ import {
 } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { IconCamera, IconEdit, IconUpload } from '@tabler/icons-react';
-import classes from './Page.module.css';
+import classes from './page.module.css';
 
 function AccountPage() {
   const [profile, setProfile] = useState<Database["public"]["Tables"]["profiles"]["Row"] | null>(null);

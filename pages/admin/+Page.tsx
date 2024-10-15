@@ -17,7 +17,6 @@ import { getFiles } from "../../functions/getFiles.telefunc.js";
 import UserFiles from "@/components/admin/UserFiles.jsx";
 import classes from "./Page.module.css";
 import { IconFilter, IconSearch } from "@tabler/icons-react";
-import { ReportCreator } from "@/components/admin/ReportCreator.jsx";
 
 function AdminPage() {
   const [files, setFiles] = useState<Awaited<ReturnType<typeof getFiles>>>([]);

@@ -1,25 +1,28 @@
-import { generateReport } from "@/functions/generateReport.telefunc";
+import { getFilesText } from "@/functions/getFilesText.telefunc";
 import {
+  Text,
   Affix,
   Button,
   Card,
   Center,
   Checkbox,
+  Container,
   Drawer,
   Group,
   Loader,
   Modal,
   SimpleGrid,
-  Stack,
-  Text,
   ThemeIcon,
+  Title,
+  Stack,
 } from "@mantine/core";
 import type { FileObject } from "@supabase/storage-js";
 import { IconFile } from "@tabler/icons-react";
-import { useState } from "react";
-import Markdown from "react-markdown";
+import { useRef, useState } from "react";
 import MdRenderer from "../chat/MdRenderer";
 import { useClipboard } from "@mantine/hooks";
+import { useCompletion } from "ai/react";
+import { useReactToPrint } from "react-to-print";
 
 export function ReportCreator({
   open,
@@ -33,10 +36,12 @@ export function ReportCreator({
   folderName: string;
 }) {
   const [selectedFiles, setSelectedFiles] = useState<FileObject[]>([]);
-  const [report, setReport] = useState("");
+  const [filesText, setFilesText] = useState("");
   const [openReport, setOpenReport] = useState(false);
-  const [loadingReport, setLoadingReport] = useState(false);
-  const clipboard = useClipboard({ timeout: 500 })
+  const [loadingFilesText, setLoadingFilesText] = useState(false);
+  const { complete, completion, setCompletion, isLoading } = useCompletion();
+  const contentRef = useRef(null);
+  const reactToPrint = useReactToPrint({ contentRef });
   return (
     <Drawer
       position="bottom"
@@ -48,27 +53,35 @@ export function ReportCreator({
     >
       <Modal
         opened={openReport}
-        onClose={() => setOpenReport(false)}
+        onClose={() => {
+          setFilesText("");
+          setCompletion("");
+          setOpenReport(false);
+        }}
         fullScreen
       >
-        {loadingReport && (
-          <Stack justify="center">
-            <Text ta={"center"}>Estamos Cargando el reporte</Text>
-            <Center>
-              <Loader />
-            </Center>
-          </Stack>
+        {loadingFilesText && (
+          <Center>
+            <Stack>
+              <Center>
+                <Loader size="xl" style={{ zIndex: 1000 }} color="blue" />
+              </Center>
+              <Text>Analizando Archivos</Text>
+            </Stack>
+          </Center>
         )}
-
-        {!loadingReport && <>
-          <MdRenderer content={report} />
-          <Affix position={{ left: 10, bottom: 20}}>
-            <Button onClick={() => clipboard.copy(report)}>
-              Copy
-            </Button>
-          </Affix>
-        </>
-        }
+        {!loadingFilesText && (
+          <>
+            <Center>
+              <Loader type="dots" />
+            </Center>
+            <Container>
+              <Container ref={contentRef} mx={"lg"}>
+                <MdRenderer content={completion} />
+              </Container>
+            </Container>
+          </>
+        )}
       </Modal>
       <SimpleGrid cols={4} spacing="md">
         {files.map((file) => (
@@ -91,18 +104,29 @@ export function ReportCreator({
           </Card>
         ))}
         <Affix position={{ bottom: 20, right: 20 }}>
-          <Button
-            onClick={async () => {
-              setLoadingReport(true);
-              setOpenReport(true);
-              generateReport(folderName, selectedFiles).then((report) => {
-                setLoadingReport(false);
-                setReport(report);
-              });
-            }}
-          >
-            Crear Reporte
-          </Button>
+          {(filesText === "" || loadingFilesText) && (
+            <Button
+              onClick={async () => {
+                setOpenReport(true);
+                setLoadingFilesText(true);
+                getFilesText(folderName, selectedFiles).then((report) => {
+                  setFilesText(report);
+                  setLoadingFilesText(false);
+                  complete(report);
+                });
+              }}
+            >
+              Siguiente
+            </Button>
+          )}
+          {/* {filesText !== "" && (
+            <Button onClick={() => complete(filesText)} disabled={isLoading}>
+              Crear Reporte
+            </Button>
+          )} */}
+          {(!isLoading && completion !== "" ) && (
+            <Button onClick={() => reactToPrint()}>Imprimir</Button>
+          )}
         </Affix>
       </SimpleGrid>
     </Drawer>
