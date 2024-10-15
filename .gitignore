@@ -10,3 +10,5 @@ yarn-debug.log*
 yarn-error.log*
 dist
 *.tar
+
+pnpm-lock.yaml

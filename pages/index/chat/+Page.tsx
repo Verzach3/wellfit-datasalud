@@ -17,18 +17,23 @@ import {
   ThemeIcon,
   Center,
   LoadingOverlay,
+  Modal,
+  Container,
 } from "@mantine/core";
 import {
   IconCheck,
   IconClipboardText,
   IconPlus,
   IconSend2,
+  IconEye,
+  IconPrinter,
 } from "@tabler/icons-react";
 import { generateId } from "ai";
 import { useChat } from "ai/react";
-import { useEffect, useState } from "react";
-import NotificacionChat from "./../../../components/mensajes/NotificacionChat"; // Importamos el modal de notificación
+import { useEffect, useState, useRef } from "react";
+import NotificacionChat from "./../../../components/mensajes/NotificacionChat";
 import { useThrottledValue } from "@mantine/hooks";
+import { useReactToPrint } from "react-to-print";
 
 function Chat() {
   const { messages, input, handleInputChange, handleSubmit, setMessages } =
@@ -39,10 +44,15 @@ function Chat() {
   const [openedCreateReport, setOpenedCreateReport] = useState(false);
   const [selectedReport, setSelectedReport] = useState<string | null>(null);
   const [loadingReport, setLoadingReport] = useState(false);
-  
-  // Estado para controlar la visibilidad del modal de notificación
   const [disclaimerOpened, setDisclaimerOpened] = useState(true);
   const slowedMessages = useThrottledValue(messages, 500);
+
+  const [reportModalOpened, setReportModalOpened] = useState(false);
+  const [currentReport, setCurrentReport] = useState<Database["public"]["Tables"]["reports"]["Row"] | null>(null);
+
+  const reportRef = useRef<HTMLDivElement>(null);
+
+  const reactToPrint = useReactToPrint({ contentRef: reportRef });
 
   useEffect(() => {
     (async () => {
@@ -73,7 +83,6 @@ function Chat() {
         id: generateId(),
         role: "system",
         content: `${basePrompt}\n${
-          // biome-ignore lint/style/noNonNullAssertion: <explanation>
           report.data!.report
         }`,
       },
@@ -88,11 +97,16 @@ function Chat() {
     setLoadingReport(false);
   }
 
+  function viewReport(report: Database["public"]["Tables"]["reports"]["Row"]) {
+    setCurrentReport(report);
+    setReportModalOpened(true);
+  }
+
   return (
     <div style={{ width: "100%" }}>
       <NotificacionChat
         opened={disclaimerOpened}
-        onClose={() => setDisclaimerOpened(false)} // Se cierra cuando el usuario acepta
+        onClose={() => setDisclaimerOpened(false)}
       />
       <LoadingOverlay visible={loadingReport} />
       <Affix position={{ bottom: 600, right: -55 }}>
@@ -134,13 +148,24 @@ function Chat() {
                   style={{
                     borderColor: selectedReport === report.id.toString() ? "blue" : undefined,
                   }}
-                  onClick={() => selectReport(report.id.toString())}
                 >
-                  <Group>
-                    <ThemeIcon color={selectedReport === report.id.toString() ? "blue" : "gray"}>
-                      {selectedReport === report.id.toString() ? <IconCheck /> : <IconClipboardText />}
-                    </ThemeIcon>
-                    <Text>{`${report.created_at.split("T")[0]} a las ${report.created_at.split("T")[1].split(".")[0]}`}</Text>
+                  <Group gap="apart">
+                    <Group onClick={() => selectReport(report.id.toString())}>
+                      <ThemeIcon color={selectedReport === report.id.toString() ? "blue" : "gray"}>
+                        {selectedReport === report.id.toString() ? <IconCheck /> : <IconClipboardText />}
+                      </ThemeIcon>
+                      <Text>{`${report.created_at.split("T")[0]} a las ${report.created_at.split("T")[1].split(".")[0]}`}</Text>
+                    </Group>
+                    <Button
+                      variant="subtle"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        viewReport(report);
+                      }}
+                      rightSection={<IconEye size={16} />}
+                    >
+                      Ver Reporte
+                    </Button>
                   </Group>
                 </Card>
               ))
@@ -151,6 +176,27 @@ function Chat() {
           </Button>
         </Drawer>
 
+        <Modal
+          opened={reportModalOpened}
+          onClose={() => setReportModalOpened(false)}
+          title="Contenido del Reporte"
+          size="xl"
+        >
+          {currentReport && (
+            <>
+              <Group mb={"md"} gap="right" mt="md">
+                <Button onClick={()=>reactToPrint()} rightSection={<IconPrinter size={16} />}>
+                  Imprimir / Guardar PDF
+                </Button>
+              </Group>
+              <Container ref={reportRef}>
+                <Container mx={"lg"}>
+                  <MdRenderer content={currentReport.report} />
+                </Container>
+              </Container>
+            </>
+          )}
+        </Modal>
         <ScrollArea h={"100dvh"} offsetScrollbars mt={"md"} w={"100%"}>
           <Group grow justify="center">
             <Group justify="center">
@@ -228,6 +274,9 @@ function Chat() {
             />
           </form>
         </Card>
+
+       
+
       </Stack>
     </div>
   );
