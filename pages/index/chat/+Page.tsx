@@ -29,6 +29,7 @@ import {
 import { generateId } from "ai";
 import { useChat } from "ai/react";
 import { useEffect, useState } from "react";
+import NotificacionChat from "./../../../components/mensajes/NotificacionChat"; // Importamos el modal de notificación
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -36,13 +37,14 @@ function Chat() {
   const { messages, input, handleInputChange, handleSubmit, setMessages } =
     useChat();
   const [open, setOpen] = useState(false);
-  const [reports, setReports] = useState<
-    Database["public"]["Tables"]["reports"]["Row"][]
-  >([]);
+  const [reports, setReports] = useState<Database["public"]["Tables"]["reports"]["Row"][]>([]);
   const [files, setFiles] = useState<File[]>([]);
   const [openedCreateReport, setOpenedCreateReport] = useState(false);
   const [selectedReport, setSelectedReport] = useState<string | null>(null);
   const [loadingReport, setLoadingReport] = useState(false);
+  
+  // Estado para controlar la visibilidad del modal de notificación
+  const [disclaimerOpened, setDisclaimerOpened] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -73,7 +75,6 @@ function Chat() {
         id: generateId(),
         role: "system",
         content: `${basePrompt}\n${
-          // biome-ignore lint/style/noNonNullAssertion: <explanation>
           report.data!.report
         }`,
       },
@@ -89,11 +90,11 @@ function Chat() {
   }
 
   return (
-    <div
-      style={{
-        width: "100%",
-      }}
-    >
+    <div style={{ width: "100%" }}>
+      <NotificacionChat
+        opened={disclaimerOpened}
+        onClose={() => setDisclaimerOpened(false)} // Se cierra cuando el usuario acepta
+      />
       <LoadingOverlay visible={loadingReport} />
       <Affix position={{ bottom: 600, right: -55 }}>
         <Transition transition="slide-up" mounted={!open}>
@@ -101,17 +102,10 @@ function Chat() {
             <Button
               leftSection={
                 <IconClipboardText
-                  style={{
-                    transform: "rotate(90deg)",
-                    width: rem(16),
-                    height: rem(16),
-                  }}
+                  style={{ transform: "rotate(90deg)", width: rem(16), height: rem(16) }}
                 />
               }
-              style={{
-                ...transitionStyles,
-                transform: "rotate(270deg)",
-              }}
+              style={{ ...transitionStyles, transform: "rotate(270deg)" }}
               onClick={() => setOpen(true)}
             >
               Reportes
@@ -119,12 +113,8 @@ function Chat() {
           )}
         </Transition>
       </Affix>
-      <Stack
-        style={{
-          height: "90dvh",
-        }}
-        mx={"xl"}
-      >
+
+      <Stack style={{ height: "90dvh" }} mx={"xl"}>
         <Drawer
           opened={open}
           onClose={() => setOpen(false)}
@@ -143,86 +133,32 @@ function Chat() {
                   w={"100%"}
                   withBorder
                   style={{
-                    borderColor:
-                      selectedReport === report.id.toString()
-                        ? "blue"
-                        : undefined,
+                    borderColor: selectedReport === report.id.toString() ? "blue" : undefined,
                   }}
                   onClick={() => selectReport(report.id.toString())}
                 >
                   <Group>
-                    <ThemeIcon
-                      color={
-                        selectedReport === report.id.toString()
-                          ? "blue"
-                          : "gray"
-                      }
-                    >
-                      {selectedReport === report.id.toString() ? (
-                        <IconCheck />
-                      ) : (
-                        <IconClipboardText />
-                      )}
+                    <ThemeIcon color={selectedReport === report.id.toString() ? "blue" : "gray"}>
+                      {selectedReport === report.id.toString() ? <IconCheck /> : <IconClipboardText />}
                     </ThemeIcon>
-                    <Text>{`${report.created_at.split("T")[0]} a las ${
-                      report.created_at.split("T")[1].split(".")[0]
-                    }`}</Text>
+                    <Text>{`${report.created_at.split("T")[0]} a las ${report.created_at.split("T")[1].split(".")[0]}`}</Text>
                   </Group>
                 </Card>
               ))
             )}
           </Stack>
-          <Button
-            rightSection={<IconPlus />}
-            w={"100%"}
-            onClick={() => setOpenedCreateReport(true)}
-          >
+          <Button rightSection={<IconPlus />} w={"100%"} onClick={() => setOpenedCreateReport(true)}>
             Crear Reporte
           </Button>
         </Drawer>
-        <Drawer
-          opened={openedCreateReport}
-          onClose={() => setOpenedCreateReport(false)}
-          title="Crear Reporte"
-          position="right"
-        >
-          {files.length <= 1 ? (
-            <Text ta={"center"} fw={700} mt={"md"}>
-              No tienes archivos
-            </Text>
-          ) : (
-            files.map((file) => {
-              if (file.name.startsWith(".")) return null;
-              return (
-                <Card key={file.name} w={"100%"} withBorder>
-                  <Group>
-                    <ThemeIcon color="gray">
-                      <IconFileFilled />
-                    </ThemeIcon>
-                    <Text>{file.name}</Text>
-                  </Group>
-                </Card>
-              );
-            })
-          )}
-        </Drawer>
+
         <ScrollArea h={"100dvh"} offsetScrollbars mt={"md"} w={"100%"}>
           <Group grow justify="center">
             <Group justify="center">
-              <Stack
-                mt={"xl"}
-                w={"90%"}
-                align="stretch"
-                justify="center"
-                style={{
-                  alignSelf: "center",
-                }}
-              >
+              <Stack mt={"xl"} w={"90%"} align="stretch" justify="center" style={{ alignSelf: "center" }}>
                 {messages.length < 1 ? (
                   <Center>
-                    <Text ta={"center"}>
-                      Escribele un mensaje a DataSalud IA para que te ayude
-                    </Text>
+                    <Text ta={"center"}>Escribele un mensaje a DataSalud IA para que te ayude</Text>
                   </Center>
                 ) : null}
                 {messages.map((messages) => {
@@ -232,9 +168,7 @@ function Chat() {
                         <Card withBorder w={"fit-content"} radius={"lg"}>
                           <Group>
                             <Avatar />
-                            <Text style={{ whiteSpace: "pre-wrap" }}>
-                              {messages.content}
-                            </Text>
+                            <Text style={{ whiteSpace: "pre-wrap" }}>{messages.content}</Text>
                           </Group>
                         </Card>
                       </Group>
@@ -243,28 +177,11 @@ function Chat() {
                   if (messages.role === "assistant") {
                     return (
                       <Group grow align="flex-end">
-                        <Card
-                          withBorder
-                          w={"fit-content"}
-                          style={{
-                            maxWidthL: "50%",
-                          }}
-                          radius={"lg"}
-                        >
+                        <Card withBorder w={"fit-content"} radius={"lg"}>
                           <Group justify="space-between">
                             <MdRenderer content={messages.content} />
-
-                            <div
-                              style={{
-                                flexGrow: 1,
-                              }}
-                            >
-                              <Flex
-                                justify={"flex-end"}
-                                style={{
-                                  width: "100%",
-                                }}
-                              >
+                            <div style={{ flexGrow: 1 }}>
+                              <Flex justify={"flex-end"} style={{ width: "100%" }}>
                                 <Avatar />
                               </Flex>
                             </div>
@@ -278,6 +195,7 @@ function Chat() {
             </Group>
           </Group>
         </ScrollArea>
+
         <Card
           withBorder
           pt={"xs"}
@@ -318,6 +236,4 @@ tu tarea es dirigirte al usuario lo mejor posible y ayudarlo con sus consultas s
 y sus diagnosticos medicos, no respondas cosas que no tengan que ver con medicina o su salud
 
 la historia de la consulta es la siguiente:
-
-
 `;

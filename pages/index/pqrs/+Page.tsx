@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Drawer, ActionIcon } from '@mantine/core';
+import { Button, Drawer } from '@mantine/core';
 import { IconHelpCircle, IconBrandWhatsapp } from '@tabler/icons-react';
-import './page.module.css'; 
+import './page.module.css';
 
 const SupportButton = () => {
   const [opened, setOpened] = useState(false);
@@ -28,15 +28,13 @@ const SupportButton = () => {
 
   return (
     <>
-      <div className="support-button-container">
-        <ActionIcon
-          onClick={toggleMenu}
-          size="xl"
-          className="main-button mobile-version"
-        >
-          <IconHelpCircle size={30} />
-        </ActionIcon>
-      </div>
+      <Button
+        onClick={toggleMenu}
+        className="support-button"
+        leftSection={<IconHelpCircle size={24} />}
+      >
+        Soporte
+      </Button>
 
       <Drawer
         opened={opened}
@@ -46,7 +44,7 @@ const SupportButton = () => {
         size="sm"
         position="left"
         className="support-drawer"
-        transitionProps={{ transition: 'rotate-left', duration: 150, timingFunction: 'linear' }}
+        transitionProps={{ transition: 'slide-right', duration: 150 }}
       >
         <div className="drawer-content">
           <Button onClick={() => handleOptionClick('petition')} fullWidth className="sub-button">

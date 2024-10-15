@@ -1,0 +1,27 @@
+/* Estilos existentes ... */
+
+.notificacionModal {
+    background-color: #f8f9fa;
+  }
+  
+  .notificacionText {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  
+  .notificacionList {
+    margin-bottom: 20px;
+  }
+  
+  .notificacionList li {
+    margin-bottom: 10px;
+  }
+  
+  .notificacionButton {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .notificacionButton:hover {
+    background-color: #0056b3;
+  }

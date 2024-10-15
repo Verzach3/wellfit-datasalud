@@ -1,4 +1,4 @@
-
+/* Estilos Generales */
 .container {
   max-width: 1000px;
   margin: 0 auto;
@@ -120,6 +120,7 @@
   text-align: center;
 }
 
+/* Estilos para el Modal de Términos y Condiciones */
 .modalTitle {
   font-size: 1.5rem;
   color: #1a3b5d;
@@ -130,8 +131,72 @@
   font-size: 1rem;
   color: #4a4a4a;
   line-height: 1.6;
+  text-align: justify;
+  margin-bottom: 20px;
 }
 
+.termsTitle {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #1a3b5d;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+/* Términos y Condiciones Estilizados */
+.termsList {
+  padding-left: 20px;
+}
+
+.termsListItem {
+  margin-bottom: 15px;
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+/* Estilos del Modal de Notificación */
+.notificacionModal {
+  background-color: #f8f9fa;
+}
+
+.notificacionPaper {
+  background-color: white;
+  border-radius: 8px;
+}
+
+.notificacionText {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.notificacionList {
+  margin-top: 20px;
+}
+
+.notificacionList li {
+  margin-bottom: 15px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #444;
+}
+
+.notificacionButton {
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.notificacionButton:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsivo */
 @media (max-width: 768px) {
   .mainTitle {
     font-size: 2rem;
@@ -153,4 +218,272 @@
     padding: 1.5rem;
     margin: 1rem;
   }
+}
+/* Estilos Generales */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+}
+
+.mainTitle {
+  font-size: 2.5rem;
+  color: #1a3b5d;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.description {
+  font-size: 1.1rem;
+  color: #4a4a4a;
+  margin-bottom: 2rem;
+  text-align: center;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mainCard {
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  border-radius: 15px;
+  background-color: #fff;
+}
+
+.mainCard:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.cardHeader {
+  background-color: #f0f4f8;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.sectionTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1a3b5d;
+}
+
+.uploadButton {
+  background-color: #3498db;
+  color: white;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.uploadButton:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.dropzone {
+  border: 2px dashed #3498db;
+  background-color: #f7fafc;
+  transition: all 0.3s ease;
+  padding: 2rem;
+  margin: 1.5rem;
+  border-radius: 10px;
+}
+
+.dropzone:hover {
+  border-color: #2980b9;
+  background-color: #e3f2fd;
+}
+
+.acceptColor {
+  color: #27ae60;
+}
+
+.rejectColor {
+  color: #e74c3c;
+}
+
+.fileGrid {
+  margin-top: 2rem;
+  padding: 0 1.5rem;
+}
+
+.fileItem {
+  transition: all 0.3s ease;
+}
+
+.fileItem:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.fileIcon {
+  color: #3498db;
+}
+
+.fileName {
+  font-size: 1rem;
+  color: #2c3e50;
+  word-break: break-word;
+}
+
+.termsText {
+  margin-top: 2rem;
+  color: #3498db;
+  cursor: pointer;
+  text-decoration: underline;
+  text-align: center;
+  font-weight: 500;
+}
+
+.checkbox {
+  margin-top: 1rem;
+  color: #2c3e50;
+  text-align: center;
+}
+
+/* Estilos para el Modal de Términos y Condiciones */
+.modalTitle {
+  font-size: 1.5rem;
+  color: #1a3b5d;
+  font-weight: 600;
+}
+
+.termsContent {
+  font-size: 1rem;
+  color: #4a4a4a;
+  line-height: 1.6;
+  text-align: justify;
+  margin-bottom: 20px;
+}
+
+.termsTitle {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #1a3b5d;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+/* Términos y Condiciones Estilizados */
+.termsList {
+  padding-left: 20px;
+}
+
+.termsListItem {
+  margin-bottom: 15px;
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+/* Estilos del Modal de Notificación */
+.notificacionModal {
+  background-color: #f8f9fa;
+}
+
+.notificacionPaper {
+  background-color: white;
+  border-radius: 8px;
+}
+
+.notificacionText {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.notificacionList {
+  margin-top: 20px;
+}
+
+.notificacionList li {
+  margin-bottom: 15px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #444;
+}
+
+.notificacionButton {
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.notificacionButton:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .mainTitle {
+    font-size: 2rem;
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+
+  .cardHeader {
+    padding: 1rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.1rem;
+  }
+
+  .dropzone {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+}
+
+
+.modalTitle {
+  font-size: 1.5rem;
+  color: #1a3b5d;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.termsContent {
+  font-size: 1rem;
+  color: #4a4a4a;
+  line-height: 1.6;
+  text-align: justify;
+  margin-bottom: 20px;
+}
+
+.termsTitle {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #1a3b5d;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.termsParagraph {
+  margin-bottom: 1rem;
+}
+
+.termsParagraph::first-letter {
+  text-transform: uppercase;
+}
+
+.termsSection {
+  margin-bottom: 20px;
+}
+
+.scrollArea {
+  padding-right: 10px; /* Asegura un padding adecuado para evitar que el texto quede pegado al borde */
+}
+
+/* Negritas para títulos en mayúsculas */
+.termsParagraph strong {
+  font-weight: bold;
+  color: #1a3b5d;
 }
