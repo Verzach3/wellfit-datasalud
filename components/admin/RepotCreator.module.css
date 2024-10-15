@@ -1,0 +1,75 @@
+.drawer {
+    /* Estilos para el drawer */
+  }
+  
+  .drawerTitle {
+    color: #228be6; /* Color azul de Mantine */
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .modal {
+    /* Estilos para el modal */
+  }
+  
+  .loadingContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .loadingText {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .fileGrid {
+    margin-top: 1rem;
+  }
+  
+  .fileCard {
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .fileCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .fileCardContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .fileName {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-left: 0.5rem;
+  }
+  
+  .createReportButton {
+    background-color: #228be6;
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .createReportButton:hover {
+    background-color: #1c7ed6;
+  }
+  
+  .copyButton {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    z-index: 1000;
+  }

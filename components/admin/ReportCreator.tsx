@@ -23,6 +23,7 @@ import MdRenderer from "../chat/MdRenderer";
 import { useClipboard } from "@mantine/hooks";
 import { useCompletion } from "ai/react";
 import { useReactToPrint } from "react-to-print";
+import styles from './RepotCreator.module.css';
 
 export function ReportCreator({
   open,
@@ -45,11 +46,12 @@ export function ReportCreator({
   return (
     <Drawer
       position="bottom"
-      title="Reporte de datos"
+      title={<div className={styles.drawerTitle}>Reporte de datos</div>}
       opened={open}
       onClose={onClose}
-      size={"xl"}
-      padding={"md"}
+      size="xl"
+      padding="md"
+      className={styles.drawer}
     >
       <Modal
         opened={openReport}
@@ -59,6 +61,7 @@ export function ReportCreator({
           setOpenReport(false);
         }}
         fullScreen
+        className={styles.modal}
       >
         {loadingFilesText && (
           <Center>
@@ -83,10 +86,10 @@ export function ReportCreator({
           </>
         )}
       </Modal>
-      <SimpleGrid cols={4} spacing="md">
+      <SimpleGrid cols={4} spacing="md" className={styles.fileGrid}>
         {files.map((file) => (
-          <Card key={file.name} withBorder>
-            <Group justify="space-between">
+          <Card key={file.name} withBorder className={styles.fileCard}>
+            <div className={styles.fileCardContent}>
               <Checkbox
                 onClick={() => {
                   if (selectedFiles.includes(file)) {
@@ -96,11 +99,11 @@ export function ReportCreator({
                   }
                 }}
               />
-              {file.name}
+              <span className={styles.fileName}>{file.name}</span>
               <ThemeIcon variant="white">
                 <IconFile />
               </ThemeIcon>
-            </Group>
+            </div>
           </Card>
         ))}
         <Affix position={{ bottom: 20, right: 20 }}>
