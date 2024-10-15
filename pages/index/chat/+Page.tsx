@@ -8,7 +8,6 @@ import {
   Group,
   Avatar,
   ActionIcon,
-  Flex,
   ScrollArea,
   Drawer,
   Affix,
@@ -22,7 +21,6 @@ import {
 import {
   IconCheck,
   IconClipboardText,
-  IconFileFilled,
   IconPlus,
   IconSend2,
 } from "@tabler/icons-react";
@@ -30,11 +28,7 @@ import { generateId } from "ai";
 import { useChat } from "ai/react";
 import { useEffect, useState } from "react";
 import NotificacionChat from "./../../../components/mensajes/NotificacionChat"; // Importamos el modal de notificación
-import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import { useEffect, useRef, useState } from "react";
 import { useThrottledValue } from "@mantine/hooks";
-import { useReactToPrint } from "react-to-print";
 
 function Chat() {
   const { messages, input, handleInputChange, handleSubmit, setMessages } =
@@ -79,6 +73,7 @@ function Chat() {
         id: generateId(),
         role: "system",
         content: `${basePrompt}\n${
+          // biome-ignore lint/style/noNonNullAssertion: <explanation>
           report.data!.report
         }`,
       },
