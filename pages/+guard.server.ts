@@ -5,21 +5,16 @@ import type { User } from "@supabase/supabase-js";
 import { getSuperSupabase } from "@/util/supabase/getSuperSupabase.server";
 
 export async function guard(pageContext: PageContext) {
-  const { supabase, token } = pageContext;
-  if (!token && pageContext.urlPathname !== "/auth") {
-    console.log("Redirecting to /auth");
-    throw render("/auth");
-  }
-
+  const { supabase } = pageContext;
   let user: User;
 
   try {
-    const res = await safeGetUser(supabase, <string>token);
-    if (!res) {
+    const res = await safeGetUser(supabase);
+    if (res === null && pageContext.urlPathname !== "/auth") {
       console.log("no session");
       throw render("/auth");
-    }
-    user = res;
+    } 
+    user = <User> res;
   } catch (error) {
     console.error("index:guard:Error in guard", error);
     throw render("/auth");

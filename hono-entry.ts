@@ -54,7 +54,6 @@ const openai = createOpenAI({
 });
 
 app.all("*", async (context, next) => {
-  context.set("token", getCookie(context, "token"));
   const serverClient = createServerClient(
     process.env.PUBLIC_SUPABASE_URL ?? "",
     process.env.SUPABASE_ANON_KEY ?? "",
@@ -64,9 +63,7 @@ app.all("*", async (context, next) => {
           const cookies: Record<string, string> = getCookie(context);
           const cookiesArr = [];
           for (const key in cookies) {
-            if (cookies[key] === "") {
               cookiesArr.push({ name: key, value: cookies[key] ?? "" });
-            }
           }
           return cookiesArr;
         },

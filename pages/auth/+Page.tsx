@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import {
   Title,
   Text,
@@ -12,13 +12,15 @@ import {
   Modal,
   Checkbox,
   Anchor,
+  LoadingOverlay,
 } from "@mantine/core";
-import { motion } from 'framer-motion';
-import { IconMail } from '@tabler/icons-react';
+import { motion } from "framer-motion";
+import { IconMail } from "@tabler/icons-react";
 import wellfitLogo from "../../assets/wellfit-bottom-text.svg";
 import classes from "./page.module.css";
-import SupportButton from '../index/pqrs/+Page';
-import TermsAndConditions from '../index/gestor_normativo/+Page';
+import { navigate } from "vike/client/router";
+import SupportButton from "../index/pqrs/+Page";
+import TermsAndConditions from "../index/gestor_normativo/+Page";
 
 function AuthPage() {
   const [email, setEmail] = useState("");
@@ -29,7 +31,34 @@ function AuthPage() {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   useEffect(() => {
-    // ... (código existente del useEffect)
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user && window.location.pathname === "/auth") {
+        console.log("User logged in:", session.user);
+        navigate("/");
+      }
+    });
+    const checkUser = async () => {
+      try {
+        console.log("Checking user...");
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        console.log("User data:", user);
+        if (user) {
+          console.log("User found, navigating...");
+          await navigate("/");
+        }
+      } catch (error) {
+        console.error("Error checking user:", error);
+      } finally {
+        console.log("Setting loading to false");
+        setLoading(false);
+      }
+    };
+
+    checkUser();
+
+    return () => {};
   }, []);
 
   async function handleLogin(email: string) {
@@ -64,7 +93,23 @@ function AuthPage() {
   }
 
   if (loading) {
-    // ... (código existente para el loading)
+    console.log("Rendering loading overlay");
+    return (
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <LoadingOverlay
+          visible={true}
+          zIndex={1000}
+          overlayProps={{ radius: "sm", blur: 2 }}
+        />
+      </div>
+    );
   }
 
   return (
@@ -85,11 +130,11 @@ function AuthPage() {
           >
             <Stack gap="md" align="center">
               <Title className={classes.title} ta="center">
-                Bienvenido a DataSalud 
+                Bienvenido a DataSalud
               </Title>
               <Group gap="xs" align="center">
-                <Title ta= "center" fw={500} c="dimmed" size="sm">
-                by
+                <Title ta="center" fw={500} c="dimmed" size="sm">
+                  by
                 </Title>
                 <Image src={wellfitLogo} width={80} fit="contain" />
               </Group>
@@ -104,7 +149,10 @@ function AuthPage() {
                   placeholder="correo@ejemplo.com"
                   required
                   rightSection={<IconMail size="1rem" />}
-                  classNames={{ input: classes.input, label: classes.inputLabel }}
+                  classNames={{
+                    input: classes.input,
+                    label: classes.inputLabel,
+                  }}
                 />
                 <Button
                   loading={isSubmitting}
@@ -120,7 +168,9 @@ function AuthPage() {
                   <Checkbox
                     label="Acepto los términos y condiciones"
                     checked={termsAccepted}
-                    onChange={(event) => setTermsAccepted(event.currentTarget.checked)}
+                    onChange={(event) =>
+                      setTermsAccepted(event.currentTarget.checked)
+                    }
                   />
                   <Anchor onClick={() => setShowTermsModal(true)}>
                     Leer términos y condiciones
@@ -140,10 +190,12 @@ function AuthPage() {
         title="Términos y Condiciones"
         size="lg"
       >
-        <TermsAndConditions onAccept={() => {
-          setTermsAccepted(true);
-          setShowTermsModal(false);
-        }} />
+        <TermsAndConditions
+          onAccept={() => {
+            setTermsAccepted(true);
+            setShowTermsModal(false);
+          }}
+        />
       </Modal>
 
       {/* Modal de Confirmación */}
@@ -152,9 +204,17 @@ function AuthPage() {
         onClose={() => setShowConfirmationModal(false)}
         title="Confirmar envío"
       >
-        <Text>¿Estás seguro de que deseas enviar el token de autenticación a {email}?</Text>
+        <Text>
+          ¿Estás seguro de que deseas enviar el token de autenticación a {email}
+          ?
+        </Text>
         <Group mt="md" gap="right">
-          <Button variant="outline" onClick={() => setShowConfirmationModal(false)}>Cancelar</Button>
+          <Button
+            variant="outline"
+            onClick={() => setShowConfirmationModal(false)}
+          >
+            Cancelar
+          </Button>
           <Button onClick={sendOTP}>Enviar</Button>
         </Group>
       </Modal>
