@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #0077be, #00a86b);
+  background: linear-gradient(135deg, #f0f9ff 0%, #e1f5fe 100%);
   position: relative;
   overflow: hidden;
 }
@@ -17,102 +17,203 @@
   bottom: -50%;
   width: 200%;
   height: 200%;
-  background: transparent url('http://assets.iceable.com/img/noise-transparent.png') repeat 0 0;
-  background-repeat: repeat;
-  animation: bg-animation .2s infinite;
-  opacity: .9;
-  visibility: visible;
+  background: 
+    radial-gradient(circle at 100% 0%, rgba(0, 119, 190, 0.1) 0, transparent 50%),
+    radial-gradient(circle at 0% 100%, rgba(0, 168, 107, 0.1) 0, transparent 50%);
+  animation: bg-animation 15s ease infinite;
+  opacity: 0.8;
+  z-index: 0;
 }
 
 @keyframes bg-animation {
-    0% { transform: translate(0,0) }
-    10% { transform: translate(-5%,-5%) }
-    20% { transform: translate(-10%,5%) }
-    30% { transform: translate(5%,-10%) }
-    40% { transform: translate(-5%,15%) }
-    50% { transform: translate(-10%,5%) }
-    60% { transform: translate(15%,0) }
-    70% { transform: translate(0,10%) }
-    80% { transform: translate(-15%,0) }
-    90% { transform: translate(10%,5%) }
-    100% { transform: translate(5%,0) }
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(-5%, -5%); }
+  100% { transform: translate(0, 0); }
 }
 
 .containerWrapper {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 500px; /* Increased from 400px to 480px */
+  max-width: 480px;
+  padding: 0 20px;
 }
 
 .cardWrapper {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.95) !important;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
-  padding: 2.5rem; /* Added padding for better spacing */
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 
+    0 10px 25px -3px rgba(0, 119, 190, 0.1),
+    0 4px 6px -2px rgba(0, 119, 190, 0.05) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.cardWrapper:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 20px 30px -8px rgba(0, 119, 190, 0.15),
+    0 10px 15px -3px rgba(0, 119, 190, 0.1) !important;
 }
 
 .title {
-  font-size: 2.5rem; /* Increased from 2rem */
-  font-weight: 900;
-  color: #0077be;
-  margin-bottom: 0.5rem;
-  font-family: 'Greycliff CF', var(--mantine-font-family);
-  text-align: center;
+  font-size: 2.5rem !important;
+  font-weight: 800 !important;
+  background: linear-gradient(135deg, #0077be, #00a86b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  letter-spacing: -0.5px;
+  margin-bottom: 0.5rem !important;
 }
 
 .innerCard {
-  background: white;
-  transition: all 0.3s ease;
-  width: 100%;
-  padding: 1.5rem; /* Added padding */
+  background: white !important;
+  border: 1px solid rgba(0, 119, 190, 0.1) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 119, 190, 0.05) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.innerCard:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 12px -2px rgba(0, 119, 190, 0.1) !important;
 }
 
 .input {
-  transition: all 0.3s ease;
+  border: 2px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+  font-size: 15px !important;
+  transition: all 0.3s ease !important;
+  background: white !important;
 }
 
 .input:focus {
-  border-color: #00a86b;
-  box-shadow: 0 0 0 2px rgba(0, 168, 107, 0.2);
+  border-color: #0077be !important;
+  box-shadow: 0 0 0 3px rgba(0, 119, 190, 0.1) !important;
 }
 
 .inputLabel {
-  color: #0077be;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: #334155 !important;
+  margin-bottom: 8px !important;
 }
 
 .submitButton {
+  background: linear-gradient(135deg, #0077be, #00a86b) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 12px 24px !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  transition: all 0.3s ease !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.submitButton:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px -5px rgba(0, 119, 190, 0.3) !important;
+}
+
+.submitButton:disabled {
+  opacity: 0.7 !important;
+  cursor: not-allowed !important;
+}
+
+/* Estilos para el checkbox y enlaces */
+:global(.mantine-Checkbox-input) {
+  border: 2px solid #e2e8f0 !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+}
+
+:global(.mantine-Checkbox-input:checked) {
+  background-color: #0077be !important;
+  border-color: #0077be !important;
+}
+
+:global(.mantine-Anchor-root) {
+  color: #0077be !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease !important;
+}
+
+:global(.mantine-Anchor-root:hover) {
+  color: #00a86b !important;
+}
+
+/* Estilos para los modales */
+:global(.mantine-Modal-root .mantine-Modal-header) {
   background: linear-gradient(135deg, #0077be, #00a86b);
-  transition: all 0.3s ease;
-  margin-top: 1.5rem; /* Added margin-top */
+  color: white !important;
+  padding: 16px 24px !important;
+  border-radius: 12px 12px 0 0 !important;
 }
 
-.submitButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 119, 190, 0.3);
+:global(.mantine-Modal-title) {
+  color: white !important;
+  font-weight: 600 !important;
 }
 
-/* Center the "by" text and logo */
-.cardWrapper > div > div:nth-child(2) {
-  justify-content: center;
-  text-align: center;
+:global(.mantine-Modal-close) {
+  color: white !important;
 }
 
-@media (max-width: 48em) {
+:global(.mantine-Modal-body) {
+  padding: 24px !important;
+}
+
+/* Estilos responsivos */
+@media (max-width: 640px) {
   .containerWrapper {
-    max-width: 90%; /* Responsive width for smaller screens */
-  }
-
-  .cardWrapper {
-    padding: 2rem;
+    padding: 16px;
   }
 
   .title {
-    font-size: 2rem;
+    font-size: 2rem !important;
   }
 
-  .innerCard {
-    padding: 1rem;
+  .cardWrapper {
+    padding: 24px !important;
   }
+
+  .submitButton {
+    padding: 10px 20px !important;
+  }
+}
+
+/* Animaciones adicionales */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cardWrapper {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Efecto de pulso sutil en el botón */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 119, 190, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 119, 190, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 119, 190, 0);
+  }
+}
+
+.submitButton:not(:disabled):hover {
+  animation: pulse 2s infinite;
 }

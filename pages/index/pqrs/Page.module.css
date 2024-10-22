@@ -1,49 +1,120 @@
-.support-button {
+.supportButton {
   position: fixed;
   z-index: 1000;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  background: linear-gradient(135deg, #0077be, #00a86b) !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(0, 119, 190, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
+/* Estilos para móvil y tablet */
 @media (max-width: 768px) {
-  .support-button {
+  .supportButton {
     bottom: 20px;
     right: 20px;
-    font-size: 0; /* Oculta el texto en móviles */
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
   }
-  
-  .support-button .mantine-Button-leftIcon {
-    margin-right: 0;
-    transform: none;
+
+  .buttonText {
+    display: none;
+  }
+
+  .buttonIcon {
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  .supportButton:hover {
+    transform: scale(1.1);
   }
 }
 
+/* Estilos para desktop */
 @media (min-width: 769px) {
-  .support-button {
+  .supportButton {
     right: -35px;
     top: 50%;
     transform: rotate(-90deg) translateY(-50%);
     transform-origin: left bottom;
-    border-radius: 10px 10px 0 0;
-    padding: 10px 20px;
+    border-radius: 10px 10px 0 0 !important;
+    padding: 12px 24px !important;
+    height: auto !important;
+    width: auto !important;
+  }
+
+  .buttonText {
+    display: inline-block;
     font-size: 16px;
+    font-weight: 500;
   }
-  
-  .support-button:hover {
+
+  .buttonIcon {
+    margin-right: 8px !important;
+    transform: rotate(90deg) !important;
+  }
+
+  .supportButton:hover {
     right: -30px;
+    box-shadow: 0 6px 20px rgba(0, 119, 190, 0.4);
   }
-  
-  .support-button .mantine-Button-leftIcon {
-    margin-right: 8px;
-    transform: rotate(90deg);
+}
+
+/* Estilos del drawer */
+.supportDrawer {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.drawerContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.subButton {
+  background: linear-gradient(135deg, #f5f7fa, #e8ecf1) !important;
+  color: #1a2a6c !important;
+  border: 1px solid rgba(26, 42, 108, 0.1) !important;
+  padding: 12px 20px !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.subButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #e8ecf1, #f5f7fa) !important;
+}
+
+.whatsappButton {
+  background: linear-gradient(135deg, #25D366, #128C7E) !important;
+  color: white !important;
+}
+
+.whatsappButton:hover {
+  background: linear-gradient(135deg, #128C7E, #25D366) !important;
+}
+
+/* Animación de pulso para móvil */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 119, 190, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(0, 119, 190, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 119, 190, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  .supportButton {
+    animation: pulse 2s infinite;
   }
 }

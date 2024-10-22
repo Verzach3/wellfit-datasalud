@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Drawer } from '@mantine/core';
 import { IconHelpCircle, IconBrandWhatsapp } from '@tabler/icons-react';
-import './Page.module.css';
+import classes from './Page.module.css';
 
 const SupportButton = () => {
   const [opened, setOpened] = useState(false);
@@ -30,10 +30,10 @@ const SupportButton = () => {
     <>
       <Button
         onClick={toggleMenu}
-        className="support-button"
-        leftSection={<IconHelpCircle size={24} />}
+        className={classes.supportButton}
+        leftSection={<IconHelpCircle className={classes.buttonIcon} size={24} />}
       >
-        Soporte
+        <span className={classes.buttonText}>Soporte</span>
       </Button>
 
       <Drawer
@@ -43,23 +43,43 @@ const SupportButton = () => {
         padding="xl"
         size="sm"
         position="left"
-        className="support-drawer"
+        className={classes.supportDrawer}
         transitionProps={{ transition: 'slide-right', duration: 150 }}
       >
-        <div className="drawer-content">
-          <Button onClick={() => handleOptionClick('petition')} fullWidth className="sub-button">
+        <div className={classes.drawerContent}>
+          <Button 
+            onClick={() => handleOptionClick('petition')} 
+            fullWidth 
+            className={classes.subButton}
+          >
             Realizar una petición
           </Button>
-          <Button onClick={() => handleOptionClick('complaint')} fullWidth className="sub-button">
+          <Button 
+            onClick={() => handleOptionClick('complaint')} 
+            fullWidth 
+            className={classes.subButton}
+          >
             Realizar una queja
           </Button>
-          <Button onClick={() => handleOptionClick('claim')} fullWidth className="sub-button">
+          <Button 
+            onClick={() => handleOptionClick('claim')} 
+            fullWidth 
+            className={classes.subButton}
+          >
             Realizar un reclamo
           </Button>
-          <Button onClick={() => handleOptionClick('suggestion')} fullWidth className="sub-button">
+          <Button 
+            onClick={() => handleOptionClick('suggestion')} 
+            fullWidth 
+            className={classes.subButton}
+          >
             Realizar una sugerencia
           </Button>
-          <Button onClick={handleWhatsappClick} fullWidth className="sub-button whatsapp-button">
+          <Button 
+            onClick={handleWhatsappClick} 
+            fullWidth 
+            className={`${classes.subButton} ${classes.whatsappButton}`}
+          >
             <IconBrandWhatsapp size={20} style={{ marginRight: '10px' }} />
             Contacto Urgente por WhatsApp
           </Button>
