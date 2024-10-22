@@ -132,13 +132,15 @@ function AuthPage() {
               <Title className={classes.title} ta="center">
                 Bienvenido a DataSalud
               </Title>
-              <Group gap="xs" align="center">
-                <Title ta="center" fw={500} c="dimmed" size="sm">
-                  by
-                </Title>
-                <Image src={wellfitLogo} width={80} fit="contain" />
-              </Group>
-              <Text c="dimmed" size="sm" ta="center" mt="md">
+              <Group className={classes.logoGroup}>
+    <Text className={classes.byText}>by</Text>
+    <Image 
+      src={wellfitLogo} 
+      className={classes.logoImage}
+      alt="Wellfit Logo"
+    />
+  </Group>
+              <Text c="dimmed" size="sm" ta="center" mt="sm" >
                 Ingresa tu email para recibir un link de inicio de sesión
               </Text>
               <Card withBorder p="lg" radius="md" className={classes.innerCard}>
@@ -200,24 +202,34 @@ function AuthPage() {
 
       {/* Modal de Confirmación */}
       <Modal
-        opened={showConfirmationModal}
-        onClose={() => setShowConfirmationModal(false)}
-        title="Confirmar envío"
+  opened={showConfirmationModal}
+  onClose={() => setShowConfirmationModal(false)}
+  title="Confirmar envío"
+  size="sm"
+  centered
+>
+  <div className={classes.modalContent}>
+    <Text className={classes.modalText}>
+      ¿Estás seguro de que deseas enviar el token de autenticación a{' '}
+      <span className={classes.emailHighlight}>{email}</span>?
+    </Text>
+    <Group className={classes.buttonGroup}>
+      <Button
+        variant="outline"
+        onClick={() => setShowConfirmationModal(false)}
+        className={classes.cancelButton}
       >
-        <Text>
-          ¿Estás seguro de que deseas enviar el token de autenticación a {email}
-          ?
-        </Text>
-        <Group mt="md" gap="right">
-          <Button
-            variant="outline"
-            onClick={() => setShowConfirmationModal(false)}
-          >
-            Cancelar
-          </Button>
-          <Button onClick={sendOTP}>Enviar</Button>
-        </Group>
-      </Modal>
+        Cancelar
+      </Button>
+      <Button 
+        onClick={sendOTP}
+        className={classes.submitButton2}
+      >
+        Enviar
+      </Button>
+    </Group>
+  </div>
+</Modal>
     </div>
   );
 }

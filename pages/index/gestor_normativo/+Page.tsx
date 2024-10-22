@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useState, useRef, useEffect } from 'react';
-import { ScrollArea, Checkbox, Text, Button, Stack } from '@mantine/core';
+import { ScrollArea, Text, Button, Stack } from '@mantine/core';
 import classes from "./page.module.css";
 
 interface TermsAndConditionsProps {
@@ -15,7 +15,8 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ onAccept }) => 
     const handleScroll = () => {
       if (scrollRef.current) {
         const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
-        if (scrollTop + clientHeight >= scrollHeight - 10) {
+        // Considerar que se ha leído cuando se llega al 90% del contenido
+        if (scrollTop + clientHeight >= scrollHeight * 0.9) {
           setHasReadTerms(true);
         }
       }
@@ -34,8 +35,13 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ onAccept }) => 
   }, []);
 
   return (
-    <Stack>
-      <ScrollArea h={300} viewportRef={scrollRef} className={classes.scrollArea}>
+    <div className={classes.termsContainer}>
+      <ScrollArea 
+        h="calc(70vh - 100px)" 
+        viewportRef={scrollRef} 
+        className={classes.scrollArea}
+        scrollbarSize={8}
+      >
         <Text className={classes.termsText}>
         LEY ESTATUTARIA 1581 DE 2012
 
@@ -147,10 +153,16 @@ Es tarea del Estado y las entidades educativas de todo tipo proveer información
           [... contenido completo de la ley ...]
         </Text>
       </ScrollArea>
-      <Button onClick={onAccept} disabled={!hasReadTerms}>
-        Acepto los términos y condiciones
-      </Button>
-    </Stack>
+      <div className={classes.buttonContainer}>
+        <Button
+          onClick={onAccept}
+          disabled={!hasReadTerms}
+          className={classes.acceptButton}
+        >
+          {hasReadTerms ? 'Acepto los términos y condiciones' : ' '}
+        </Button>
+      </div>
+    </div>
   );
 };
 

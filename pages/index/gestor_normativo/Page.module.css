@@ -1,125 +1,179 @@
-/* Estilos generales (mantenidos del ejemplo anterior) */
-.pageWrapper {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #f0f2f5;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .backgroundAnimation {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, #3498db, #8e44ad, #3498db);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-    opacity: 0.1;
-    z-index: -1;
-  }
-  
-  @keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  
-  .containerWrapper {
-    width: 100%;
-    max-width: 420px;
-    padding: 20px;
-  }
-  
-  .cardWrapper {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .title {
-    color: #333;
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 20px;
-  }
-  
-  .innerCard {
-    width: 100%;
-  }
-  
-  .input {
-    margin-bottom: 15px;
-  }
-  
-  .inputLabel {
-    font-weight: 500;
-  }
-  
-  .submitButton {
-    background-color: #3498db;
-    color: white;
-    transition: background-color 0.3s ease;
-  }
-  
-  .submitButton:hover {
-    background-color: #2980b9;
-  }
-  
-  /* Estilos específicos para TermsAndConditions */
+/* Estilos para el contenedor principal de términos */
+.termsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-height: calc(80vh - 100px);
+  position: relative;
+}
+
+/* Área de scroll personalizada */
+.scrollArea {
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Contenido de los términos */
+.termsText {
+  padding: 24px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #334155;
+}
+
+/* Estilizar el scrollbar */
+.scrollArea :global(.mantine-ScrollArea-scrollbar) {
+  width: 8px !important;
+  background-color: #f1f5f9;
+  border-radius: 4px;
+}
+
+.scrollArea :global(.mantine-ScrollArea-thumb) {
+  background-color: #94a3b8;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.scrollArea :global(.mantine-ScrollArea-thumb:hover) {
+  background-color: #64748b;
+}
+
+/* Contenedor del botón sticky */
+.buttonContainer {
+  position: sticky;
+  bottom: 0;
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 1) 80%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  padding: 20px 0;
+  margin-top: auto;
+  z-index: 10;
+}
+
+/* Botón de aceptar términos */
+.acceptButton {
+  width: 100%;
+  max-width: 300px;
+  height: 42px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #0077be, #00a86b) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+  opacity: 0.7;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Estado deshabilitado con mensaje */
+.acceptButton[disabled]::after {
+  content: "Debes leer hasta el final para aceptar";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* Estado habilitado */
+.acceptButton:not([disabled]) {
+  opacity: 1;
+  box-shadow: 0 4px 12px rgba(0, 119, 190, 0.15);
+}
+
+.acceptButton:not([disabled]):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(0, 119, 190, 0.2);
+  background: linear-gradient(135deg, #0088d4, #00bf78) !important;
+}
+
+/* Títulos y secciones importantes */
+.termsText h1,
+.termsText h2,
+.termsText h3 {
+  color: #1a2a6c;
+  margin-top: 1.5em;
+  margin-bottom: 0.8em;
+  font-weight: 600;
+}
+
+.termsText h1 {
+  font-size: 1.5em;
+}
+
+.termsText h2 {
+  font-size: 1.3em;
+}
+
+.termsText h3 {
+  font-size: 1.1em;
+}
+
+/* Párrafos y listas */
+.termsText p,
+.termsText ul,
+.termsText ol {
+  margin-bottom: 1em;
+}
+
+.termsText ul,
+.termsText ol {
+  padding-left: 1.5em;
+}
+
+/* Destacar secciones importantes */
+.termsText strong,
+.termsText b {
+  color: #1a2a6c;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
   .termsContainer {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin-bottom: 20px;
-    max-width: 100%;
-    width: 100%;
+    max-height: calc(70vh - 80px);
   }
-  
-  .termsTitle {
-    font-size: 24px;
-    color: #333;
-    text-align: center;
-    margin-bottom: 15px;
-    font-weight: 700;
-  }
-  
-  .scrollArea {
-    height: 300px;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    padding: 10px;
-  }
-  
+
   .termsText {
+    padding: 16px;
     font-size: 14px;
-    line-height: 1.6;
-    color: #555;
   }
-  
-  .checkbox {
-    margin-top: 15px;
+
+  .buttonContainer {
+    padding: 16px 0;
   }
-  
-  .checkboxLabel {
+
+  .acceptButton {
+    height: 40px;
     font-size: 14px;
-    color: #333;
-    font-weight: 500;
   }
-  
-  /* Estilos para el modal de confirmación */
-  .confirmationModal {
-    text-align: center;
+}
+
+/* Animación cuando el botón se habilita */
+@keyframes enableButton {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
   }
-  
-  .loadingContainer {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  50% {
+    transform: scale(1.05);
+    opacity: 0.85;
   }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.acceptButton:not([disabled]) {
+  animation: enableButton 0.3s ease-out forwards;
+}

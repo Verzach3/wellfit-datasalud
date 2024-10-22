@@ -1,22 +1,32 @@
+/* Variables para mejor mantenimiento */
+:root {
+  --gradient-primary: linear-gradient(135deg, #0077be, #00a86b);
+  --gradient-bg: linear-gradient(135deg, #f0f9ff 0%, #e1f5fe 100%);
+  --color-primary: #0077be;
+  --color-secondary: #00a86b;
+  --color-text: #334155;
+  --shadow-card: 0 10px 25px -3px rgba(0, 119, 190, 0.1);
+}
+
+/* Estilos base */
 .pageWrapper {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #f0f9ff 0%, #e1f5fe 100%);
+  background: var(--gradient-bg);
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  padding: min(5vh, 20px);
 }
 
 .backgroundAnimation {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  right: -50%;
-  bottom: -50%;
-  width: 200%;
-  height: 200%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: 
     radial-gradient(circle at 100% 0%, rgba(0, 119, 190, 0.1) 0, transparent 50%),
     radial-gradient(circle at 0% 100%, rgba(0, 168, 107, 0.1) 0, transparent 50%);
@@ -27,184 +37,207 @@
 .containerWrapper {
   position: relative;
   z-index: 1;
-  width: 100%;
-  max-width: 480px;
-  padding: 0 20px;
-  margin: 0;
+  width: min(100%, 440px);
+  margin: auto;
+  padding: 0 min(5vw, 20px);
 }
 
 .cardWrapper {
-  background: rgba(255, 255, 255, 0.95) !important;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-  box-shadow: 
-    0 10px 25px -3px rgba(0, 119, 190, 0.1),
-    0 4px 6px -2px rgba(0, 119, 190, 0.05) !important;
-  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
-  padding: 40px !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  box-shadow: var(--shadow-card) !important;
+  padding: min(6vh, 32px) min(4vw, 24px) !important;
   width: 100%;
+  margin: 0 auto;
 }
 
+/* Ajustes de logo y título */
 .title {
-  font-size: 2.5rem !important;
-  font-weight: 800 !important;
-  background: linear-gradient(135deg, #0077be, #00a86b);
+  font-size: min(2rem, 5vw) !important;
+  font-weight: 700 !important;
+  background: var(--gradient-primary);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent !important;
   text-align: center !important;
-  margin-bottom: 1rem !important;
+  margin-bottom: min(1rem, 3vh) !important;
   line-height: 1.2 !important;
+}
+
+/* Ajuste específico para el grupo del logo */
+.logoGroup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: min(50vh, 30pxpx);
+}
+
+.logoImage {
+  width: min(90px, 30vw) !important;
+  height: auto !important;
+}
+
+.byText {
+  font-size: min(0.9rem, 4vw) !important;
+  opacity: 0.7;
 }
 
 .innerCard {
   background: white !important;
-  border: 1px solid rgba(0, 119, 190, 0.1) !important;
-  padding: 24px !important;
+  border: 1px solid rgba(0, 119, 190, 0.08) !important;
+  padding: min(24px, 5vh) min(20px, 4vw) !important;
   width: 100% !important;
+  margin-top: min(3vh, 20px) !important;
 }
 
+/* Campos de formulario */
 .input {
-  border: 2px solid #e2e8f0 !important;
-  border-radius: 12px !important;
-  padding: 12px 16px !important;
-  font-size: 15px !important;
-  transition: all 0.3s ease !important;
+  border: 2px solid rgba(226, 232, 240, 0.8) !important;
+  border-radius: 8px !important;
+  padding: 10px 14px !important;
+  font-size: min(0.9rem, 4vw) !important;
+  height: auto !important;
+  min-height: 40px !important;
 }
 
 .input:focus {
-  border-color: #0077be !important;
-  box-shadow: 0 0 0 3px rgba(0, 119, 190, 0.1) !important;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 2px rgba(0, 119, 190, 0.1) !important;
 }
 
 .inputLabel {
-  font-size: 14px !important;
+  font-size: min(0.875rem, 3.8vw) !important;
   font-weight: 500 !important;
-  color: #334155 !important;
-  margin-bottom: 8px !important;
+  color: var(--color-text) !important;
+  margin-bottom: 6px !important;
 }
 
 .submitButton {
-  background: linear-gradient(135deg, #0077be, #00a86b) !important;
+  background: var(--gradient-primary) !important;
   border: none !important;
-  border-radius: 12px !important;
-  padding: 12px 24px !important;
+  border-radius: 8px !important;
+  padding: 10px 20px !important;
+  font-size: min(0.9rem, 4vw) !important;
   font-weight: 600 !important;
-  font-size: 15px !important;
-  transition: all 0.3s ease !important;
-  margin-top: 24px !important;
+  height: auto !important;
+  min-height: 42px !important;
+  margin-top: min(20px, 4vh) !important;
 }
 
 .submitButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px -5px rgba(0, 119, 190, 0.3) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 15px rgba(0, 119, 190, 0.2) !important;
 }
 
-/* Media Queries mejorados */
-@media screen and (min-width: 1200px) {
+/* Media Queries optimizados */
+/* Pantallas grandes y zoom 125% */
+@media screen and (min-width: 1400px) {
   .containerWrapper {
-    max-width: 480px;
-  }
-
-  .cardWrapper {
-    padding: 48px !important;
-  }
-
-  .title {
-    font-size: 2.5rem !important;
-  }
-}
-
-@media screen and (min-width: 768px) and (max-width: 1199px) {
-  .pageWrapper {
-    padding: 20px;
-    height: auto;
-    min-height: 100vh;
-  }
-
-  .containerWrapper {
-    max-width: 100%;
-    padding: 20px;
+    width: 440px;
   }
 
   .cardWrapper {
     padding: 32px !important;
-    width: 100% !important;
-    max-width: none !important;
-  }
-
-  .title {
-    font-size: 2.2rem !important;
-  }
-
-  .innerCard {
-    padding: 20px !important;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  .pageWrapper {
-    padding: 16px;
-    height: auto;
-    min-height: 100vh;
-  }
-
-  .containerWrapper {
-    padding: 0;
-    max-width: 100%;
-  }
-
-  .cardWrapper {
-    padding: 24px !important;
-    border-radius: 16px !important;
   }
 
   .title {
     font-size: 1.8rem !important;
   }
 
-  .innerCard {
-    padding: 16px !important;
-  }
-
-  .input {
-    padding: 10px 14px !important;
-    font-size: 14px !important;
-  }
-
-  .submitButton {
-    padding: 10px 20px !important;
-    font-size: 14px !important;
+  .input, .submitButton {
+    font-size: 0.9rem !important;
   }
 }
 
-/* Fix específico para tablets */
-@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-  .pageWrapper {
-    align-items: flex-start;
-    padding-top: 5vh;
-  }
-
+/* Laptops */
+@media screen and (min-width: 1024px) and (max-width: 1399px) {
   .containerWrapper {
-    width: 90%;
-    max-width: 600px;
-    margin: 0 auto;
+    width: min(440px, 90%);
   }
 
   .cardWrapper {
-    width: 100% !important;
+    padding: 28px 24px !important;
+  }
+
+  .title {
+    font-size: 1.6rem !important;
   }
 }
 
-/* Fix para landscape en tablets */
-@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+/* Tablets */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .containerWrapper {
+    width: min(500px, 85%);
+  }
+
+  .cardWrapper {
+    padding: 24px 20px !important;
+  }
+
+  .title {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* Móviles */
+@media screen and (max-width: 767px) {
   .pageWrapper {
-    padding: 40px 20px;
+    padding: 16px;
   }
 
   .containerWrapper {
-    width: 70%;
-    max-width: 800px;
+    width: 100%;
+    padding: 0 12px;
+  }
+
+  .cardWrapper {
+    padding: 20px 16px !important;
+  }
+
+  .title {
+    font-size: 1.4rem !important;
+  }
+
+  .innerCard {
+    padding: 16px !important;
+  }
+}
+
+/* Ajustes para dispositivos con pantalla pequeña */
+@media screen and (max-height: 700px) {
+  .pageWrapper {
+    padding: 12px;
+  }
+
+  .cardWrapper {
+    padding: 16px !important;
+  }
+
+  .title {
+    font-size: 1.3rem !important;
+    margin-bottom: 12px !important;
+  }
+
+  .innerCard {
+    padding: 16px !important;
+    margin-top: 12px !important;
+  }
+}
+
+/* Ajustes para zoom alto en laptops */
+@media screen and (min-width: 1024px) and (max-height: 800px) {
+  .cardWrapper {
+    padding: 20px !important;
+  }
+
+  .title {
+    font-size: 1.4rem !important;
+  }
+
+  .logoImage {
+    width: 50px !important;
   }
 }
 
@@ -212,7 +245,7 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -221,5 +254,66 @@
 }
 
 .cardWrapper {
-  animation: fadeIn 0.5s ease-out forwards;
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+
+
+/* Estilos para el modal de confirmación */
+.modalContent {
+  text-align: center;
+  padding: 20px;
+}
+
+.modalText {
+  color: #1a2a6c;
+  font-size: 15px;
+  text-align: center;
+  margin-bottom: 20px !important;
+}
+
+.emailHighlight {
+  color: #0077be;
+  font-weight: 600;
+}
+
+.buttonGroup {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin-top: 24px !important;
+}
+
+.actionButton {
+  min-width: 100px !important;
+  height: 36px !important;
+  font-size: 14px !important;
+  padding: 0 16px !important;
+}
+
+.cancelButton {
+  composes: actionButton;
+  background-color: transparent !important;
+  border: 1.5px solid #e2e8f0 !important;
+  color: #64748b !important;
+  border-radius: 6px !important;
+}
+
+.submitButton2 {
+  composes: actionButton;
+  background: #0077be !important;
+  border: 1.5px solid #e2e8f0 !important;
+  color: white !important;
+  border-radius: 6px !important;
+}
+
+/* Modal específico de Mantine */
+:global(.mantine-Modal-header) {
+  margin-bottom: 0 !important;
+  padding: 16px 24px !important;
+}
+
+:global(.mantine-Modal-body) {
+  padding: 16px 24px 24px !important;
 }
