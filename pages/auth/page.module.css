@@ -20,15 +20,8 @@
   background: 
     radial-gradient(circle at 100% 0%, rgba(0, 119, 190, 0.1) 0, transparent 50%),
     radial-gradient(circle at 0% 100%, rgba(0, 168, 107, 0.1) 0, transparent 50%);
-  animation: bg-animation 15s ease infinite;
   opacity: 0.8;
   z-index: 0;
-}
-
-@keyframes bg-animation {
-  0% { transform: translate(0, 0); }
-  50% { transform: translate(-5%, -5%); }
-  100% { transform: translate(0, 0); }
 }
 
 .containerWrapper {
@@ -37,6 +30,7 @@
   width: 100%;
   max-width: 480px;
   padding: 0 20px;
+  margin: 0;
 }
 
 .cardWrapper {
@@ -47,13 +41,8 @@
     0 10px 25px -3px rgba(0, 119, 190, 0.1),
     0 4px 6px -2px rgba(0, 119, 190, 0.05) !important;
   transition: transform 0.3s ease, box-shadow 0.3s ease !important;
-}
-
-.cardWrapper:hover {
-  transform: translateY(-2px);
-  box-shadow: 
-    0 20px 30px -8px rgba(0, 119, 190, 0.15),
-    0 10px 15px -3px rgba(0, 119, 190, 0.1) !important;
+  padding: 40px !important;
+  width: 100%;
 }
 
 .title {
@@ -63,20 +52,16 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent !important;
-  letter-spacing: -0.5px;
-  margin-bottom: 0.5rem !important;
+  text-align: center !important;
+  margin-bottom: 1rem !important;
+  line-height: 1.2 !important;
 }
 
 .innerCard {
   background: white !important;
   border: 1px solid rgba(0, 119, 190, 0.1) !important;
-  box-shadow: 0 4px 6px -1px rgba(0, 119, 190, 0.05) !important;
-  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
-}
-
-.innerCard:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 12px -2px rgba(0, 119, 190, 0.1) !important;
+  padding: 24px !important;
+  width: 100% !important;
 }
 
 .input {
@@ -85,7 +70,6 @@
   padding: 12px 16px !important;
   font-size: 15px !important;
   transition: all 0.3s ease !important;
-  background: white !important;
 }
 
 .input:focus {
@@ -108,88 +92,127 @@
   font-weight: 600 !important;
   font-size: 15px !important;
   transition: all 0.3s ease !important;
-  position: relative;
-  overflow: hidden;
+  margin-top: 24px !important;
 }
 
-.submitButton:not(:disabled):hover {
-  transform: translateY(-1px);
+.submitButton:hover {
+  transform: translateY(-2px);
   box-shadow: 0 10px 20px -5px rgba(0, 119, 190, 0.3) !important;
 }
 
-.submitButton:disabled {
-  opacity: 0.7 !important;
-  cursor: not-allowed !important;
-}
-
-/* Estilos para el checkbox y enlaces */
-:global(.mantine-Checkbox-input) {
-  border: 2px solid #e2e8f0 !important;
-  border-radius: 6px !important;
-  transition: all 0.2s ease !important;
-}
-
-:global(.mantine-Checkbox-input:checked) {
-  background-color: #0077be !important;
-  border-color: #0077be !important;
-}
-
-:global(.mantine-Anchor-root) {
-  color: #0077be !important;
-  font-weight: 500 !important;
-  text-decoration: none !important;
-  transition: color 0.2s ease !important;
-}
-
-:global(.mantine-Anchor-root:hover) {
-  color: #00a86b !important;
-}
-
-/* Estilos para los modales */
-:global(.mantine-Modal-root .mantine-Modal-header) {
-  background: linear-gradient(135deg, #0077be, #00a86b);
-  color: white !important;
-  padding: 16px 24px !important;
-  border-radius: 12px 12px 0 0 !important;
-}
-
-:global(.mantine-Modal-title) {
-  color: white !important;
-  font-weight: 600 !important;
-}
-
-:global(.mantine-Modal-close) {
-  color: white !important;
-}
-
-:global(.mantine-Modal-body) {
-  padding: 24px !important;
-}
-
-/* Estilos responsivos */
-@media (max-width: 640px) {
+/* Media Queries mejorados */
+@media screen and (min-width: 1200px) {
   .containerWrapper {
-    padding: 16px;
+    max-width: 480px;
+  }
+
+  .cardWrapper {
+    padding: 48px !important;
   }
 
   .title {
-    font-size: 2rem !important;
+    font-size: 2.5rem !important;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1199px) {
+  .pageWrapper {
+    padding: 20px;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .containerWrapper {
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  .cardWrapper {
+    padding: 32px !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .title {
+    font-size: 2.2rem !important;
+  }
+
+  .innerCard {
+    padding: 20px !important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .pageWrapper {
+    padding: 16px;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .containerWrapper {
+    padding: 0;
+    max-width: 100%;
   }
 
   .cardWrapper {
     padding: 24px !important;
+    border-radius: 16px !important;
+  }
+
+  .title {
+    font-size: 1.8rem !important;
+  }
+
+  .innerCard {
+    padding: 16px !important;
+  }
+
+  .input {
+    padding: 10px 14px !important;
+    font-size: 14px !important;
   }
 
   .submitButton {
     padding: 10px 20px !important;
+    font-size: 14px !important;
   }
 }
 
-/* Animaciones adicionales */
+/* Fix específico para tablets */
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .pageWrapper {
+    align-items: flex-start;
+    padding-top: 5vh;
+  }
+
+  .containerWrapper {
+    width: 90%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .cardWrapper {
+    width: 100% !important;
+  }
+}
+
+/* Fix para landscape en tablets */
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  .pageWrapper {
+    padding: 40px 20px;
+  }
+
+  .containerWrapper {
+    width: 70%;
+    max-width: 800px;
+  }
+}
+
+/* Animaciones */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -198,22 +221,5 @@
 }
 
 .cardWrapper {
-  animation: fadeIn 0.5s ease forwards;
-}
-
-/* Efecto de pulso sutil en el botón */
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(0, 119, 190, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(0, 119, 190, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(0, 119, 190, 0);
-  }
-}
-
-.submitButton:not(:disabled):hover {
-  animation: pulse 2s infinite;
+  animation: fadeIn 0.5s ease-out forwards;
 }
