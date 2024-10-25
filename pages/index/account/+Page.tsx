@@ -9,7 +9,6 @@ import {
   Stack,
   LoadingOverlay,
   Title,
-  Text,
   Button,
   Divider,
   ActionIcon,
