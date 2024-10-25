@@ -72,10 +72,16 @@
   color: #0396f8;
 }
 
+.mainLinkActive {
+  background-color: #e9ecef;
+  color: #0396f8;
+}
+
 .mainLinkInner {
   display: flex;
   align-items: center;
   flex: 1;
+  justify-content: space-between;
 }
 
 .mainLinkIcon {
@@ -87,6 +93,47 @@
 .mainLink:hover .mainLinkIcon {
   color: #0396f8;
   transform: scale(1.1);
+}
+
+.chevron {
+  transition: transform 0.3s ease;
+  color: #adb5bd;
+}
+
+.chevronRotated {
+  transform: rotate(90deg);
+}
+
+.subLinks {
+  margin-left: rem(34px);
+  border-left: rem(1px) solid #e9ecef;
+  padding-left: var(--mantine-spacing-md);
+}
+
+.subLink {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: rem(8px) var(--mantine-spacing-xs);
+  border-radius: var(--mantine-radius-sm);
+  font-size: var(--mantine-font-size-sm);
+  color: #495057;
+  transition: all 0.3s ease;
+}
+
+.subLink:hover {
+  background-color: #e9ecef;
+  color: #0396f8;
+}
+
+.subLinkIcon {
+  margin-right: var(--mantine-spacing-sm);
+  color: #6c757d;
+  transition: all 0.3s ease;
+}
+
+.subLink:hover .subLinkIcon {
+  color: #0396f8;
 }
 
 .logoutButton {
