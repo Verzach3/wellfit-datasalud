@@ -15,7 +15,7 @@ import {
 } from "@mantine/core";
 import { getFiles } from "../../functions/getFiles.telefunc.js";
 import UserFiles from "@/components/admin/UserFiles.jsx";
-import classes from "./Page.module.css";
+import classes from "./page.module.css";
 import { IconFilter, IconSearch } from "@tabler/icons-react";
 
 function AdminPage() {

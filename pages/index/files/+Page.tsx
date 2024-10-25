@@ -29,7 +29,7 @@ import {
   IconStethoscope,
 } from '@tabler/icons-react';
 import { } from '@supabase/supabase-js';  // Asegúrate de tener esta importación correcta
-import styles from './Page.module.css';
+import styles from './page.module.css';
 
 function FilesPage() {
   const [loading, setLoading] = useState(true);

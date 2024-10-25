@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Drawer } from '@mantine/core';
 import { IconHelpCircle, IconBrandWhatsapp } from '@tabler/icons-react';
-import classes from './Page.module.css';
+import classes from './page.module.css';
 
 const SupportButton = () => {
   const [drawerOpened, setDrawerOpened] = useState(false);
