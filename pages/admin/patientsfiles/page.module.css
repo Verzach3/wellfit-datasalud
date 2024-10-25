@@ -1,43 +1,41 @@
-.container {
-  padding: var(--mantine-spacing-xl) 0;
-  max-width: 1200px;
-  margin: 0 auto;
+.pageContainer {
+  padding: 2rem;
+  min-height: 100vh;
+  background-color: #f8fafc;
 }
 
-.title {
-  margin-bottom: var(--mantine-spacing-xl);
-  color: var(--mantine-color-blue-7);
-  font-size: 2.5rem;
+.headerCard {
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+  border: none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.mainTitle {
+  font-size: 1.875rem;
   font-weight: 700;
+  color: #0f172a;
   text-align: center;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.025em;
 }
 
-.searchCard {
-  margin-bottom: var(--mantine-spacing-lg);
-  background-color: var(--mantine-color-white);
-  transition: box-shadow 0.3s ease;
+.highlight {
+  background: linear-gradient(120deg, #3b82f6 0%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.searchCard:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.search {
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.tableCard {
-  background-color: var(--mantine-color-white);
-  border-radius: var(--mantine-radius-lg);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+.tableContainer {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transition: box-shadow 0.3s ease;
 }
 
-.tableCard:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.scrollArea {
+  height: calc(100vh - 280px);
+  min-height: 400px;
 }
 
 .table {
@@ -46,50 +44,106 @@
   border-spacing: 0;
 }
 
-.table th {
-  background-color: var(--mantine-color-blue-1);
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: var(--mantine-font-size-sm);
-  color: var(--mantine-color-blue-7);
-  padding: var(--mantine-spacing-sm) var(--mantine-spacing-md);
+.tableHeader {
+  background-color: #f8fafc;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tableHeaderCell {
+  padding: 0.75rem 1rem;
   text-align: left;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 2px solid #e2e8f0;
+  white-space: nowrap;
 }
 
-.table td {
-  font-size: var(--mantine-font-size-sm);
-  padding: var(--mantine-spacing-sm) var(--mantine-spacing-md);
-  border-bottom: 1px solid var(--mantine-color-gray-2);
+.tableCell {
+  padding: 0.75rem 1rem;
+  color: #334155;
+  border-bottom: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
 }
 
-.table tr:last-child td {
-  border-bottom: none;
+.tableRow {
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.table tr:hover {
-  background-color: var(--mantine-color-blue-0);
+.tableRow:hover .tableCell {
+  background-color: #f1f5f9;
 }
 
-.pagination {
-  margin-top: var(--mantine-spacing-xl);
+.tableRowActive .tableCell {
+  background-color: #eff6ff;
+}
+
+.filesList {
+  background-color: #f8fafc;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.fileCard {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.fileCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.fileHeader {
   display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.fileName {
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.25rem;
+}
+
+.fileStatus {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.statusRecibido {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.statusPendiente {
+  background-color: #fef9c3;
+  color: #854d0e;
+}
+
+.statusProcesando {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.loaderContainer {
+  height: 100vh;
+  display: flex;
+  align-items: center;
   justify-content: center;
 }
 
-@media (max-width: 768px) {
-  .container {
-    padding: var(--mantine-spacing-md) var(--mantine-spacing-sm);
-  }
-
-  .title {
-    font-size: 2rem;
-  }
-
-  .table {
-    font-size: var(--mantine-font-size-xs);
-  }
-
-  .table th, .table td {
-    padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
-  }
+.noFiles {
+  text-align: center;
+  padding: 2rem;
+  color: #64748b;
+  font-size: 0.875rem;
 }
