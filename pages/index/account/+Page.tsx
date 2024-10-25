@@ -16,7 +16,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
-import { IconCamera, IconEdit, IconUpload } from '@tabler/icons-react';
+import { IconCamera, IconEdit } from '@tabler/icons-react';
 import classes from './page.module.css';
 
 function AccountPage() {

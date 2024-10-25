@@ -9,7 +9,6 @@ export async function safeGetUser(
       data: { user: resUser },
       error,
     } = await supabase.auth.getUser();
-    console.log("safeGetUser:resUser", error);
     if (error) {
       // JWT validation has failed
       return null;
