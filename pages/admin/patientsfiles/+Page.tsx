@@ -18,7 +18,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconSearch, IconUpload, IconTrash, IconEye, IconX } from '@tabler/icons-react';
-import {  SupabaseClient} from '@supabase/supabase-js';  // Asegúrate de tener esta importación correcta
+import { SupabaseClient } from '@supabase/supabase-js';
 import classes from './Page.module.css';
 
 interface Patient {
@@ -34,6 +34,9 @@ interface Patient {
   phone: string | null;
   cedula: string | null;
   has_files: boolean;
+  organization?: {
+    name: string;
+  };
 }
 
 function PatientFilesPage() {
@@ -50,15 +53,16 @@ function PatientFilesPage() {
     setLoading(true);
     setError(null);
     try {
-      // Consulta sin ninguna limitación o filtro
+      // Consulta mejorada que incluye la información de la organización
       const { data: profiles, error } = await supabase
         .from('profiles')
-        .select('*')
+        .select(`
+          *,
+          organization:organizations(name)
+        `)
         .order('first_name', { ascending: true });
 
       if (error) throw error;
-
-      console.log('Fetched profiles:', profiles); // Log para debug
 
       if (profiles && profiles.length > 0) {
         const patientsData = await Promise.all(
@@ -71,7 +75,7 @@ function PatientFilesPage() {
               
               has_files = !!files && files.length > 0;
             } catch (filesError) {
-              console.error('Error fetching files for patient:', profile.id, filesError);
+              console.error('Error checking files for patient:', profile.id, filesError);
             }
 
             return {
@@ -80,10 +84,8 @@ function PatientFilesPage() {
             } as Patient;
           })
         );
-        console.log('Processed patients data:', patientsData); // Log para debug
         setPatients(patientsData);
       } else {
-        console.log('No profiles found or profiles is empty');
         setError('No se encontraron pacientes en la base de datos.');
       }
     } catch (error) {
@@ -101,7 +103,8 @@ function PatientFilesPage() {
   const filteredPatients = patients.filter(
     (patient) =>
       `${patient.first_name} ${patient.second_name || ''} ${patient.first_lastname} ${patient.second_lastname || ''}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (patient.cedula?.toLowerCase().includes(searchTerm.toLowerCase()))
+      (patient.cedula?.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (patient.organization?.name?.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const paginatedPatients = filteredPatients.slice(
@@ -168,7 +171,7 @@ function PatientFilesPage() {
   return (
     <Container size="xl" className={classes.container}>
       <LoadingOverlay visible={loading} />
-      <Title order={1} className={classes.title}>Archivos de Pacientes</Title>
+      <Title order={1} className={classes.title}>Gestión de Archivos de Pacientes</Title>
       {error && (
         <Notification icon={<IconX size="1.1rem" />} color="red" onClose={() => setError(null)}>
           {error}
@@ -177,7 +180,7 @@ function PatientFilesPage() {
       <Card className={classes.searchCard} shadow="sm">
         <TextInput
           leftSection={<IconSearch size="1.1rem" stroke={1.5} />}
-          placeholder="Buscar pacientes por nombre o cédula..."
+          placeholder="Buscar por nombre, cédula u organización..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className={classes.search}
@@ -192,6 +195,7 @@ function PatientFilesPage() {
               <Table.Th>Fecha de Nacimiento</Table.Th>
               <Table.Th>Género</Table.Th>
               <Table.Th>Teléfono</Table.Th>
+              <Table.Th>Organización</Table.Th>
               <Table.Th>Estado de Archivos</Table.Th>
               <Table.Th>Acciones</Table.Th>
             </Table.Tr>
@@ -203,15 +207,16 @@ function PatientFilesPage() {
                   <Table.Tr style={styles}>
                     <Table.Td>{`${patient.first_name} ${patient.second_name || ''} ${patient.first_lastname} ${patient.second_lastname || ''}`.trim()}</Table.Td>
                     <Table.Td>{patient.cedula || 'N/A'}</Table.Td>
-                    <Table.Td>{patient.birth_date}</Table.Td>
+                    <Table.Td>{new Date(patient.birth_date).toLocaleDateString()}</Table.Td>
                     <Table.Td>{patient.gender}</Table.Td>
                     <Table.Td>{patient.phone || 'N/A'}</Table.Td>
+                    <Table.Td>{patient.organization?.name || 'N/A'}</Table.Td>
                     <Table.Td>
                       <Badge
                         color={patient.has_files ? 'green' : 'red'}
                         variant="light"
                       >
-                        {patient.has_files ? 'Cargado' : 'No Cargado'}
+                        {patient.has_files ? 'Archivos Cargados' : 'Sin Archivos'}
                       </Badge>
                     </Table.Td>
                     <Table.Td>
