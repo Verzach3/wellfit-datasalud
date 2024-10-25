@@ -19,7 +19,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { IconSearch, IconUpload, IconTrash, IconEye, IconX } from '@tabler/icons-react';
 import { SupabaseClient } from '@supabase/supabase-js';
-import classes from './Page.module.css';
+import classes from './page.module.css';
 
 interface Patient {
   id: number;
