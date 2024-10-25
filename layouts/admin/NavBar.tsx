@@ -41,7 +41,7 @@ const mainLinks = [
     path: "/admin/members",
     subLinks: memberLinks,
   },
-  { icon: IconFolder, label: "Pacientes", path: "/admin/patients" },
+
   { icon: IconReceipt2, label: "Transacciones", path: "/admin/transactions" },
 ];
 
