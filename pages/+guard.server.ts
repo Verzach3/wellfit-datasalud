@@ -16,7 +16,6 @@ export async function guard(pageContext: PageContext) {
     } 
     user = <User> res;
   } catch (error) {
-    console.error("index:guard:Error in guard", error);
     throw render("/auth");
   }
 

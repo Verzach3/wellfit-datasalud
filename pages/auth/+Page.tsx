@@ -133,14 +133,14 @@ function AuthPage() {
                 Bienvenido a DataSalud
               </Title>
               <Group className={classes.logoGroup}>
-    <Text className={classes.byText}>by</Text>
-    <Image 
-      src={wellfitLogo} 
-      className={classes.logoImage}
-      alt="Wellfit Logo"
-    />
-  </Group>
-              <Text c="dimmed" size="sm" ta="center" mt="sm" >
+                <Text className={classes.byText}>by</Text>
+                <Image
+                  src={wellfitLogo}
+                  className={classes.logoImage}
+                  alt="Wellfit Logo"
+                />
+              </Group>
+              <Text c="dimmed" size="sm" ta="center" mt="sm">
                 Ingresa tu email para recibir un link de inicio de sesión
               </Text>
               <Card withBorder p="lg" radius="md" className={classes.innerCard}>
@@ -202,34 +202,31 @@ function AuthPage() {
 
       {/* Modal de Confirmación */}
       <Modal
-  opened={showConfirmationModal}
-  onClose={() => setShowConfirmationModal(false)}
-  title="Confirmar envío"
-  size="sm"
-  centered
->
-  <div className={classes.modalContent}>
-    <Text className={classes.modalText}>
-      ¿Estás seguro de que deseas enviar el token de autenticación a{' '}
-      <span className={classes.emailHighlight}>{email}</span>?
-    </Text>
-    <Group className={classes.buttonGroup}>
-      <Button
-        variant="outline"
-        onClick={() => setShowConfirmationModal(false)}
-        className={classes.cancelButton}
+        opened={showConfirmationModal}
+        onClose={() => setShowConfirmationModal(false)}
+        title="Confirmar envío"
+        size="sm"
+        centered
       >
-        Cancelar
-      </Button>
-      <Button 
-        onClick={sendOTP}
-        className={classes.submitButton2}
-      >
-        Enviar
-      </Button>
-    </Group>
-  </div>
-</Modal>
+        <div className={classes.modalContent}>
+          <Text className={classes.modalText}>
+            ¿Estás seguro de que deseas enviar el token de autenticación a{" "}
+            <span className={classes.emailHighlight}>{email}</span>?
+          </Text>
+          <Group className={classes.buttonGroup}>
+            <Button
+              variant="outline"
+              onClick={() => setShowConfirmationModal(false)}
+              className={classes.cancelButton}
+            >
+              Cancelar
+            </Button>
+            <Button onClick={sendOTP} className={classes.submitButton2} loading={isSubmitting}>
+              Enviar
+            </Button>
+          </Group>
+        </div>
+      </Modal>
     </div>
   );
 }

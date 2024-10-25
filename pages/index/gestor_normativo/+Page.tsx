@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { ScrollArea, Text, Button, Stack } from '@mantine/core';
-import classes from "./page.module.css";
+import classes from "./Page.module.css";
 
 interface TermsAndConditionsProps {
   onAccept: () => void;
