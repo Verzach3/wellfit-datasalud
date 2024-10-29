@@ -1,71 +1,41 @@
+.statsContainer {
+  padding: 2rem;
+}
 
+.title {
+  font-size: 2rem;
+  color: #444;
+  text-align: center;
+  margin-bottom: 2rem;
+}
 
+.statsStack {
+  gap: 2rem;
+}
 
-.pageContainer {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    overflow: hidden;
-    height: 100dvh;
-  }
-  
-  .headerCard {
-    background: linear-gradient(135deg, #3498db, #2c3e50);
-    padding: 30px;
-    margin-bottom: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .mainTitle {
-    color: white;
-    font-size: 2rem;
-    text-align: center;
-    font-weight: 700;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .highlight {
-    color: #ecf0f1;
-    font-weight: 900;
-  }
-  
-  .scrollArea {
-    height: calc(100vh - 250px);
-  }
-  
-  .loaderContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .errorContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #fff3f3;
-    border-radius: 10px;
-    padding: 20px;
-  }
-  
-  @media (max-width: 768px) {
-    .pageContainer {
-      padding-top: 20px;
-      padding-bottom: 20px;
-    }
-  
-    .headerCard {
-      padding: 20px;
-    }
-  
-    .mainTitle {
-      font-size: 1.5rem;
-    }
-  
-    .scrollArea {
-      height: calc(100vh - 200px);
-    }
-  }
-  
+.statCard {
+  padding: 1.5rem;
+  border-radius: 12px;
+  background-color: #f7f9fc;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.counter {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 0.5rem;
+}
+
+.description {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.chartContainer {
+  max-width: 100%;
+  height: 300px;
+  margin-top: 1rem;
+}

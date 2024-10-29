@@ -29,8 +29,7 @@ import { navigate } from 'vike/client/router';
 
 const memberLinks = [
   { icon: IconUserFilled, label: "Lista de Pacientes", path: "/admin/patients" },
-  { icon: IconReport, label: "Reportes", path: "/admin/reports" },
-  { icon: IconFiles, label: "Archivos", path: "/admin/patientsfiles" },
+  { icon: IconFiles, label: "Archivos y Reportes", path: "/admin/patientsfiles" },
   { icon: IconMessage2, label: "Chat Data Salud", path: "/admin/chat" },
 ];
 
@@ -42,7 +41,7 @@ const mainLinks = [
     subLinks: memberLinks,
   },
 
-  { icon: IconReceipt2, label: "Transacciones", path: "/admin/transactions" },
+
 ];
 
 interface NavBarProps {

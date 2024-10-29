@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ActionIcon,
   Card,
-  Center,
   Container,
   Group,
   Loader,
@@ -12,98 +11,56 @@ import {
   ThemeIcon,
   Title,
   Table,
-  Collapse,
+  Menu,
 } from "@mantine/core";
-import { IconSearch, IconChevronDown, IconChevronUp } from "@tabler/icons-react";
+import { getFiles } from "../../../functions/getFiles.telefunc.js";
+import UserFiles from "@/components/admin/UserFiles.jsx";
+import { IconDots, IconFilter, IconSearch, IconInfoCircle, IconHistory } from "@tabler/icons-react";
 import classes from "./page.module.css";
-import UserFiles from "../../../components/admin/UserFiles";
-import { getAllProfiles } from "../../../functions/getAllProfiles.telefunc";
-import { getFilesByUserId } from "../../../functions/getFilesByUserId.telefunc";
 
-// Interfaces
-interface Organization {
-  id: number;
-  name: string;
-  created_at: string;
-}
-
-interface Profile {
+// Definimos las interfaces
+interface UserProfile {
   birth_date: string;
   cedula: string | null;
-  created_at: string;
   first_lastname: string;
   first_name: string;
-  gender: string;
-  id: number;
-  organization: Organization | number;
-  phone: string | null;
-  second_lastname: string | null;
-  second_name: string | null;
+  organization: { name: string } | null;
   user_id: string;
 }
 
-function PatientFilesView() {
-  const [patients, setPatients] = useState<Profile[]>([]);
+interface FileData {
+  userProfile?: UserProfile;
+  name: string;
+  status: string;
+}
+
+function AdminPage() {
+  const [files, setFiles] = useState<FileData[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
-  const [expandedPatientId, setExpandedPatientId] = useState<number | null>(null);
-  const [files, setFiles] = useState<{ [key: string]: any[] }>({}); // Store files for each patient by user_id
+  const [selectedUser, setSelectedUser] = useState<FileData | null>(null);
 
   useEffect(() => {
-    const fetchPatients = async () => {
+    const fetchFiles = async () => {
       setLoading(true);
-      try {
-        const data = await getAllProfiles();
-        if (Array.isArray(data)) {
-          setPatients(data as Profile[]);
-        }
-      } catch (error) {
-        console.error("Error fetching patients:", error);
-      } finally {
-        setLoading(false);
+      const fetchedFiles = await getFiles();
+
+      if ("error" in fetchedFiles) {
+        console.error("Error fetching files:", fetchedFiles.error);
+        setFiles([]);
+      } else {
+        setFiles(fetchedFiles as FileData[]);
       }
+
+      setLoading(false);
     };
 
-    fetchPatients();
+    fetchFiles();
   }, []);
 
-  const fetchPatientFiles = async (userId: string) => {
-    if (!files[userId]) { // Only fetch if not already fetched
-      try {
-        const filesRes = await getFilesByUserId(userId);
-        if (!filesRes.error) {
-          setFiles((prevFiles) => ({
-            ...prevFiles,
-            [userId]: filesRes.files ?? [], // Ensure files is always an array
-          }));
-        } else {
-          console.error("Error fetching files:", filesRes.error);
-        }
-      } catch (error) {
-        console.error("Error fetching files:", error);
-      }
-    }
-  };
-
-  const togglePatientExpand = (patient: Profile) => {
-    const newExpandedId = expandedPatientId === patient.id ? null : patient.id;
-    setExpandedPatientId(newExpandedId);
-    if (newExpandedId) {
-      fetchPatientFiles(patient.user_id); // Fetch files for this patient when expanding
-    }
-  };
-
-  const filteredPatients = patients.filter((patient) =>
-    [
-      patient.first_name,
-      patient.first_lastname,
-      patient.cedula,
-      patient.phone,
-    ]
-      .filter(Boolean)
-      .some((field) =>
-        field?.toLowerCase().includes(searchText.toLowerCase())
-      )
+  const filteredFiles = files.filter((file) =>
+    file.userProfile?.first_name.toLowerCase().includes(searchText.toLowerCase()) ||
+    file.userProfile?.cedula?.includes(searchText)
   );
 
   if (loading) {
@@ -114,107 +71,112 @@ function PatientFilesView() {
     );
   }
 
+  if (!files.length) {
+    return (
+      <Container className={classes.errorContainer}>
+        <Text color="red" size="lg">
+          No se encontraron archivos o ocurrió un error.
+        </Text>
+      </Container>
+    );
+  }
+
   return (
     <Container size="xl" className={classes.pageContainer}>
       <Card className={classes.headerCard}>
         <Title className={classes.mainTitle}>
-          Historias Clínicas <span className={classes.highlight}>Data-Salud</span>
+          Lista de archivos de pacientes para <span className={classes.highlight}>Data-Salud</span>
         </Title>
       </Card>
 
-      <Center>
-        <Group justify="space-between" w="96%" mb="md">
-          <Group grow>
-            <TextInput
-              placeholder="Buscar paciente..."
-              radius={0}
-              size="md"
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              leftSection={
-                <ThemeIcon size="lg" radius={0} color="gray">
-                  <IconSearch size={20} />
-                </ThemeIcon>
-              }
-            />
-          </Group>
-        </Group>
-      </Center>
+      <Group justify="space-between" w={"96%"} mb={"md"} mt="md">
+        <TextInput
+          placeholder="Buscar por nombre o cédula..."
+          radius="xl"
+          w={"60dvw"}
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          leftSection={
+            <ThemeIcon size={"lg"} radius="xl" color="gray">
+              <IconSearch />
+            </ThemeIcon>
+          }
+          className={classes.searchInput}
+        />
+        <ActionIcon radius="xl" size={"lg"} color="gray" className={classes.filterIcon}>
+          <IconFilter />
+        </ActionIcon>
+      </Group>
 
       <ScrollArea className={classes.scrollArea} offsetScrollbars>
-        <Table highlightOnHover>
-          <thead className={classes.tableHeader}>
+        <Table className={classes.styledTable} striped highlightOnHover>
+          <thead>
             <tr>
-              <th className={classes.tableHeaderCell}>Cédula</th>
-              <th className={classes.tableHeaderCell}>Nombre Completo</th>
-              <th className={classes.tableHeaderCell}>Fecha Nacimiento</th>
-              <th className={classes.tableHeaderCell}>Teléfono</th>
-              <th className={classes.tableHeaderCell}>Organización</th>
-              <th className={classes.tableHeaderCell}>Acciones</th>
+              <th>Cédula</th>
+              <th>Nombre Completo</th>
+              <th>Fecha de Nacimiento</th>
+              <th>Organización</th>
+              <th>Estado</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {filteredPatients.map((patient) => (
-              <React.Fragment key={patient.id}>
-                <tr className={classes.tableRow}>
-                  <td className={classes.tableCell}>{patient.cedula || '-'}</td>
-                  <td className={classes.tableCell}>
-                    {[patient.first_name, patient.second_name, patient.first_lastname, patient.second_lastname]
-                      .filter(Boolean)
-                      .join(' ')}
-                  </td>
-                  <td className={classes.tableCell}>
-                    {new Date(patient.birth_date).toLocaleDateString("es-ES")}
-                  </td>
-                  <td className={classes.tableCell}>{patient.phone || '-'}</td>
-                  <td className={classes.tableCell}>
-                    {typeof patient.organization === "number"
-                      ? patient.organization.toString()
-                      : patient.organization?.name || '-'}
-                  </td>
-                  <td className={classes.tableCell}>
-                    <ActionIcon
-                      onClick={() => togglePatientExpand(patient)}
-                      variant="subtle"
-                    >
-                      {expandedPatientId === patient.id ? (
-                        <IconChevronUp size={20} />
-                      ) : (
-                        <IconChevronDown size={20} />
-                      )}
-                    </ActionIcon>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan={6} className={classes.expandedRow}>
-                    <Collapse in={expandedPatientId === patient.id}>
-                      {expandedPatientId === patient.id && (
-                        <UserFiles
-                          name={patient.first_name}
-                          lastname={patient.first_lastname}
-                          birth_date={patient.birth_date}
-                          cedula={patient.cedula || ""}
-                          folder_name={`user_${patient.user_id}`}
-                          file_status="Recibido"
-                          user_id={patient.user_id}
-                          organization={
-                            typeof patient.organization === "number"
-                              ? undefined
-                              : patient.organization?.name
-                          }
-                          files={files[patient.user_id] || []} 
-                        />
-                      )}
-                    </Collapse>
-                  </td>
-                </tr>
-              </React.Fragment>
+            {filteredFiles.map((file) => (
+              <tr key={file.name}>
+                <td>{file.userProfile?.cedula || "N/A"}</td>
+                <td>
+                  {file.userProfile
+                    ? `${file.userProfile.first_name} ${file.userProfile.first_lastname}`
+                    : "N/A"}
+                </td>
+                <td>{file.userProfile?.birth_date || "N/A"}</td>
+                <td>{file.userProfile?.organization?.name || "Desconocido"}</td>
+                <td>{file.status || "Recibido"}</td>
+                <td>
+                  <Menu shadow="md" width={200}>
+                    <Menu.Target>
+                      <ActionIcon variant="subtle" color="gray" size="sm">
+                        <IconDots style={{ width: 16, height: 16 }} />
+                      </ActionIcon>
+                    </Menu.Target>
+                    <Menu.Dropdown>
+                      <Menu.Label>Acciones</Menu.Label>
+                      <Menu.Item
+                        leftSection={<IconInfoCircle size={16} />}
+                        onClick={() => setSelectedUser(file)}
+                      >
+                        Ver Detalles
+                      </Menu.Item>
+                      <Menu.Item
+                        leftSection={<IconHistory size={16} />}
+                        onClick={() => setSelectedUser(file)}
+                      >
+                        Historial Médico
+                      </Menu.Item>
+                    </Menu.Dropdown>
+                  </Menu>
+                </td>
+              </tr>
             ))}
           </tbody>
         </Table>
       </ScrollArea>
+
+      {selectedUser && (
+        <UserFiles
+          birth_date={selectedUser.userProfile?.birth_date ?? ""}
+          cedula={selectedUser.userProfile?.cedula ?? ""}
+          lastname={selectedUser.userProfile?.first_lastname ?? ""}
+          name={selectedUser.userProfile?.first_name ?? ""}
+          folder_name={selectedUser.name}
+          user_id={selectedUser.userProfile?.user_id}
+          file_status={selectedUser.status ?? "Recibido"}
+          organization={selectedUser.userProfile?.organization?.name ?? "Desconocido"}
+          files={[]}
+        />
+      )}
     </Container>
   );
 }
 
-export default PatientFilesView;
+export default AdminPage;
