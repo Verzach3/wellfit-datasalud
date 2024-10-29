@@ -50,6 +50,7 @@ type UserFilesProps = {
   user_id?: string;
   file_id?: string;
   organization?: string;
+  
 };
 
 function UserFiles({

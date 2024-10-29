@@ -99,6 +99,7 @@ function AdminPage() {
               file_status={file.status ?? "Recibido"}
               //@ts-ignore
               organization={file.userProfile?.organization.name ?? ""}
+              files={[]} // Proporciona un array vacío si files aún no está disponible
             />
           ))}
         </Stack>
