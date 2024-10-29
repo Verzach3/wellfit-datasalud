@@ -147,12 +147,7 @@ function AdminPage() {
                       >
                         Ver Detalles
                       </Menu.Item>
-                      <Menu.Item
-                        leftSection={<IconHistory size={16} />}
-                        onClick={() => setSelectedUser(file)}
-                      >
-                        Historial Médico
-                      </Menu.Item>
+                     
                     </Menu.Dropdown>
                   </Menu>
                 </td>
