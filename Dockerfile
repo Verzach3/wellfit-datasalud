@@ -1,37 +1,39 @@
-# Base image with Node + pnpm
+# Etapa base con Node para instalación y build
 FROM node:18-alpine AS deps
 
 WORKDIR /app
 
-# Instalar pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# Copia los archivos de dependencias
+COPY package.json package-lock.json* ./
 
-# Copiar solo archivos necesarios para instalación
-COPY package.json pnpm-lock.yaml ./
+# Instala dependencias con npm
+RUN npm ci
 
-# Instalar dependencias
-RUN pnpm install --frozen-lockfile
-
-# Builder stage (compila con Node)
+# Builder: compila la app
 FROM node:18-alpine AS builder
 
 WORKDIR /app
+
+# Copia node_modules y todo el código
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Compilar
-RUN pnpm run build
+# Ejecuta el build con npm
+RUN npm run build
 
-# Final runtime image con Bun
+# Etapa final: runtime con Bun
 FROM oven/bun:1 AS runtime
 
 WORKDIR /app
+
+# Copia el resultado del build
 COPY --from=builder /app ./
 
+# Expone el puerto y configura entorno
 EXPOSE 3000
 ENV PORT=3000
 ENV NODE_ENV=production
 ENV HOSTNAME="0.0.0.0"
 
-# Ejecutar la app con Bun
+# Ejecuta tu entry point con Bun
 CMD ["bun", "./hono-entry.ts"]
