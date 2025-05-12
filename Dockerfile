@@ -1,54 +1,37 @@
-FROM oven/bun:1 AS base
+# Base image with Node + pnpm
+FROM node:18-alpine AS deps
 
-# Install dependencies only when needed
-FROM base AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-# RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* bun.lockb* bunfig.toml ./
-# RUN \
-#   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-#   elif [ -f package-lock.json ]; then npm ci; \
-#   elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
-#   else echo "Lockfile not found." && exit 1; \
-#   fi
+# Instalar pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
-RUN bun install
+# Copiar solo archivos necesarios para instalación
+COPY package.json pnpm-lock.yaml ./
 
-# Rebuild the source code only when needed
-FROM oven/bun:canary AS builder
+# Instalar dependencias
+RUN pnpm install --frozen-lockfile
+
+# Builder stage (compila con Node)
+FROM node:18-alpine AS builder
+
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry during the build.
-# ENV NEXT_TELEMETRY_DISABLED 1
-# RUN curl -fsSL https://bun.sh/install | bash
-RUN bun run build
+# Compilar
+RUN pnpm run build
 
-# If using npm comment out above and use below instead
-# RUN npm run build
+# Final runtime image con Bun
+FROM oven/bun:1 AS runtime
 
-# Production image, copy all the files and run next
-# ENV NODE_ENV production
-
-#RUN addgroup --system --gid 1001 nodejs
-# RUN adduser --system --uid 1001 bun
-
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
+WORKDIR /app
+COPY --from=builder /app ./
 
 EXPOSE 3000
+ENV PORT=3000
+ENV NODE_ENV=production
+ENV HOSTNAME="0.0.0.0"
 
-ENV PORT 3000
-# set hostname to localhost
-ENV HOSTNAME "0.0.0.0"
-ENV NODE_ENV production
-
-# server.js is created by next build from the standalone output
-# https://nextjs.org/docs/pages/api-reference/next-config-js/output
+# Ejecutar la app con Bun
 CMD ["bun", "./hono-entry.ts"]
