@@ -1,0 +1,23 @@
+.actionButton {
+    transition: all 0.2s ease;
+  }
+  
+  .actionButton:hover {
+    background-color: #e2e8f0;
+    transform: scale(1.1);
+  }
+  
+  .modalTitle {
+    font-weight: 600;
+    color: #1e293b;
+  }
+  
+  .formLabel {
+    font-weight: 500;
+    color: #475569;
+  }
+  
+  .formDescription {
+    color: #64748b;
+    font-size: 0.875rem;
+  }
