@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Title, Text, Grid, Card, Button, ThemeIcon } from '@mantine/core';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { AiOutlineFileText, AiOutlineVideoCamera, AiOutlineBook } from 'react-icons/ai';
 import styles from './page.module.css';
 

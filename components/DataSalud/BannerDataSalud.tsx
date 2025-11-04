@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Title, Text, Grid, Card, Image, Button, Box } from '@mantine/core';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { useInView } from 'react-intersection-observer';
 import { AiOutlineFileSearch, AiOutlineSafety, AiOutlineUser, AiOutlineBarChart, AiOutlineFile } from 'react-icons/ai';
 import styles from './BannerDataSalud.module.css';

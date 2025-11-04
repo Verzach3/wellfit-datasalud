@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Title, Text, Grid, Card, Button, Box, Input, Textarea, Image, Group, ThemeIcon } from '@mantine/core';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { AiOutlineMail, AiOutlinePhone, AiOutlineQuestionCircle, AiOutlineMessage, AiOutlineFileText, AiOutlineVideoCamera, AiOutlineBook } from 'react-icons/ai';
 import styles from './page.module.css';
 

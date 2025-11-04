@@ -28,8 +28,8 @@ import {
   IconEye,
   IconPrinter,
 } from "@tabler/icons-react";
-import { generateId } from "ai";
-import { useChat } from "ai/react";
+import { nanoid as generateId } from "nanoid";
+import { useChat } from "@ai-sdk/react";
 import { useEffect, useState, useRef } from "react";
 import NotificacionChat from "./../../../components/mensajes/NotificacionChat";
 import { useThrottledValue } from "@mantine/hooks";
@@ -76,7 +76,7 @@ function Chat() {
     const report = await supabase
       .from("reports")
       .select("*")
-      .eq("id", reportId)
+      .eq("id", parseInt(reportId as unknown as string))
       .single();
     setMessages([
       {

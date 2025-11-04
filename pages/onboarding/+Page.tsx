@@ -14,7 +14,7 @@ import {
 import { DateInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import {
   IconUser,
   IconPhone,
@@ -93,6 +93,7 @@ function ProfileForm() {
         color: "green",
       });
     } catch (error) {
+      console.error("Error updating profile:", error);
       notifications.show({
         title: "Error",
         message: "Hubo un problema al actualizar tu perfil",

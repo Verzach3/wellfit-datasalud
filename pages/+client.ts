@@ -1,7 +1,7 @@
 import { initSupabase } from "../util/supabase/initSupabase";
 import posthog from 'posthog-js'
 
-initSupabase();
+await initSupabase();
 
 posthog.init('phc_uUfmJDekxvUV7KZcx2GCUljVs4PEnz9ejlyATkguZq2',
     {

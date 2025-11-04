@@ -80,26 +80,16 @@ app.all("*", async (context, next) => {
 });
 
 app.post("/api/chat", async (context) => {
-  return honoStream(context, async (stream) => {
-
     const { messages } = await context.req.json();
     const result = await streamText({
-      model: openai("gpt-4o-mini"),
+      model: openai("gpt-5-mini"),
       messages: messages,
     })
 
-        // Mark the response as a v1 data stream:
-    context.header('X-Vercel-AI-Data-Stream', 'v1');
-    context.header('Content-Type', 'text/plain; charset=utf-8');
-    
-    const dataStream = result.toDataStream();
-    
-    await stream.pipe(dataStream);
-
-  })
-
-
+    const dataStream = result.toUIMessageStreamResponse();
+    return dataStream;
 })
+
 
 
 const completionsPrompt = `Eres DataSalud Report AI, estas aquí para ayudar a generar un informe médico detallado y completo para los pacientes, usa markdown.
@@ -124,26 +114,16 @@ Las secciones que deben ser abordadas en el informe son:
 
 
 app.post("/api/completion", async (context) => {
-  return honoStream(context, async (stream) => {
 
     const { prompt } = await context.req.json();
     const result = await streamText({
-      model: openai("gpt-4o-mini"),
+      model: openai("gpt-5-mini"),
       system: completionsPrompt,
       prompt: prompt,
     })
 
-        // Mark the response as a v1 data stream:
-    context.header('X-Vercel-AI-Data-Stream', 'v1');
-    context.header('Content-Type', 'text/plain; charset=utf-8');
-    
-    const dataStream = result.toDataStream();
-    
-    await stream.pipe(dataStream);
-
-  })
-
-
+    const dataStream = result.toUIMessageStreamResponse();
+    return dataStream;
 })
 
 app.post("/_telefunc", handlerAdapter(telefuncHandler));

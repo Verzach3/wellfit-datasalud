@@ -19,7 +19,7 @@ import type { FileObject } from "@supabase/storage-js";
 import { IconFile } from "@tabler/icons-react";
 import { useRef, useState } from "react";
 import MdRenderer from "../chat/MdRenderer";
-import { useCompletion } from "ai/react";
+import { useCompletion } from "@ai-sdk/react";
 import styles from "./RepotCreator.module.css";
 
 export function ReportCreator({
