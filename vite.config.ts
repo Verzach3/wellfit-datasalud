@@ -6,6 +6,11 @@ import vike from "vike/plugin";
 import { fileURLToPath } from "node:url";
 
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      external: ["@ai-sdk/react"],
+    }
+  },
   plugins: [
     vike({}),
     devServer({
