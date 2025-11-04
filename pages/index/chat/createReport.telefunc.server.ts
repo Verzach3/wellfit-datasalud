@@ -10,7 +10,7 @@ export async function createReport(filePaths: string[]) {
   const { supabase, token } = getContext<ContextVariableMap>()
   const chatCompletion = await openai.chat.completions.create({
     messages: [{ role: "system", content: prompt}],
-    model: "gpt-4o-mini"
+    model: "gpt-5-mini"
   })
 
   const user = await supabase.auth.getUser(token);

@@ -14,7 +14,7 @@ import {
   Anchor,
   LoadingOverlay,
 } from "@mantine/core";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { IconMail } from "@tabler/icons-react";
 import wellfitLogo from "../../assets/wellfit-bottom-text.svg";
 import classes from "./page.module.css";
@@ -23,6 +23,7 @@ import SupportButton from "../index/pqrs/+Page";
 import TermsAndConditions from "../index/gestor_normativo/+Page";
 
 function AuthPage() {
+  const supabase = globalThis.supabase;
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -77,6 +78,7 @@ function AuthPage() {
       const { error } = await supabase.auth.signInWithOtp({
         email: email,
         options: {
+          shouldCreateUser: true,
           emailRedirectTo: `${window.location.origin}`,
         },
       });
